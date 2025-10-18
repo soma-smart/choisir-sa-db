@@ -1,7 +1,9 @@
+/* SOMA Theme. Author: Hugues GAILLARD. 2025. */
+
 :root {
   /* default theme color */
   /* can be overrided by uses `themeConfig` option */
-  --slidev-theme-primary: #5d8392;
+  --slidev-theme-primary: #ca0073;
 }
 
 .slidev-layout.cover,
@@ -9,16 +11,18 @@
   @apply h-full grid;
 
   h1 {
-    @apply text-6xl leading-20;
+    @apply text-8xl leading-20;
+    animation: gradientMove 20s ease infinite;
   }
 
-  h1 + p {
+
+  h1+p {
     @apply -mt-2 opacity-50 mb-4;
   }
 
-  p + h2,
-  ul + h2,
-  table + h2 {
+  p+h2,
+  ul+h2,
+  table+h2 {
     @apply mt-10;
   }
 }

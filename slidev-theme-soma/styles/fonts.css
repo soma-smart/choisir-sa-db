@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
+
+h1 {
+    color: var(--soma-blue);
+    font-family: "Inter Tight", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+
+    /* Same initial gradient setup */
+    background: -webkit-linear-gradient(45deg,
+            var(--soma-blue),
+            color-mix(in srgb, var(--soma-blue) 100%, white 30%),
+            color-mix(in srgb, var(--soma-pink) 100%, black 30%),
+            var(--soma-pink),
+            color-mix(in srgb, var(--soma-pink) 100%, white 30%),
+            color-mix(in srgb, var(--soma-blue) 100%, black 30%),
+            var(--soma-blue));
+
+    /* Clip the background to text */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Create a moving gradient */
+    background-size: 300% 300%;
+}
+
+
+
+/* Set up gradient movement */
+@keyframes gradientMove {
+    0% {
+        /* Shift the background to the start */
+        background-position: 0% 50%;
+    }
+
+    50% {
+        /* Move the background to the middle */
+        background-position: 100% 50%;
+    }
+
+    100% {
+        /* Return to the start, creating a looping effect */
+        background-position: 0% 50%;
+    }
+}
