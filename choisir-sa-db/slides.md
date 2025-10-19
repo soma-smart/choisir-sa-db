@@ -40,11 +40,61 @@ The last comment block of each slide will be treated as slide notes. It will be 
 -->
 
 ---
+layout: two-cols
+layoutClass: gap-16
+---
+
+# Au sommaire
+
+Dans cette Masterclass, nous allons explorer les différentes bases de données et leurs spécificités.
+
+Vous pouvez vous servir du sommaire ci-contre pour naviguer rapidement entre les sections.
+
+::right::
+
+<Toc text-sm minDepth="1" maxDepth="2" />
+
+---
+layout: quote
+---
+# Law of the instrument
+
+<div class="flex items-center justify-between gap-8 h-[400px]">
+  <div class="flex-1 p-6 text-left flex flex-col justify-center">
+    <blockquote class="italic text-gray-700 dark:text-gray-200 mb-4">
+      <span class="text-2xl">
+        “It is tempting, if the only tool you have is a hammer, to treat everything as if it were a nail.”
+      </span>
+    </blockquote>
+    <div class="text-right text-lg text-gray-500 dark:text-gray-400">
+      Abraham Maslow, 1966<br>
+      <span class="text-base">Law of the instrument</span>
+    </div>
+  </div>
+  <div class="flex-1 flex justify-center items-center">
+    <img
+      src="/abraham-maslow-jeune.jpg"
+      alt="Abraham Maslow"
+      class="rounded-lg object-cover shadow-lg dark:shadow-gray-900"
+    />
+  </div>
+</div>
+
+
+---
 
 # La jungle des bases de données
 
 
 <Databases />
+<p v-click>
+</p>
+<p v-click>
+</p>
+<p v-click>
+</p>
+<p v-click>
+</p>
 
 <!--
 You can have `style` tag in markdown to override the style for the current page.
@@ -54,62 +104,36 @@ Learn more: https://sli.dev/features/slide-scope-style
 <!--
 Here is another comment.
 -->
+---
+---
+# La base de données parfaite ?
+
+<div class="flex flex-col gap-1 items-start text-left text-lg">
+
+<span v-mark.underline.blue v-click="1">- Pour le DBA :</span><span v-click="2"> facile à installer, évolutive, bien documentée...</span>
+
+<span v-mark.underline.blue="3" v-click="3">- Pour les utilisateurs :</span><span v-click="4"> simple à requêter, fiable, rapide...</span>
+
+<span v-mark.underline.blue="5" v-click="5">- Pour la sécurité :</span><span v-click="6"> certifiée, résiliente, chiffrée...</span>
+
+<span v-mark.underline.blue="7" v-click="7">- Pour la direction :</span> <span v-click="8"> économique, supportée, pérenne...</span>
+
+</div>
+
+<div class="mt-8 text-xl font-bold text-center">
+<span v-click="9">Est-ce que cette base de données existe ? </span>
+<span v-mark.red="10" v-click="10">Non.</span>
+</div>
+
+<div class="mt-4 text-lg text-center">
+<span v-click="11">Il faut nécessairement faire des </span><span v-mark.box.orange="12" v-click="12">compromis.</span><br>
+<span v-click="13">Et pour choisir les bons compromis, il faut d'abord bien comprendre les </span><span v-mark.box.blue="14" v-click="14">besoins.</span>
+</div>
+
 
 ---
-transition: slide-up
-level: 2
----
-
-# Navigation
-
-Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/ui#navigation-bar)
-
-## Keyboard Shortcuts
-
-|                                                    |                             |
-| -------------------------------------------------- | --------------------------- |
-| <kbd>right</kbd> / <kbd>space</kbd>                | next animation or slide     |
-| <kbd>left</kbd> / <kbd>shift</kbd><kbd>space</kbd> | previous animation or slide |
-| <kbd>up</kbd>                                      | previous slide              |
-| <kbd>down</kbd>                                    | next slide                  |
-
-<!-- https://sli.dev/guide/animations.html#click-animation -->
-
-<img
-  v-click
-  class="absolute -bottom-9 -left-7 w-80 opacity-50"
-  src="https://sli.dev/assets/arrow-bottom-left.svg"
-  alt=""
-/>
-
-<p v-after class="absolute bottom-23 left-45 opacity-30 transform -rotate-10">Here!</p>
-
----
-
-layout: two-cols
-layoutClass: gap-16
-
----
-
-# Table of contents
-
-You can use the `Toc` component to generate a table of contents for your slides:
-
-```html
-<Toc minDepth="1" maxDepth="1" />
-```
-
-The title will be inferred from your slide content, or you can override it with `title` and `level` in your frontmatter.
-
-::right::
-
-<Toc text-sm minDepth="1" maxDepth="2" />
-
----
-
 layout: image-right
 image: https://cover.sli.dev
-
 ---
 
 # Code
@@ -278,8 +302,6 @@ Also, HTML elements are valid:
 -->
 
 ---
-
-## class: px-20
 
 # Themes
 
@@ -545,7 +567,7 @@ square: 0,-40,0,0
 
 ---
 dragPos:
-  square: 0,-44,0,0
+  square: 0,-56,0,0
 ---
 
 # Draggable Elements
@@ -571,7 +593,7 @@ Double-click on the draggable elements to edit their positions.
 </v-drag>
 ```
 
-<v-drag pos="663,206,261,_,-15">
+<v-drag pos="607,251,126,_,-15">
   <div text-center text-3xl border border-main rounded>
     Double-click me!
   </div>
@@ -585,7 +607,7 @@ Double-click on the draggable elements to edit their positions.
 <v-drag-arrow two-way />
 ```
 
-<v-drag-arrow pos="67,452,253,46" two-way op70 />
+<v-drag-arrow pos="412,233,155,66" two-way op70 />
 
 ---
 
