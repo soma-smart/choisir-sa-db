@@ -78,10 +78,18 @@ const groupCenters = computed(() => {
     return {};
 });
 
-// Create a color scale for types
-const colorScale = d3.scaleOrdinal()
+// --- MODIFIED: Color scales for different categories ---
+const typeColorScale = d3.scaleOrdinal()
     .domain(['Relational', 'In Memory', 'Hybrid', 'Time Series', 'Vector'])
     .range(['#4c78a8aa', '#f58518aa', '#e45756aa', '#23a403aa', '#76b7b2aa']);
+
+const openSourceColorScale = d3.scaleOrdinal()
+    .domain([true, false])
+    .range(['#3c9a04aa', '#d32f2faa']); // Green for open source, Red for proprietary
+
+const animalColorScale = d3.scaleOrdinal()
+    .domain([true, false])
+    .range(['#ffc107aa', '#9e9e9eaa']); // Yellow for animal, Grey for no
 
 let svg, simulation;
 
@@ -112,6 +120,28 @@ const getTargetPosition = (d) => {
     return { x: width / 2, y: height / 2 };
 };
 
+// --- MODIFIED: Function to determine bubble color ---
+const getFillColor = (d) => {
+    // Requirement 1: Bubbles are transparent for clicks <= 2
+    if (context.$clicks.value <= 2) {
+        return 'transparent';
+    }
+
+    // Requirement 2: Color is based on the current category for clicks > 2
+    switch (groupingMode.value) {
+        case 'openSource':
+            return openSourceColorScale(d.openSource);
+        case 'animal':
+            return animalColorScale(d.hasAnimal);
+        case 'type':
+            // This mode is active at clicks=2, but handled by the transparent condition above.
+            return typeColorScale(d.type);
+        default:
+            // Fallback to transparent if no group is active
+            return 'transparent';
+    }
+};
+
 const ticked = () => {
     svg.selectAll('.node-group')
         .attr('transform', d => `translate(${d.x}, ${d.y})`);
@@ -128,12 +158,12 @@ const updateNodes = () => {
             enter => {
                 const g = enter.append('g')
                     .attr('class', 'node-group')
-                    .attr('transform', d => `translate(${d.x}, ${d.y})`) // Use initial positions
+                    .attr('transform', d => `translate(${d.x}, ${d.y})`)
                     .call(drag);
 
                 g.append('circle')
                     .attr('r', d => d.radius)
-                    .attr('fill', d => colorScale(d.type))
+                    .attr('fill', getFillColor) // Use dynamic color function
                     .attr('stroke', circleBorderColor.value)
                     .attr('stroke-width', 2);
 
@@ -157,13 +187,17 @@ const updateNodes = () => {
             }
         );
 
+    // Update labels opacity based on showLabels state
     svg.selectAll('.bubble-label')
         .attr('fill', textColor.value)
         .style('text-shadow', `0 0 4px ${textShadowColor.value}`)
         .transition().duration(500)
         .attr('opacity', showLabels.value ? 1 : 0);
 
+    // MODIFIED: Update bubble colors and stroke with a transition
     svg.selectAll('.node-group circle')
+        .transition().duration(500)
+        .attr('fill', getFillColor)
         .attr('stroke', circleBorderColor.value);
 
     let groupLabels = [];
@@ -206,9 +240,12 @@ const textColor = computed(() => isDark.value ? '#eee' : '#333');
 const textShadowColor = computed(() => isDark.value ? '#333' : '#eee');
 const circleBorderColor = computed(() => isDark.value ? '#eee' : '#333');
 
+// MODIFIED: Update component state based on click count
 function updateStateForClicks(clicks) {
-    showLabels.value = clicks >= 1;
+    // Requirement 3: Bubble label/text should be displayed only when click == 1
+    showLabels.value = clicks === 1;
 
+    // Requirement 1 & 2 are handled by getFillColor based on these modes
     if (clicks <= 1) {
         groupingMode.value = 'none';
     } else if (clicks === 2) {
@@ -274,4 +311,4 @@ watch(() => context.$clicks.value, (newVal) => {
 .data-bubble-chart svg {
     overflow: visible;
 }
-</style>
+</style>(())
