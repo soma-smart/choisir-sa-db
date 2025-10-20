@@ -13,8 +13,6 @@ import * as d3 from 'd3';
 const width = 800;
 const height = 400;
 
-// FIX: Initialize data with random starting positions to avoid the top-left corner bug.
-// The simulation will now use these coordinates on the first render.
 const initialData = [
     { id: 1, name: 'Postgres', type: 'Relational', openSource: true, hasAnimal: true, logo: '/databases/postgres.png', radius: 25 },
     { id: 2, name: 'Redis', type: 'In Memory', openSource: true, hasAnimal: false, logo: '/databases/redis.png', radius: 25 },
@@ -83,7 +81,6 @@ const groupCenters = computed(() => {
     return {};
 });
 
-// --- MODIFIED: Color scales for different categories ---
 const typeColorScale = d3.scaleOrdinal()
     .domain(['Relational', 'In Memory', 'Hybrid', 'Time Series', 'Vector'])
     .range(['#4c78a8aa', '#f58518aa', '#e45756aa', '#23a403aa', '#76b7b2aa']);
@@ -125,7 +122,6 @@ const getTargetPosition = (d) => {
     return { x: width / 2, y: height / 2 };
 };
 
-// NEW: Compute collision radius based on click state
 const getCollisionRadius = (d) => {
     // When labels are shown (click === 1), increase spacing significantly
     if (showLabels.value) {
@@ -134,14 +130,12 @@ const getCollisionRadius = (d) => {
     return d.radius + 1.5; // Normal spacing
 };
 
-// --- MODIFIED: Function to determine bubble color ---
 const getFillColor = (d) => {
     // Requirement 1: Bubbles are transparent for clicks <= 1
     if (context.$clicks.value <= 1) {
         return 'transparent';
     }
 
-    // Requirement 2: Color is based on the current category for clicks >= 2
     switch (groupingMode.value) {
         case 'openSource':
             return openSourceColorScale(d.openSource);
@@ -207,7 +201,6 @@ const updateNodes = () => {
         .transition().duration(500)
         .attr('opacity', showLabels.value ? 1 : 0);
 
-    // MODIFIED: Update bubble colors and stroke with a transition
     svg.selectAll('.node-group circle')
         .transition().duration(500)
         .attr('fill', getFillColor)
@@ -253,12 +246,9 @@ const textColor = computed(() => isDark.value ? '#eee' : '#333');
 const textShadowColor = computed(() => isDark.value ? '#333' : '#eee');
 const circleBorderColor = computed(() => isDark.value ? '#eee' : '#333');
 
-// MODIFIED: Update component state based on click count
 function updateStateForClicks(clicks) {
-    // Requirement 3: Bubble label/text should be displayed only when click == 1
     showLabels.value = clicks === 1;
 
-    // Requirement 1 & 2 are handled by getFillColor based on these modes
     if (clicks <= 1) {
         groupingMode.value = 'none';
     } else if (clicks === 2) {
@@ -270,7 +260,6 @@ function updateStateForClicks(clicks) {
     }
 }
 
-// NEW: Initialize simulation with proper state for direct access
 function initializeSimulation() {
     if (!svgElement.value || svg) return;
 
@@ -305,7 +294,6 @@ function initializeSimulation() {
 
     updateNodes();
 
-    // NEW: For direct access with grouping modes, run simulation silently to stable state
     if (groupingMode.value !== 'none') {
         // Stop ticking visually
         simulation.stop();
@@ -347,7 +335,6 @@ watch(groupingMode, (newVal) => {
     if (svg) updateNodes();
 });
 
-// NEW: Watch showLabels to update collision radius dynamically
 watch(showLabels, (newVal) => {
     if (svg) {
         updateNodes();
