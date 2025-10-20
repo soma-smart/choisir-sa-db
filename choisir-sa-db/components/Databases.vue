@@ -21,7 +21,7 @@ const initialData = [
     { id: 3, name: 'MySQL', type: 'Relational', openSource: true, hasAnimal: true, logo: '/databases/mysql.png', radius: 25 },
     { id: 4, name: 'Snowflake', type: 'Hybrid', openSource: false, hasAnimal: false, logo: '/databases/snowflake.png', radius: 25 },
     { id: 5, name: 'Databend', type: 'Hybrid', openSource: true, hasAnimal: true, logo: '/databases/databend.png', radius: 25 },
-    { id: 6, name: 'Microsoft SQL Server', type: 'Relational', openSource: false, hasAnimal: false, logo: '/databases/microsoft-sql-server.png', radius: 25 },
+    { id: 6, name: 'SQL Server', type: 'Relational', openSource: false, hasAnimal: false, logo: '/databases/microsoft-sql-server.png', radius: 25 },
     { id: 7, name: 'Mongo', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/mongo.png', radius: 25 },
     { id: 8, name: 'SQLite', type: 'Relational', openSource: true, hasAnimal: true, logo: '/databases/sqlite.png', radius: 25 },
     { id: 9, name: 'Oracle', type: 'Relational', openSource: false, hasAnimal: false, logo: '/databases/oracle.png', radius: 25 },
@@ -38,6 +38,10 @@ const initialData = [
     { id: 20, name: 'ClickHouse', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/clickhouse.png', radius: 25 },
     { id: 21, name: 'Druid', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/druid.png', radius: 25 },
     { id: 22, name: 'Pinecone', type: 'Vector', openSource: false, hasAnimal: false, logo: '/databases/pinecone.png', radius: 25 },
+    { id: 23, name: 'CockroachDB', type: 'Relational', openSource: true, hasAnimal: true, logo: '/databases/cockroach.png', radius: 25 },
+    { id: 24, name: 'Neo4j', type: 'Hybrid', openSource: false, hasAnimal: true, logo: '/databases/neo4j.png', radius: 25 },
+    { id: 25, name: 'SurrealDB', type: 'Vector', openSource: true, hasAnimal: false, logo: '/databases/surreal.png', radius: 25 },
+    { id: 26, name: 'Neo4j', type: 'Hybrid', openSource: false, hasAnimal: true, logo: '/databases/neo4j.png', radius: 25 },
 ].map(d => ({
     ...d,
     x: width / 2 + (Math.random() - 0.5) * 100, // Start near center
@@ -53,6 +57,7 @@ const svgElement = ref(null);
 // State for layout toggle
 const groupingMode = ref('none'); // 'none', 'type', 'openSource', 'animal'
 const showLabels = ref(false);
+const isInitialized = ref(false);
 
 // Configuration for groups
 const groupCenters = computed(() => {
@@ -120,21 +125,29 @@ const getTargetPosition = (d) => {
     return { x: width / 2, y: height / 2 };
 };
 
+// NEW: Compute collision radius based on click state
+const getCollisionRadius = (d) => {
+    // When labels are shown (click === 1), increase spacing significantly
+    if (showLabels.value) {
+        return d.radius + 25; // Extra spacing for labels
+    }
+    return d.radius + 1.5; // Normal spacing
+};
+
 // --- MODIFIED: Function to determine bubble color ---
 const getFillColor = (d) => {
-    // Requirement 1: Bubbles are transparent for clicks <= 2
-    if (context.$clicks.value <= 2) {
+    // Requirement 1: Bubbles are transparent for clicks <= 1
+    if (context.$clicks.value <= 1) {
         return 'transparent';
     }
 
-    // Requirement 2: Color is based on the current category for clicks > 2
+    // Requirement 2: Color is based on the current category for clicks >= 2
     switch (groupingMode.value) {
         case 'openSource':
             return openSourceColorScale(d.openSource);
         case 'animal':
             return animalColorScale(d.hasAnimal);
         case 'type':
-            // This mode is active at clicks=2, but handled by the transparent condition above.
             return typeColorScale(d.type);
         default:
             // Fallback to transparent if no group is active
@@ -257,6 +270,57 @@ function updateStateForClicks(clicks) {
     }
 }
 
+// NEW: Initialize simulation with proper state for direct access
+function initializeSimulation() {
+    if (!svgElement.value || svg) return;
+
+    svg = d3.select(svgElement.value);
+    simulation = d3.forceSimulation(data.value)
+        .force('collide', d3.forceCollide().radius(getCollisionRadius).strength(0.8))
+        .force('bound', () => {
+            // Custom force to keep bubbles within viewport
+            data.value.forEach(d => {
+                const margin = d.radius + 5;
+                d.x = Math.max(margin, Math.min(width - margin, d.x));
+                d.y = Math.max(margin, Math.min(height - margin, d.y));
+            });
+        })
+        .on('tick', ticked);
+
+    // Set initial state based on current clicks
+    updateStateForClicks(context.$clicks.value);
+
+    // Configure forces based on initial grouping mode
+    if (groupingMode.value !== 'none') {
+        simulation
+            .force('x', d3.forceX(d => getTargetPosition(d).x).strength(0.15))
+            .force('y', d3.forceY(d => getTargetPosition(d).y).strength(0.15))
+            .force('center', null);
+    } else {
+        simulation
+            .force('x', d3.forceX(width / 2).strength(0.05))
+            .force('y', d3.forceY(height / 2).strength(0.05))
+            .force('center', d3.forceCenter(width / 2, height / 2));
+    }
+
+    updateNodes();
+
+    // NEW: For direct access with grouping modes, run simulation silently to stable state
+    if (groupingMode.value !== 'none') {
+        // Stop ticking visually
+        simulation.stop();
+
+        // Run simulation to convergence
+        for (let i = 0; i < 300; ++i) simulation.tick();
+
+        // Update positions
+        ticked();
+        updateNodes();
+    }
+
+    isInitialized.value = true;
+}
+
 watch(isDark, () => {
     if (svg) {
         svg.selectAll('.bubble-label').attr('fill', textColor.value).style('text-shadow', `0 0 4px ${textShadowColor.value}`);
@@ -265,18 +329,10 @@ watch(isDark, () => {
     }
 }, { flush: 'post' });
 
-
 watch(isActive, (newVal) => {
-    if (newVal && svgElement.value) {
+    if (newVal) {
         nextTick(() => {
-            if (!svg) {
-                svg = d3.select(svgElement.value);
-                simulation = d3.forceSimulation(data.value)
-                    .force('collide', d3.forceCollide().radius(d => d.radius + 1.5).strength(0.8))
-                    .on('tick', ticked);
-                updateNodes();
-            }
-            updateStateForClicks(context.$clicks.value);
+            initializeSimulation();
         });
     }
 }, { immediate: true });
@@ -285,13 +341,22 @@ watch(groupingMode, (newVal) => {
     if (!simulation) return;
     simulation
         .force('x', d3.forceX(d => getTargetPosition(d).x).strength(newVal !== 'none' ? 0.15 : 0.05))
-        .force('y', d3.forceY(d => getTargetPosition(d).y).strength(newVal !== 'none' ? 0.15 : 0.05));
+        .force('y', d3.forceY(d => getTargetPosition(d).y).strength(newVal !== 'none' ? 0.15 : 0.05))
+        .force('center', newVal === 'none' ? d3.forceCenter(width / 2, height / 2) : null);
     simulation.alpha(1).restart();
     if (svg) updateNodes();
 });
 
-watch(showLabels, () => {
-    if (svg) updateNodes();
+// NEW: Watch showLabels to update collision radius dynamically
+watch(showLabels, (newVal) => {
+    if (svg) {
+        updateNodes();
+    }
+    if (simulation) {
+        // Update the collision force with new radius
+        simulation.force('collide', d3.forceCollide().radius(getCollisionRadius).strength(0.8));
+        simulation.alpha(0.3).restart(); // Gentle restart to adjust spacing
+    }
 });
 
 watch(() => context.$clicks.value, (newVal) => {
@@ -311,4 +376,4 @@ watch(() => context.$clicks.value, (newVal) => {
 .data-bubble-chart svg {
     overflow: visible;
 }
-</style>(())
+</style>
