@@ -15,6 +15,7 @@ drawings:
 transition: fade
 # enable MDC Syntax: https://sli.dev/features/mdc
 mdc: true
+hideInToc: true
 ---
 
 <div class="flex items-center justify-center">
@@ -42,19 +43,131 @@ The last comment block of each slide will be treated as slide notes. It will be 
 ---
 layout: two-cols
 layoutClass: gap-16
+hideInToc: true
 ---
 
 # Au sommaire
 
 Dans cette Masterclass, nous allons explorer les différentes bases de données et leurs spécificités.
 
-<Compass />
+<div style="margin: auto; width: 250px;">
+  <Compass />
+</div>
 
 À la fin de cette heure, vous aurez une culture & une grille de lecture claire pour faire des choix éclairés et justifiés.
 
 ::right::
 
 <Toc text-sm minDepth="1" maxDepth="2" />
+
+---
+---
+# Un peu d'histoire
+
+<style scoped>
+.progress-bar {
+  position: absolute;
+  top: 2.8rem;
+  left: 6rem;
+  right: 6rem;
+  height: 6px;
+  z-index: 0;
+}
+
+.progress-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(to right, var(--soma-pink), var(--soma-blue));
+  width: 0%;
+  transition: width 0.5s ease-out;
+  box-shadow: 0 0 28px rgba(129, 129, 129, 0.67);
+}
+
+.progress-bar.step-1::before { width: 0%; }
+.progress-bar.step-2::before { width: 0%; }
+.progress-bar.step-3::before { width: 20%; }
+.progress-bar.step-4::before { width: 40%; }
+.progress-bar.step-5::before { width: 60%; }
+.progress-bar.step-6::before { width: 80%; }
+.progress-bar.step-7::before { width: 100%; }
+
+/* Custom v-click transition with fade and slide-up effect */
+.slidev-vclick-target {
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.slidev-vclick-hidden {
+  opacity: 0;
+  transform: translateY(20px);
+}
+</style>
+
+<div class="flex items-start justify-between gap-4 relative pt-12 pb-8 px-8">
+  <!-- Continuous horizontal gradient bar -->
+  <div
+    class="progress-bar"
+    :class="{
+      'step-1': $clicks === 0,
+      'step-2': $clicks === 1,
+      'step-3': $clicks === 2,
+      'step-4': $clicks === 3,
+      'step-5': $clicks === 4,
+      'step-6': $clicks === 5,
+      'step-7': $clicks >= 6,
+    }"
+  ></div>
+
+  <!-- Event 1 -->
+  <div v-click class="flex flex-col items-center flex-1 z-10">
+    <div class="w-6 h-6 rounded-full bg-white border-4 border-[var(--soma-blue)] dark:border-gray-800 shadow-lg -mt-3"></div>
+    <div class="mt-4 font-bold text-lg">1964</div>
+    <div class="mt-2 text-sm text-gray-700 dark:text-gray-300 text-center px-2">Apparition du terme "data base" dans l'US Navy/DARPA</div>
+    <div class="mt-3 w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+  </div>
+
+  <!-- Event 2 -->
+  <div v-click class="flex flex-col items-center flex-1 z-10">
+    <div class="w-6 h-6 rounded-full bg-white border-4 border-[var(--soma-blue)] dark:border-gray-800 shadow-lg -mt-3"></div>
+    <div class="mt-4 font-bold text-lg">1970</div>
+    <div class="mt-2 text-sm text-gray-700 dark:text-gray-300 text-center px-2">Modèle relationnel d'E. F. Codd (IBM), naissance du SQL</div>
+    <div class="mt-3 w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+  </div>
+
+  <!-- Event 3 -->
+  <div v-click class="flex flex-col items-center flex-1 z-10">
+    <div class="w-6 h-6 rounded-full bg-white border-4 border-[var(--soma-blue)] dark:border-gray-800 shadow-lg -mt-3"></div>
+    <div class="mt-4 font-bold text-lg">1972</div>
+    <div class="mt-2 text-sm text-gray-700 dark:text-gray-300 text-center px-2">B-tree (Rudolf Bayer) chez Boing</div>
+    <div class="mt-3 w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+  </div>
+
+  <!-- Event 4 -->
+  <div v-click class="flex flex-col items-center flex-1 z-10">
+    <div class="w-6 h-6 rounded-full bg-white border-4 border-[var(--soma-blue)] dark:border-gray-800 shadow-lg -mt-3"></div>
+    <div class="mt-4 font-bold text-lg">1977</div>
+    <div class="mt-2 text-sm text-gray-700 dark:text-gray-300 text-center px-2">Naissance d'Oracle</div>
+    <div class="mt-3 w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+  </div>
+
+  <!-- Event 5 -->
+  <div v-click class="flex flex-col items-center flex-1 z-10">
+    <div class="w-6 h-6 rounded-full bg-white border-4 border-[var(--soma-blue)] dark:border-gray-800 shadow-lg -mt-3"></div>
+    <div class="mt-4 font-bold text-lg">1998</div>
+    <div class="mt-2 text-sm text-gray-700 dark:text-gray-300 text-center px-2">Apparition du terme NoSQL</div>
+    <div class="mt-3 w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+  </div>
+
+  <!-- Event 6 -->
+  <div v-click class="flex flex-col items-center flex-1 z-10">
+    <div class="w-6 h-6 rounded-full bg-white border-4 border-[var(--soma-blue)] dark:border-gray-800 shadow-lg -mt-3"></div>
+    <div class="mt-4 font-bold text-lg">2012</div>
+    <div class="mt-2 text-sm text-gray-700 dark:text-gray-300 text-center px-2">Création de Snowflake</div>
+    <div class="mt-3 w-24 h-24 bg-gray-200 dark:bg-gray-800 rounded"></div>
+  </div>
+</div>
 
 ---
 layout: quote
@@ -132,14 +245,22 @@ Here is another comment.
 <span v-click="13">Et pour choisir les bons compromis, il faut d'abord bien comprendre les </span><span v-mark.box.blue="14" v-click="14">besoins.</span>
 </div>
 
+---
+layout: center
+---
+
+# La nature de la charge de travail
+# (workload)
 
 ---
 ---
 
 # OLTP
 
-Parler d'OLTP + exemple
 
+L'OLTP (Online Transaction Processing) est conçu pour gérer des transactions en temps réel. Il se concentre sur l'exécution rapide de requêtes courtes et fréquentes, typiquement utilisées dans les applications opérationnelles.
+
+Exemple : Un système de réservation de billets d'avion où les utilisateurs effectuent des recherches, réservent des sièges et effectuent des paiements. Chaque action génère une transaction qui doit être traitée rapidement et de manière fiable.
 
 <!--
 Notes can also sync with clicks
@@ -155,23 +276,23 @@ Notes can also sync with clicks
 
 # OLAP
 
-
 Parler d'OLAP + exemple
+Dire que pour soulager les bases OLTP, on va se tourner vers des bases OLAP pour faire de l'analytique --> data warehouse, data lakehouse...
 
 ---
+title: OLTP vs OLAP - Comparaison Technique
+---
 
-# Récapitulatif OLAP/OLTP
+# OLTP vs OLAP - Comparaison Technique
 
-Récapitulatif OLAP/OLTP (tableau)
-<!--
-Presenter note with **bold**, *italic*, and ~~striked~~ text.
+| Caractéristique Technique | **OLTP (Transactionnel)** | **OLAP (Analytique)** |
+| :--- | :---: | :---: |
+| **Objectif Principal** | Enregistrement des transactions | Analyse et aide à la décision |
+| **Stockage Physique** | Orienté **Ligne** (Row-Store) | Orienté **Colonne** (Column-Store) |
+| **Optimisation I/O** | Écritures et lectures de lignes complètes | Lectures de colonnes spécifiques |
+| **Modèle de Données** | **Normalisé** (ex: 3NF) | **Dénormalisé** (ex: Schéma en étoile) |
+| **Type de Requêtes** | Simples (INSERT, UPDATE, DELETE, SELECT...) | Complexes (Agrégations, SUM, AVG, GROUP BY) |
 
-Also, HTML elements are valid:
-<div class="flex w-full">
-  <span style="flex-grow: 1;">Left content</span>
-  <span>Right content</span>
-</div>
--->
 
 ---
 
@@ -190,16 +311,72 @@ Les NoSQL:
 
 
 ---
+
+# Note sur la scalabilité
+
+- Scalabilité verticale vs horizontale
+- Partitionnement (sharding) vs Réplication
+- Considérations pratiques : Coût, complexité, latence réseau
+- Théorème CAP
+- Choix pragmatique selon les besoins réels (ex: une seule instance suffit souvent au début, eg Reddit)
+
+---
+
+# Comment benchmarker une base de données ?
+
+- Les critères CAP-EV
+- Scénarios d'usage concrets
+- Latence (p95, p99), Débit (TPS, QPS)
+- Coût (infrastructure, licences, maintenance)
+- Comprendre les limites de son approche <!-- Peut etre que scenario avec 1 seule instance fonctionne pour A mais scalabilité mal implémentée donc scale moins bien... -->
+
+---
+# Etude de cas :
+
+
+---
+
+# Composer avec plusieurs bases de données
+
+---
+
+# Dette technique
+
+  - Définition : Coût de la maintenance et de l'évolution d'un système
+  - Origine : Choix technologiques, dettes accumulées, manque de documentation
+  - Impact : Ralentissement des développements, augmentation des coûts
+
+
+---
+
+# Le mot de la fin
+
+---
+layout: center
+---
+
+# Q & A
+
+---
+
+# Ressources
+
+- [clickhouse.com: Postgres to ClickHouse: Data Modeling Tips](https://clickhouse.com/blog/postgres-to-clickhouse-data-modeling-tips-v2)
+- [developpez.com: La généalogie des SGBD](https://fadace.developpez.com/sgbdcmp/story/)
+- [wikipedia.org: CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem)
+
+---
+
+# Merci pour votre attention !
+
+
+---
 src: ./pages/imported-slides.md
 hide: false
 ---
 
 
-
-
 ---
-layout: center
-class: text-center
 ---
 
 # Plan
@@ -399,3 +576,9 @@ Slide 24 : Q&A
 
 Une slide simple avec vos coordonnées (Twitter/LinkedIn/GitHub) pour les questions.
 
+
+
+Theoreme CAP
+ACID vs BASE
+B-Tree/B+ Tree Indexing
+Query Optimizer

@@ -14,7 +14,7 @@ const width = 800;
 const height = 400;
 
 const initialData = [
-    { id: 1, name: 'Postgres', type: 'Relational', openSource: true, hasAnimal: true, logo: '/databases/postgres.png', radius: 25 },
+    { id: 1, name: 'PostgreSQL', type: 'Relational', openSource: true, hasAnimal: true, logo: '/databases/postgres.png', radius: 25 },
     { id: 2, name: 'Redis', type: 'In Memory', openSource: true, hasAnimal: false, logo: '/databases/redis.png', radius: 25 },
     { id: 3, name: 'MySQL', type: 'Relational', openSource: true, hasAnimal: true, logo: '/databases/mysql.png', radius: 25 },
     { id: 4, name: 'Snowflake', type: 'Hybrid', openSource: false, hasAnimal: false, logo: '/databases/snowflake.png', radius: 25 },
@@ -37,9 +37,11 @@ const initialData = [
     { id: 21, name: 'Druid', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/druid.png', radius: 25 },
     { id: 22, name: 'Pinecone', type: 'Vector', openSource: false, hasAnimal: false, logo: '/databases/pinecone.png', radius: 25 },
     { id: 23, name: 'CockroachDB', type: 'Relational', openSource: true, hasAnimal: true, logo: '/databases/cockroach.png', radius: 25 },
-    { id: 24, name: 'Neo4j', type: 'Hybrid', openSource: false, hasAnimal: true, logo: '/databases/neo4j.png', radius: 25 },
+    { id: 24, name: 'Neo4j', type: 'Hybrid', openSource: false, hasAnimal: false, logo: '/databases/neo4j.png', radius: 25 },
     { id: 25, name: 'SurrealDB', type: 'Vector', openSource: true, hasAnimal: false, logo: '/databases/surreal.png', radius: 25 },
-    { id: 26, name: 'Neo4j', type: 'Hybrid', openSource: false, hasAnimal: true, logo: '/databases/neo4j.png', radius: 25 },
+    { id: 26, name: 'TypeDB', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/typedb.png', radius: 25 },
+    { id: 27, name: 'Teradata', type: 'Hybrid', openSource: false, hasAnimal: false, logo: '/databases/teradata.png', radius: 25 },
+    { id: 28, name: 'ArangoDB', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/arangodb.png', radius: 25 }
 ].map(d => ({
     ...d,
     x: width / 2 + (Math.random() - 0.5) * 100, // Start near center
@@ -59,23 +61,27 @@ const isInitialized = ref(false);
 
 // Configuration for groups
 const groupCenters = computed(() => {
+    // --- CHANGED ---
+    // Move the center of the bubble clusters down to give labels more space
+    const yPos = height / 2 + 50;
+
     if (groupingMode.value === 'type') {
         const types = Array.from(new Set(data.value.map(d => d.type)));
         const numGroups = types.length;
         const spacing = width / (numGroups + 1);
         return types.reduce((acc, type, i) => {
-            acc[type] = { x: spacing * (i + 1), y: height / 2 };
+            acc[type] = { x: spacing * (i + 1), y: yPos }; // Use new yPos
             return acc;
         }, {});
     } else if (groupingMode.value === 'openSource') {
         return {
-            'Open Source': { x: width / 3, y: height / 2 },
-            'Proprietary': { x: (2 * width) / 3, y: height / 2 }
+            'Open Source': { x: width / 3, y: yPos }, // Use new yPos
+            'Propriétaire': { x: (2 * width) / 3, y: yPos } // Use new yPos
         };
     } else if (groupingMode.value === 'animal') {
         return {
-            'Animal dans le logo': { x: width / 3, y: height / 2 },
-            'Pas cool': { x: (2 * width) / 3, y: height / 2 }
+            'Animal dans le logo': { x: width / 3, y: yPos }, // Use new yPos
+            'Pas cool': { x: (2 * width) / 3, y: yPos } // Use new yPos
         };
     }
     return {};
@@ -87,7 +93,7 @@ const typeColorScale = d3.scaleOrdinal()
 
 const openSourceColorScale = d3.scaleOrdinal()
     .domain([true, false])
-    .range(['#3c9a04aa', '#d32f2faa']); // Green for open source, Red for proprietary
+    .range(['#3c9a04aa', '#d32f2faa']); // Green for open source, Red for propriétaire
 
 const animalColorScale = d3.scaleOrdinal()
     .domain([true, false])
@@ -115,7 +121,7 @@ const getTargetPosition = (d) => {
     if (groupingMode.value === 'type') {
         return groupCenters.value[d.type];
     } else if (groupingMode.value === 'openSource') {
-        return groupCenters.value[d.openSource ? 'Open Source' : 'Proprietary'];
+        return groupCenters.value[d.openSource ? 'Open Source' : 'Propriétaire'];
     } else if (groupingMode.value === 'animal') {
         return groupCenters.value[d.hasAnimal ? 'Animal dans le logo' : 'Pas cool'];
     }
@@ -155,7 +161,9 @@ const ticked = () => {
 
     svg.selectAll('.group-label:not(.exiting)')
         .attr('x', d => groupCenters.value[d]?.x || 0)
-        .attr('y', d => (groupCenters.value[d]?.y - 100) || 0);
+        // --- CHANGED ---
+        // Set a fixed Y position near the top
+        .attr('y', 40);
 };
 
 const updateNodes = () => {
@@ -208,7 +216,7 @@ const updateNodes = () => {
 
     let groupLabels = [];
     if (groupingMode.value === 'type') groupLabels = Array.from(new Set(data.value.map(d => d.type)));
-    else if (groupingMode.value === 'openSource') groupLabels = ['Open Source', 'Proprietary'];
+    else if (groupingMode.value === 'openSource') groupLabels = ['Open Source', 'Propriétaire'];
     else if (groupingMode.value === 'animal') groupLabels = ['Animal dans le logo', 'Pas cool'];
 
     svg.selectAll('.group-label')
@@ -224,7 +232,9 @@ const updateNodes = () => {
                 .attr('opacity', 0)
                 .text(d => d)
                 .attr('x', d => groupCenters.value[d]?.x || width / 2)
-                .attr('y', d => (groupCenters.value[d]?.y - 100) || height / 2),
+                // --- CHANGED ---
+                // Set a fixed Y position near the top
+                .attr('y', 40),
             update => update
                 .attr('fill', textColor.value)
                 .style('text-shadow', `0 0 4px ${textShadowColor.value}`)

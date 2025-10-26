@@ -3,13 +3,15 @@
         <div class="compass-base-gradient">
             <img src="https://www.svgrepo.com/show/499816/database.svg" alt="Compass Base" class="compass-base" />
         </div>
-        <div v-for="icon in icons" :key="icon.name" class="icon-wrapper" :style="icon.style">
-            <img :src="icon.src" :alt="icon.name" class="icon" />
+
+        <div v-for="icon in positionedIcons" :key="icon.name" class="icon-wrapper" :style="icon.style">
+            <img :src="icon.src" :alt="icon.name" class="icon" :class="{ active: icon.angle === currentTargetAngle }" />
         </div>
+
         <svg class="compass-needle" :style="needleStyle" viewBox="0 0 100 100">
-            <polygon points="50,0 60,50 40,50" fill="#E53935" />
-            <polygon points="50,100 60,50 40,50" fill="#424242" />
-            <circle cx="50" cy="50" r="5" fill="#333" />
+            <polygon points="50,0 60,50 40,50" class="needle-tip" />
+            <polygon points="50,100 60,50 40,50" class="needle-base" />
+            <circle cx="50" cy="50" r="5" class="needle-center" />
         </svg>
     </div>
 </template>
@@ -18,56 +20,123 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 
 // --- ICONS CONFIGURATION ---
-const icons = ref([
+const iconsData = ref([
     {
-        name: 'Relational',
-        src: 'https://cdn.freebiesupply.com/logos/large/2x/neo4j-logo-png-transparent.png',
-        angle: 0, // North
-        style: { top: '5%', left: '50%' },
+        name: 'Neo4j',
+        src: '/databases/neo4j.png',
     },
     {
-        name: 'Graph',
-        src: 'https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/snowflake-color.png',
-        angle: 90, // East
-        style: { top: '50%', left: '95%' },
+        name: 'Snowflake',
+        src: '/databases/snowflake.png',
     },
     {
-        name: 'Treasure',
-        src: 'https://img.icons8.com/?size=1200&id=DUsKDDZsg8FT&format=png',
-        angle: 180, // South
-        style: { top: '95%', left: '50%' },
+        name: 'MongoDB',
+        src: '/databases/mongo.png',
     },
     {
-        name: 'Tree',
-        src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1163px-Postgresql_elephant.svg.png',
-        angle: 270, // West
-        style: { top: '50%', left: '5%' },
+        name: 'PostgreSQL',
+        src: '/databases/postgres.png',
     },
+    {
+        name: 'Redis',
+        src: '/databases/redis.png',
+    },
+    {
+        name: 'ClickHouse',
+        src: '/databases/clickhouse.png',
+    }
 ]);
 
-const targetAngles = icons.value.map(icon => icon.angle);
-
 const needleRotation = ref(0);
+const currentTargetAngle = ref(null);
 let intervalId = null;
+let needleTimeoutId = null;
+
+const NEEDLE_TRANSITION_DURATION_MS = 1500;
+// --- DYNAMIC CALCULATIONS ---
+
+const positionedIcons = computed(() => {
+    // ... (This computed property is unchanged)
+    const count = iconsData.value.length;
+    if (count === 0) return [];
+    const radius = 45;
+    const center = 50;
+    return iconsData.value.map((icon, index) => {
+        const angleDeg = (index / count) * 360;
+        const angleRad = (angleDeg - 90) * (Math.PI / 180);
+        const x = center + radius * Math.cos(angleRad);
+        const y = center + radius * Math.sin(angleRad);
+        return {
+            ...icon,
+            angle: angleDeg,
+            style: {
+                top: `${y}%`,
+                left: `${x}%`,
+            },
+        };
+    });
+});
+
+const targetAngles = computed(() => positionedIcons.value.map(icon => icon.angle));
 
 const needleStyle = computed(() => ({
-    // The rotation logic remains the same
     transform: `translate(-50%, -50%) rotate(${needleRotation.value}deg)`,
 }));
 
+// --- LOGIC ---
+
 function updateNeedle() {
-    const randomIndex = Math.floor(Math.random() * targetAngles.length);
-    const targetAngle = targetAngles[randomIndex];
-    const hesitationOffset = (Math.random() - 0.5) * 40; // +/- 20 degrees
-    needleRotation.value = targetAngle + hesitationOffset;
+    // Clear any pending highlight timeouts if we're moving again
+    if (needleTimeoutId) {
+        clearTimeout(needleTimeoutId);
+    }
+
+    const angles = targetAngles.value;
+    if (angles.length === 0) return; // Do nothing if no icons
+
+    // === MODIFICATION START ===
+
+    let newTargetAngle;
+    const previousAngle = currentTargetAngle.value; // Get the last highlighted angle
+
+    if (angles.length === 1) {
+        // If there's only one icon, just select it
+        newTargetAngle = angles[0];
+    } else {
+        // Otherwise, keep picking a new one until it's different
+        do {
+            const randomIndex = Math.floor(Math.random() * angles.length);
+            newTargetAngle = angles[randomIndex];
+        } while (newTargetAngle === previousAngle);
+    }
+
+    // === MODIFICATION END ===
+
+
+    // 1. De-highlight the current icon immediately
+    currentTargetAngle.value = null;
+
+    // 2. Add hesitation and start the needle rotation
+    const hesitationOffset = (Math.random() - 0.5) * 20;
+    needleRotation.value = newTargetAngle + hesitationOffset;
+
+    // 3. Set a timeout to highlight the NEW icon *after* the needle finishes
+    needleTimeoutId = setTimeout(() => {
+        currentTargetAngle.value = newTargetAngle;
+        needleTimeoutId = null;
+    }, NEEDLE_TRANSITION_DURATION_MS - 300); // Using the value from your example
 }
 
 onMounted(() => {
-    intervalId = setInterval(updateNeedle, 2500);
+    setTimeout(updateNeedle, 100);
+    intervalId = setInterval(updateNeedle, 4000); // Using the value from your example
 });
 
 onUnmounted(() => {
     clearInterval(intervalId);
+    if (needleTimeoutId) {
+        clearTimeout(needleTimeoutId);
+    }
 });
 </script>
 
@@ -77,7 +146,7 @@ onUnmounted(() => {
     width: 140px;
     height: 140px;
     margin: 40px auto;
-    margin-left: 40px
+    margin-left: 40px;
 }
 
 .compass-base {
@@ -98,12 +167,31 @@ onUnmounted(() => {
     width: 90%;
     height: 90%;
     transition: transform 1.5s cubic-bezier(0.65, 0, 0.35, 1);
-    /* add shadow */
     filter: drop-shadow(6px 0 4px rgba(0, 0, 0, 0.4));
+    /* Prevents glow from being clipped */
+    overflow: visible;
+}
+
+/* (Req 3) Style the needle parts */
+.needle-tip {
+    fill: #E53935;
+    /* Add a glow using the same color */
+    filter: drop-shadow(0 0 5px #E53935) drop-shadow(0 0 8px rgba(255, 100, 100, 0.7));
+}
+
+.needle-base {
+    fill: #424242;
+}
+
+.needle-center {
+    fill: #333;
+    stroke: #555;
+    stroke-width: 1;
 }
 
 .icon-wrapper {
     position: absolute;
+    /* Already centered by translate, which is correct */
     transform: translate(-50%, -50%);
     width: 54px;
     height: 54px;
@@ -115,6 +203,21 @@ onUnmounted(() => {
 .icon {
     width: 50px;
     height: 50px;
-    filter: drop-shadow(0px 0 4px rgba(0, 217, 255, 0.2)) drop-shadow(0px 0 12px rgba(0, 242, 255, 0.2));
+
+    /* (Req 2) Default to grayscale */
+    filter: grayscale(100%) drop-shadow(0px 0 4px rgba(0, 217, 255, 0.2)) drop-shadow(0px 0 12px rgba(0, 242, 255, 0.2));
+
+    /* (Req 2) Add smooth transition */
+    transition: filter 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+
+}
+
+/* (Req 2) Active state for the pointed icon */
+.icon.active {
+    filter: grayscale(0%) drop-shadow(0px 0 6px rgba(0, 217, 255, 0.5)) drop-shadow(0px 0 16px rgba(0, 242, 255, 0.5));
+    opacity: 1;
+    transform: scale(1.1);
+    transition: filter 0.7s cubic-bezier(0.65, 0, 0.35, 1), transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+    /* Add a slight pop */
 }
 </style>
