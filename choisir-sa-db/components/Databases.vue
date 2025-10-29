@@ -41,7 +41,9 @@ const initialData = [
     { id: 25, name: 'SurrealDB', type: 'Vector', openSource: true, hasAnimal: false, logo: '/databases/surreal.png', radius: 25 },
     { id: 26, name: 'TypeDB', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/typedb.png', radius: 25 },
     { id: 27, name: 'Teradata', type: 'Hybrid', openSource: false, hasAnimal: false, logo: '/databases/teradata.png', radius: 25 },
-    { id: 28, name: 'ArangoDB', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/arangodb.png', radius: 25 }
+    { id: 28, name: 'ArangoDB', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/arangodb.png', radius: 25 },
+    { id: 29, name: 'Redshift', type: 'Hybrid', openSource: false, hasAnimal: false, logo: '/databases/redshift.png', radius: 25 },
+    { id: 30, name: 'SAP HANA', type: 'In Memory', openSource: false, hasAnimal: false, logo: '/databases/sap-hana.png', radius: 25 },
 ].map(d => ({
     ...d,
     x: width / 2 + (Math.random() - 0.5) * 100, // Start near center

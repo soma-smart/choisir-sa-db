@@ -1,10 +1,12 @@
 :root {
     --soma-pink: #FF007F;
     --soma-blue: #000099;
+    --elevated-bg: #FFFFFF;
 }
 
 .dark {
     --soma-pink: #FF007F;
     /* Lighten the blue for better contrast */
     --soma-blue: #1f1fec;
+    --elevated-bg: #1a1a1a;
 }

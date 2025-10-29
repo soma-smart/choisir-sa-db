@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="50.636269mm"
+   height="69.648712mm"
+   viewBox="0 0 50.636269 69.648712"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   sodipodi:docname="geospatial.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.80711279"
+     inkscape:cx="-155.49252"
+     inkscape:cy="-45.842415"
+     inkscape:window-width="2048"
+     inkscape:window-height="1206"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-146.17657,-160.55412)">
+    <path
+       d="m 168.56857,229.51189 c -0.92611,-0.44588 -3.14063,-2.31971 -5.31541,-4.49763 -7.70052,-7.7117 -14.12831,-19.72543 -16.43681,-30.72082 -0.8458,-4.02855 -0.85445,-11.29787 -0.0172,-14.4639 3.87645,-14.65898 18.96091,-22.7654 33.16811,-17.82466 6.48677,2.25589 12.28109,7.82502 14.93385,14.35348 5.48823,13.50664 -1.18342,34.39668 -15.61536,48.89424 -4.78048,4.80221 -7.41488,5.84919 -10.71715,4.25929 z m 8.65099,-32.02104 c 5.35766,-2.63758 8.38627,-8.64712 7.2259,-14.33804 -0.8332,-4.08636 -3.67158,-7.76684 -7.39674,-9.59125 -1.72631,-0.84545 -2.36446,-0.95726 -5.48154,-0.96041 -3.09354,-0.003 -3.77607,0.11282 -5.54498,0.94192 -9.39995,4.40573 -10.57461,17.11624 -2.11945,22.93355 3.9165,2.69462 9.10132,3.08951 13.31681,1.01423 z"
+       style="fill:#000000;stroke-width:0.264583"
+       id="path1" />
+  </g>
+</svg>

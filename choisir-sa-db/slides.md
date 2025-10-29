@@ -32,6 +32,11 @@ hideInToc: true
       <Compass />
   </div>
 </div>
+
+<div style="position: absolute; right: 2rem; bottom: 2rem;">
+  <img src="/photo.jpg" class="w-24 rounded-full shadow-md shadow-gray-400 dark:shadow-gray-800" />
+</div>
+
 <!-- <div @click="$slidev.nav.next" class="mt-12 py-1" hover:bg="white op-10">
   Press Space for next page <carbon:arrow-right />
 </div> -->
@@ -257,6 +262,7 @@ Here is another comment.
 layout: center
 ---
 
+## Étape 1
 # La nature de la charge de travail
 
 ---
@@ -317,6 +323,12 @@ Pour répondre aux besoins analytiques et éviter de surcharger les bases OLTP, 
 | **Modèle de Données** | **Normalisé** (ex: 3NF) | **Dénormalisé** (ex: Schéma en étoile) |
 | **Type de Requêtes** | Simples (INSERT, UPDATE, DELETE, SELECT...) | Complexes (Agrégations, SUM, AVG, GROUP BY) |
 
+---
+layout: center
+---
+## Étape 2
+# Le modèle de données
+
 
 ---
 
@@ -331,61 +343,93 @@ On le voit avec les rachats de Neon (par Databricks) et Crunchy Data (par Snowfl
 
 <style scoped>
 .sparkly-svg-container {
-    /* 1. Gradient Background */
-    /* Set a size for the container */
-    width: 300px;
-    height: 300px;
-    /* Center the SVG/Image inside the container */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  width: 56px;
+  height: 56px;
 
-    /* The Beautiful Gradient */
-    background-image: linear-gradient(45deg, #FF6B6B 0%, #4ECDC4 50%, #45B7D1 100%);
+  /* The gradient now fills the logo */
+  background-image: linear-gradient(45deg, #6babff 0%, #4ECDC4 50%, #45B7D1 100%);
 
-    /* Make the container a reference for the spark */
-    position: relative;
-    overflow: hidden; /* Important to contain the spark animation */
-
-    /* Optional: A subtle border for visual appeal */
-    border-radius: 15px;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
-/* 2. The Sparkle/Shimmer Animation */
+.sparkly-svg-container.relational {
+  -webkit-mask-image: url('/db-family/relational.svg');
+  mask-image: url('/db-family/relational.svg');
+}
+
+.sparkly-svg-container.graph {
+  -webkit-mask-image: url('/db-family/graph.svg');
+  mask-image: url('/db-family/graph.svg');
+}
+
+.sparkly-svg-container.document {
+  -webkit-mask-image: url('/db-family/document.svg');
+  mask-image: url('/db-family/document.svg');
+}
+
+.sparkly-svg-container.key-value {
+  -webkit-mask-image: url('/db-family/key-value.svg');
+  mask-image: url('/db-family/key-value.svg');
+}
+
+.sparkly-svg-container.time-series {
+  -webkit-mask-image: url('/db-family/time-series.svg');
+  mask-image: url('/db-family/time-series.svg');
+}
+
+.sparkly-svg-container.full-text-search {
+  -webkit-mask-image: url('/db-family/full-text-search.svg');
+  mask-image: url('/db-family/full-text-search.svg');
+}
+
+.sparkly-svg-container.geospatial {
+  -webkit-mask-image: url('/db-family/geospatial.svg');
+  mask-image: url('/db-family/geospatial.svg');
+}
+
+.sparkly-svg-container.vectorial {
+  -webkit-mask-image: url('/db-family/vector.svg');
+  mask-image: url('/db-family/vector.svg');
+}
+
+/* Shimmer stays clipped to the masked logo */
 .sparkly-svg-container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -200%; /* Start off-screen to the left */
-    width: 50%; /* Width of the shimmer/spark */
-    height: 100%;
-    /* The white, shimmering effect */
-    background: rgba(255, 255, 255, 0.4);
-    transform: skewX(-20deg); /* Slanted look */
-
-    /* Animation definition */
-    animation: spark-shimmer 3s infinite linear;
+  content: '';
+  position: absolute;
+  z-index: 2;
+  mix-blend-mode: screen;
+  top: 0;
+  left: -200%;
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: skewX(-20deg);
+  animation: spark-shimmer 10s infinite linear;
 }
 
-/* Keyframes for the animation */
 @keyframes spark-shimmer {
-    0% {
-        left: -200%; /* Starts off-screen */
-    }
-    100% {
-        left: 200%; /* Ends off-screen to the right, creating a sweep */
-    }
+  0% { left: -200%; }
+  20% { left: 200%; }
+  100% { left: 200%; }
 }
 
-/* Optional: Style for the image/svg inside to ensure it's visible */
-.sparkly-svg-container img,
-.sparkly-svg-container svg {
-    /* Blend the SVG with the gradient background */
-    mix-blend-mode: multiply; /* Try 'screen' or 'overlay' for different effects */
-    filter: invert(1); /* Optional: make the SVG white/dark to contrast with the gradient */
-    z-index: 10; /* Keep the SVG on top of the shimmer */
-    max-width: 80%;
-    max-height: 80%;
+.db-model {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--elevated-bg);
+  border-radius: 12px;
+  margin: 16px;
 }
 </style>
 
@@ -393,20 +437,57 @@ Les NoSQL:
 - Document, Clé-Valeur, orienté Colonne, Graphe
 - Vectoriel, Hybride / NewSQL
 
-<div class="sparkly-svg-container">
-  <img v-click src="/db-family/graph.svg" class="w-32 my-4" />
+<div class="db-model" v-click>
+  Relationnel
+  <div class="sparkly-svg-container relational" role="img" aria-label="Graph"></div>
 </div>
 
+<div class="db-model" v-click>
+  Graph
+  <div class="sparkly-svg-container graph" role="img" aria-label="Graph"></div>
+</div>
 
+<div class="db-model" v-click>
+  Document
+  <div class="sparkly-svg-container document" role="img" aria-label="Document"></div>
+</div>
+
+<div class="db-model" v-click>
+  Clé-Valeur
+  <div class="sparkly-svg-container key-value" role="img" aria-label="Clé-Valeur"></div>
+</div>
+
+<div class="db-model" v-click>
+  Séries Temporelles
+  <div class="sparkly-svg-container time-series" role="img" aria-label="Séries Temporelles"></div>
+</div>
+
+<div class="db-model" v-click>
+  Recherche plein texte
+  <div class="sparkly-svg-container full-text-search" role="img" aria-label="Recherche plein texte"></div>
+</div>
+
+<div class="db-model" v-click>
+  Géospatial
+  <div class="sparkly-svg-container geospatial" role="img" aria-label="Géospatial"></div>
+</div>
+
+<div class="db-model" v-click>
+  Vectoriel
+  <div class="sparkly-svg-container vectorial" role="img" aria-label="Vectoriel"></div>
+</div>
 
 ---
 layout: center
 ---
-# La scalabilité
+
+## Étape 3
+# Les contraintes
 
 ---
 
-# Théorème CAP
+# La scalabilité
+## Théorème CAP
 
 <CAPTheorem />
 <span v-click></span>
@@ -429,7 +510,8 @@ layout: center
 layout: center
 ---
 
-# Benchmarking
+## Étape 4
+# Benchmarker *mon* cas d'usage
 
 
 ---
@@ -469,7 +551,15 @@ OLAP + OLTP. Exemple : PostgreSQL pour le transactionnel, Snowflake pour l'analy
 
 # Le mot de la fin
 
-"Ne choisissez pas une base de données sur un coup de tête ou pour suivre une mode. Analysez, testez, et choisissez l'outil qui résout votre problème, pas celui qui en crée de nouveaux."
+Nous avons vu un framework simple mais efficace pour choisir une base de données adaptée à vos besoins:
+1. Comprendre la **workload** (OLTP vs OLAP)
+2. Quel **modèle** vont suivre les données
+3. Comprendre les **contraintes** de performance, de scalabilité et d'écosystème (interne & externe)
+4. **Valider**: benchmarker dans des scénarios réels
+
+Ne choisissez pas une base de données sur un coup de tête ou pour suivre une mode.
+
+Analysez, testez, et choisissez l'outil qui résout votre problème, pas celui qui en crée de nouveaux.
 
 
 ---
@@ -489,14 +579,10 @@ layout: center
 - [wikipedia.org: CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem)
 
 ---
+layout: center
+---
 
 # Merci pour votre attention !
-
-
----
-src: ./pages/imported-slides.md
-hide: false
----
 
 
 ---

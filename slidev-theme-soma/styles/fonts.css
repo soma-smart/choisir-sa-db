@@ -26,7 +26,43 @@ h1 {
     background-size: 300% 300%;
 }
 
+h2 {
+    @apply text-5xl mt-8 mb-4;
+    color: var(--soma-blue);
+    font-family: "Inter Tight", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+    background: -webkit-linear-gradient(0deg,
+            var(--soma-pink),
+            var(--soma-blue),
+            var(--soma-pink));
+    /* Clip the background to text */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 
+    /* Create a moving gradient */
+    background-size: 30% 30%;
+    /* text shadow */
+    text-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* make a horizontal bar below the text */
+h2::after {
+    content: "";
+    display: block;
+    width: 6rem;
+    height: 0.25rem;
+    margin: 0.2rem auto 0 auto;
+    border-radius: 0.125rem;
+    background: -webkit-linear-gradient(0deg,
+            var(--soma-pink),
+            var(--soma-blue),
+            var(--soma-pink));
+
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
 
 /* Set up gradient movement */
 @keyframes gradientMove {
