@@ -61,6 +61,12 @@ Dans cette Masterclass, nous allons explorer les différentes bases de données 
 <Toc text-sm minDepth="1" maxDepth="2" />
 
 ---
+layout: center
+---
+
+# Tour d'horizon
+
+---
 ---
 # Un peu d'histoire
 
@@ -245,22 +251,33 @@ Here is another comment.
 <span v-click="13">Et pour choisir les bons compromis, il faut d'abord bien comprendre les </span><span v-mark.box.blue="14" v-click="14">besoins.</span>
 </div>
 
+<!-- "Il n'y a pas de 'meilleure' base de données, seulement le meilleur outil pour un problème donné." -->
+
 ---
 layout: center
 ---
 
 # La nature de la charge de travail
-# (workload)
 
----
 ---
 
 # OLTP
 
 
-L'OLTP (Online Transaction Processing) est conçu pour gérer des transactions en temps réel. Il se concentre sur l'exécution rapide de requêtes courtes et fréquentes, typiquement utilisées dans les applications opérationnelles.
+**OLTP (Online Transaction Processing)** est conçu pour gérer des transactions en temps réel: exécution rapide de requêtes courtes et fréquentes, typiquement utilisées dans les applications opérationnelles
+- forte concurrence d'utilisateurs effectuant des opérations de lecture et d'écriture simultanément
+- faible latence pour assurer une expérience utilisateur fluide
+- données très normalisées pour minimiser la redondance et assurer l'intégrité des données
 
-Exemple : Un système de réservation de billets d'avion où les utilisateurs effectuent des recherches, réservent des sièges et effectuent des paiements. Chaque action génère une transaction qui doit être traitée rapidement et de manière fiable.
+
+**Exemple :** Un système de réservation de billets d'avion où les utilisateurs effectuent des recherches, réservent des sièges et effectuent des paiements. Chaque action génère une transaction qui doit être traitée rapidement et de manière fiable.
+
+<div class="flex flex-row justify-center items-center gap-8">
+  <img v-click src="/databases/postgres.png" alt="PostgreSQL Logo" class="w-32 my-4" />
+  <img v-click src="/databases/mysql.png" alt="MySQL Logo" class="w-32 my-4" />
+  <img v-click src="/databases/oracle.png" alt="Oracle Logo" class="w-32 my-4" />
+</div>
+
 
 <!--
 Notes can also sync with clicks
@@ -276,11 +293,18 @@ Notes can also sync with clicks
 
 # OLAP
 
-Parler d'OLAP + exemple
-Dire que pour soulager les bases OLTP, on va se tourner vers des bases OLAP pour faire de l'analytique --> data warehouse, data lakehouse...
+**OLAP (Online Analytical Processing)** est conçu pour effectuer des analyses complexes sur de grandes quantités de données. Contrairement à OLTP, qui se concentre sur les transactions en temps réel, OLAP permet des requêtes analytiques approfondies.
 
----
-title: OLTP vs OLAP - Comparaison Technique
+Pour répondre aux besoins analytiques et éviter de surcharger les bases OLTP, on utilise des bases OLAP dédiées, telles que les data warehouses ou data lakehouses, qui permettent d’effectuer des analyses complexes sur de grands volumes de données.
+
+**Exemple :** Un système de Business Intelligence qui analyse les ventes trimestrielles, les tendances du marché et les performances des produits. Les utilisateurs peuvent exécuter des requêtes complexes pour générer des rapports et des tableaux de bord.
+
+<div class="flex flex-row justify-center items-center gap-8">
+  <img v-click src="/databases/snowflake.png" alt="Snowflake Logo" class="w-32 my-4" />
+  <img v-click src="/databases/clickhouse.png" alt="ClickHouse Logo" class="w-32 my-4" />
+  <img v-click src="/databases/bigquery.png" alt="BigQuery Logo" class="w-32 my-4" />
+</div>
+
 ---
 
 # OLTP vs OLAP - Comparaison Technique
@@ -303,28 +327,117 @@ On le voit avec les rachats de Neon (par Databricks) et Crunchy Data (par Snowfl
 
 ---
 
-# Les autres grandes familles de bases de données
+# Les grandes familles de bases de données
+
+<style scoped>
+.sparkly-svg-container {
+    /* 1. Gradient Background */
+    /* Set a size for the container */
+    width: 300px;
+    height: 300px;
+    /* Center the SVG/Image inside the container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* The Beautiful Gradient */
+    background-image: linear-gradient(45deg, #FF6B6B 0%, #4ECDC4 50%, #45B7D1 100%);
+
+    /* Make the container a reference for the spark */
+    position: relative;
+    overflow: hidden; /* Important to contain the spark animation */
+
+    /* Optional: A subtle border for visual appeal */
+    border-radius: 15px;
+}
+
+/* 2. The Sparkle/Shimmer Animation */
+.sparkly-svg-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -200%; /* Start off-screen to the left */
+    width: 50%; /* Width of the shimmer/spark */
+    height: 100%;
+    /* The white, shimmering effect */
+    background: rgba(255, 255, 255, 0.4);
+    transform: skewX(-20deg); /* Slanted look */
+
+    /* Animation definition */
+    animation: spark-shimmer 3s infinite linear;
+}
+
+/* Keyframes for the animation */
+@keyframes spark-shimmer {
+    0% {
+        left: -200%; /* Starts off-screen */
+    }
+    100% {
+        left: 200%; /* Ends off-screen to the right, creating a sweep */
+    }
+}
+
+/* Optional: Style for the image/svg inside to ensure it's visible */
+.sparkly-svg-container img,
+.sparkly-svg-container svg {
+    /* Blend the SVG with the gradient background */
+    mix-blend-mode: multiply; /* Try 'screen' or 'overlay' for different effects */
+    filter: invert(1); /* Optional: make the SVG white/dark to contrast with the gradient */
+    z-index: 10; /* Keep the SVG on top of the shimmer */
+    max-width: 80%;
+    max-height: 80%;
+}
+</style>
 
 Les NoSQL:
 - Document, Clé-Valeur, orienté Colonne, Graphe
 - Vectoriel, Hybride / NewSQL
 
+<div class="sparkly-svg-container">
+  <img v-click src="/db-family/graph.svg" class="w-32 my-4" />
+</div>
+
+
+
+---
+layout: center
+---
+# La scalabilité
 
 ---
 
-# Note sur la scalabilité
+# Théorème CAP
 
-- Scalabilité verticale vs horizontale
-- Partitionnement (sharding) vs Réplication
-- Considérations pratiques : Coût, complexité, latence réseau
-- Théorème CAP
-- Choix pragmatique selon les besoins réels (ex: une seule instance suffit souvent au début, eg Reddit)
+<CAPTheorem />
+<span v-click></span>
+<span v-click></span>
+<span v-click></span>
+
+
+---
+
+# Scalabilité verticale vs horizontale
+
+---
+
+# Partitionnement (sharding) vs Réplication
+
+
+
+
+---
+layout: center
+---
+
+# Benchmarking
+
 
 ---
 
 # Comment benchmarker une base de données ?
 
-- Les critères CAP-EV
+- Définir des objectifs clairs : quoi mesurer et sous quel scénario <!-- ex: latence sous charge, scalabilité horizontale... On ne pourra PAS faire un benchmark exhaustif, c'est impossible. -->
+- Les access pattern
 - Scénarios d'usage concrets
 - Latence (p95, p99), Débit (TPS, QPS)
 - Coût (infrastructure, licences, maintenance)
@@ -338,24 +451,34 @@ Les NoSQL:
 
 # Composer avec plusieurs bases de données
 
----
-
-# Dette technique
-
-  - Définition : Coût de la maintenance et de l'évolution d'un système
-  - Origine : Choix technologiques, dettes accumulées, manque de documentation
-  - Impact : Ralentissement des développements, augmentation des coûts
-
+Architecture polyglotte : Utiliser la bonne base pour le bon usage
+OLAP + OLTP. Exemple : PostgreSQL pour le transactionnel, Snowflake pour l'analytique
 
 ---
+
+# Dette technique liée aux bases de données
+
+- Définition : Coût de la maintenance et de l'évolution d'un système
+- Origine : Choix technologiques, dettes accumulées, manque de documentation
+- Impact : Ralentissement des développements, augmentation des coûts
+- Vendor lock-in : Difficulté à migrer vers d'autres solutions
+
+
+---
+
 
 # Le mot de la fin
+
+"Ne choisissez pas une base de données sur un coup de tête ou pour suivre une mode. Analysez, testez, et choisissez l'outil qui résout votre problème, pas celui qui en crée de nouveaux."
+
 
 ---
 layout: center
 ---
 
 # Q & A
+
+
 
 ---
 
@@ -417,7 +540,7 @@ Un tableau simple comparant les deux sur des axes clés : Type de requête, Volu
 Partie 2 : Le Panorama : Les grandes familles de bases de données (15 minutes)
 Slide 8 : Introduction aux familles
 
-"Il n'y a pas de 'meilleure' base de données, seulement le meilleur outil pour un problème donné."
+
 
 Slide 9 : 1. Le Relationnel (SQL)
 
@@ -566,15 +689,10 @@ Connaissez vos requêtes : L' "Access Pattern" dicte la famille de BDD.
 
 Soyez pragmatique : Commencez simple. Un outil polyvalent comme PostgreSQL couvre 80% des besoins. N'ajoutez de la complexité (et une nouvelle BDD) que lorsque c'est absolument nécessaire et justifié.
 
-Slide 23 : Le mot de la fin
 
-"Ne choisissez pas une base de données sur un coup de tête ou pour suivre une mode. Analysez, testez, et choisissez l'outil qui résout votre problème, pas celui qui en crée de nouveaux."
 
-Remerciements et lien vers les slides/ressources.
 
-Slide 24 : Q&A
 
-Une slide simple avec vos coordonnées (Twitter/LinkedIn/GitHub) pour les questions.
 
 
 
