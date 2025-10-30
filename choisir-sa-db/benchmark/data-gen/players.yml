@@ -1,8 +1,4 @@
 columns:
-  - name: player_id
-    provider: Increment.integer
-    start: 0
-
   - name: first_name
     provider: Person.fname
 

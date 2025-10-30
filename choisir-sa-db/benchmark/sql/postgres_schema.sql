@@ -34,3 +34,12 @@ CREATE TABLE plays_fact (
 CREATE INDEX ON plays_fact (player_id, game_id, played_at DESC);
 CREATE INDEX ON plays_fact (game_id, played_at);
 CREATE INDEX ON plays_fact (played_at);
+--- INSERT FROM GENERATED FILES ---
+COPY players
+FROM 'output/players.csv' DELIMITER ',' CSV HEADER;
+COPY games
+FROM 'output/games.csv' DELIMITER ',' CSV HEADER;
+COPY arcades
+FROM 'output/arcades.csv' DELIMITER ',' CSV HEADER;
+COPY plays_fact
+FROM 'output/plays_fact.csv' DELIMITER ',' CSV HEADER;

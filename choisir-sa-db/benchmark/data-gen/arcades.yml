@@ -1,0 +1,58 @@
+columns:
+  - name: name
+    provider: Random.String.alphanumeric
+    length: 6..10
+
+  - name: city
+    provider: Constant.string
+    data:
+      [
+        "New York",
+        "Los Angeles",
+        "Chicago",
+        "Houston",
+        "Phoenix",
+        "Philadelphia",
+        "San Antonio",
+        "San Diego",
+        "Dallas",
+        "Paris",
+        "Lyon",
+        "Marseille",
+        "Toulouse",
+        "Nice",
+        "Nantes",
+        "Strasbourg",
+        "Rome",
+        "Milan",
+        "Naples",
+        "Turin",
+        "Palermo",
+        "Madrid",
+        "Barcelona",
+        "Valencia",
+        "Seville",
+        "Zaragoza",
+        "Malaga",
+        "London",
+        "Birmingham",
+        "Leeds",
+        "Glasgow",
+        "Edinburgh",
+        "Berlin",
+        "Hamburg",
+        "Munich",
+        "Cologne",
+        "Frankfurt",
+        "Stuttgart",
+      ]
+
+  - name: country_code
+    provider: Constant.string
+    data: ["US", "FR", "DE", "IT", "ES"]
+
+info:
+  output_name: arcades
+  output_format: csv
+  rows: 10_000
+  seed: 42

@@ -1,0 +1,28 @@
+columns:
+  - name: title
+    provider: Random.String.alphanumeric
+    length: 4..12
+
+  - name: genre
+    provider: Constant.string
+    data:
+      [
+        "Action",
+        "Adventure",
+        "RPG",
+        "Simulation",
+        "Strategy",
+        "Sports",
+        "Puzzle",
+      ]
+
+  - name: release_year
+    provider: Random.Number.i32
+    min: 1980
+    max: 2025
+
+info:
+  output_name: games
+  output_format: csv
+  rows: 100_000
+  seed: 42

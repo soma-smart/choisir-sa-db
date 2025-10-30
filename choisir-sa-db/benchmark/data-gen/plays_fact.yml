@@ -1,0 +1,41 @@
+columns:
+  - name: play_id
+    provider: Increment.integer
+    start: 0
+
+  - name: player_id
+    provider: Random.Number.i32
+    min: 0
+    max: 999999
+
+  - name: game_id
+    provider: Random.Number.i32
+    min: 0
+    max: 99999
+
+  - name: arcade_id
+    provider: Random.Number.i32
+    min: 0
+    max: 9999
+
+  - name: played_at
+    provider: Random.Date.date
+    format: "%Y-%m-%d"
+    after: 2004-01-01
+    before: 2025-10-30
+
+  - name: score
+    provider: Random.Number.i32
+    min: 0
+    max: 1000000
+
+  - name: duration_seconds
+    provider: Random.Number.i32
+    min: 0
+    max: 7200
+
+info:
+  output_name: plays_fact
+  output_format: csv
+  rows: 100_000_000
+  seed: 42
