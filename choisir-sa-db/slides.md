@@ -28,7 +28,7 @@ hideInToc: true
       Hugues GAILLARD - Novembre 2025
     </span>
   </div>
-  <div>
+  <div style="margin-bottom: 128px;">
       <Compass />
   </div>
 </div>
@@ -131,7 +131,7 @@ layout: center
     }"
   ></div>
 
-  <!-- Event 1 -->
+  <!-- 1956 on invente les disques durs, 8 ans après database chez les militaires pour désigner une collection d'informations partagées par différents utilisateurs d'un système d'informations. 1983 ils inventent internet -->
   <div v-click class="flex flex-col items-center flex-1 z-10">
     <div class="w-6 h-6 rounded-full bg-white border-4 border-[var(--soma-blue)] dark:border-gray-800 shadow-lg -mt-3"></div>
     <div class="mt-4 font-bold text-lg">1964</div>
@@ -139,7 +139,7 @@ layout: center
     <div class="mt-3 w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
   </div>
 
-  <!-- Event 2 -->
+  <!-- 1970: Edgar Frank Cobb, il publie un article décrivant le modèle relationnel. Naissance du SQL chez IBM avec le projet System R. Il recevra le prix Turing, plus haute distinction en informatique, en 1981 -->
   <div v-click class="flex flex-col items-center flex-1 z-10">
     <div class="w-6 h-6 rounded-full bg-white border-4 border-[var(--soma-blue)] dark:border-gray-800 shadow-lg -mt-3"></div>
     <div class="mt-4 font-bold text-lg">1970</div>
@@ -147,11 +147,11 @@ layout: center
     <div class="mt-3 w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
   </div>
 
-  <!-- Event 3 -->
+  <!-- 1972: Rudolf Bayer, Edward M. McCreight qui inventent chez Boing l'arbre B qui est encore aujourd'hui utilisé dans énormément de moteurs de bases de données.  -->
   <div v-click class="flex flex-col items-center flex-1 z-10">
     <div class="w-6 h-6 rounded-full bg-white border-4 border-[var(--soma-blue)] dark:border-gray-800 shadow-lg -mt-3"></div>
     <div class="mt-4 font-bold text-lg">1972</div>
-    <div class="mt-2 text-sm text-gray-700 dark:text-gray-300 text-center px-2">B-tree (Rudolf Bayer) chez Boing</div>
+    <div class="mt-2 text-sm text-gray-700 dark:text-gray-300 text-center px-2">B-tree (Rudolf Bayer) chez Boeing</div>
     <div class="mt-3 w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
   </div>
 
@@ -262,7 +262,8 @@ Here is another comment.
 layout: center
 ---
 
-## Étape 1
+<span class="sub-title-bar">Étape 1</span>
+
 # La nature de la charge de travail
 
 ---
@@ -323,18 +324,19 @@ Pour répondre aux besoins analytiques et éviter de surcharger les bases OLTP, 
 | **Modèle de Données** | **Normalisé** (ex: 3NF) | **Dénormalisé** (ex: Schéma en étoile) |
 | **Type de Requêtes** | Simples (INSERT, UPDATE, DELETE, SELECT...) | Complexes (Agrégations, SUM, AVG, GROUP BY) |
 
----
-layout: center
----
-## Étape 2
-# Le modèle de données
-
 
 ---
 
 # Vers l'unification des technos transactionnelles et analytiques
 
 On le voit avec les rachats de Neon (par Databricks) et Crunchy Data (par Snowflake), les 2 solutions permettent de déployer facilement des bases PostgreSQL. Donc on pourra faire du transactionnel en plus de l’analytique avec Databricks et Snowflake.
+
+---
+layout: center
+---
+<span class="sub-title-bar">Étape 2</span>
+# Le modèle de données
+
 
 
 ---
@@ -481,7 +483,7 @@ Les NoSQL:
 layout: center
 ---
 
-## Étape 3
+<span class="sub-title-bar">Étape 3</span>
 # Les contraintes
 
 ---
@@ -503,14 +505,16 @@ layout: center
 
 # Partitionnement (sharding) vs Réplication
 
+---
 
+# L'écosystème & l'expertise
 
 
 ---
 layout: center
 ---
 
-## Étape 4
+<span class="sub-title-bar">Étape 4</span>
 # Benchmarker *mon* cas d'usage
 
 
@@ -577,6 +581,7 @@ layout: center
 - [clickhouse.com: Postgres to ClickHouse: Data Modeling Tips](https://clickhouse.com/blog/postgres-to-clickhouse-data-modeling-tips-v2)
 - [developpez.com: La généalogie des SGBD](https://fadace.developpez.com/sgbdcmp/story/)
 - [wikipedia.org: CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem)
+- [tpc.org: Specifications](https://www.tpc.org/tpc_documents_current_versions/current_specifications5.asp)
 
 ---
 layout: center

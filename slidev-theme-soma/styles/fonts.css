@@ -23,17 +23,18 @@ h1 {
     -webkit-text-fill-color: transparent;
 
     /* Create a moving gradient */
-    background-size: 300% 300%;
+    background-size: 400% 400%;
+
 }
 
-h2 {
+.sub-title-bar {
     @apply text-5xl mt-8 mb-4;
     color: var(--soma-blue);
     font-family: "Inter Tight", sans-serif;
     font-optical-sizing: auto;
     font-weight: 900;
     font-style: normal;
-    background: -webkit-linear-gradient(0deg,
+    background: -webkit-linear-gradient(45deg,
             var(--soma-pink),
             var(--soma-blue),
             var(--soma-pink));
@@ -49,10 +50,10 @@ h2 {
 }
 
 /* make a horizontal bar below the text */
-h2::after {
+.sub-title-bar::after {
     content: "";
     display: block;
-    width: 6rem;
+    /* width: 6rem; */
     height: 0.25rem;
     margin: 0.2rem auto 0 auto;
     border-radius: 0.125rem;

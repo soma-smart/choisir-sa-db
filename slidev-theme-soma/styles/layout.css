@@ -33,6 +33,7 @@
   h1 {
     @apply text-7xl mb-6;
     animation: gradientMove 20s ease infinite;
+    line-height: 1.2;
   }
 
   p {
