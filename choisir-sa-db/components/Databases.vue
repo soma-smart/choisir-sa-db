@@ -13,37 +13,39 @@ import * as d3 from 'd3';
 const width = 800;
 const height = 400;
 
+// --- MODIFIED DATA ---
+// Replaced the 'type' field with 'Transactionnel' or 'Analytique'
 const initialData = [
-    { id: 1, name: 'PostgreSQL', type: 'Relational', openSource: true, hasAnimal: true, logo: '/databases/postgres.png', radius: 25 },
-    { id: 2, name: 'Redis', type: 'In Memory', openSource: true, hasAnimal: false, logo: '/databases/redis.png', radius: 25 },
-    { id: 3, name: 'MySQL', type: 'Relational', openSource: true, hasAnimal: true, logo: '/databases/mysql.png', radius: 25 },
-    { id: 4, name: 'Snowflake', type: 'Hybrid', openSource: false, hasAnimal: false, logo: '/databases/snowflake.png', radius: 25 },
-    { id: 5, name: 'Databend', type: 'Hybrid', openSource: true, hasAnimal: true, logo: '/databases/databend.png', radius: 25 },
-    { id: 6, name: 'SQL Server', type: 'Relational', openSource: false, hasAnimal: false, logo: '/databases/microsoft-sql-server.png', radius: 25 },
-    { id: 7, name: 'Mongo', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/mongo.png', radius: 25 },
-    { id: 8, name: 'SQLite', type: 'Relational', openSource: true, hasAnimal: true, logo: '/databases/sqlite.png', radius: 25 },
-    { id: 9, name: 'Oracle', type: 'Relational', openSource: false, hasAnimal: false, logo: '/databases/oracle.png', radius: 25 },
-    { id: 10, name: 'MariaDB', type: 'Relational', openSource: true, hasAnimal: true, logo: '/databases/mariadb.png', radius: 25 },
-    { id: 11, name: 'Elasticsearch', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/elasticsearch.png', radius: 25 },
-    { id: 12, name: 'DynamoDB', type: 'Hybrid', openSource: false, hasAnimal: false, logo: '/databases/dynamodb.png', radius: 25 },
-    { id: 13, name: 'Cassandra', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/cassandra.png', radius: 25 },
-    { id: 14, name: 'Db2', type: 'Relational', openSource: false, hasAnimal: false, logo: '/databases/db2.png', radius: 25 },
-    { id: 15, name: 'BigQuery', type: 'Hybrid', openSource: false, hasAnimal: false, logo: '/databases/bigquery.png', radius: 25 },
-    { id: 16, name: 'InfluxDB', type: 'Time Series', openSource: true, hasAnimal: false, logo: '/databases/influxdb.png', radius: 25 },
-    { id: 17, name: 'Access', type: 'Relational', openSource: false, hasAnimal: false, logo: '/databases/access.png', radius: 25 },
-    { id: 18, name: 'Memcached', type: 'In Memory', openSource: true, hasAnimal: false, logo: '/databases/memcached.png', radius: 25 },
-    { id: 19, name: 'DuckDB', type: 'Relational', openSource: true, hasAnimal: true, logo: '/databases/duckdb.png', radius: 25 },
-    { id: 20, name: 'ClickHouse', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/clickhouse.png', radius: 25 },
-    { id: 21, name: 'Druid', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/druid.png', radius: 25 },
-    { id: 22, name: 'Pinecone', type: 'Vector', openSource: false, hasAnimal: false, logo: '/databases/pinecone.png', radius: 25 },
-    { id: 23, name: 'CockroachDB', type: 'Relational', openSource: true, hasAnimal: true, logo: '/databases/cockroach.png', radius: 25 },
-    { id: 24, name: 'Neo4j', type: 'Hybrid', openSource: false, hasAnimal: false, logo: '/databases/neo4j.png', radius: 25 },
-    { id: 25, name: 'SurrealDB', type: 'Vector', openSource: true, hasAnimal: false, logo: '/databases/surreal.png', radius: 25 },
-    { id: 26, name: 'TypeDB', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/typedb.png', radius: 25 },
-    { id: 27, name: 'Teradata', type: 'Hybrid', openSource: false, hasAnimal: false, logo: '/databases/teradata.png', radius: 25 },
-    { id: 28, name: 'ArangoDB', type: 'Hybrid', openSource: true, hasAnimal: false, logo: '/databases/arangodb.png', radius: 25 },
-    { id: 29, name: 'Redshift', type: 'Hybrid', openSource: false, hasAnimal: false, logo: '/databases/redshift.png', radius: 25 },
-    { id: 30, name: 'SAP HANA', type: 'In Memory', openSource: false, hasAnimal: false, logo: '/databases/sap-hana.png', radius: 25 },
+    { id: 1, name: 'PostgreSQL', type: 'Transactionnel', openSource: true, hasAnimal: true, logo: '/databases/postgres.png', radius: 25 },
+    { id: 2, name: 'Redis', type: 'Transactionnel', openSource: true, hasAnimal: false, logo: '/databases/redis.png', radius: 25 },
+    { id: 3, name: 'MySQL', type: 'Transactionnel', openSource: true, hasAnimal: true, logo: '/databases/mysql.png', radius: 25 },
+    { id: 4, name: 'Snowflake', type: 'Analytique', openSource: false, hasAnimal: false, logo: '/databases/snowflake.png', radius: 25 },
+    { id: 5, name: 'Databend', type: 'Analytique', openSource: true, hasAnimal: true, logo: '/databases/databend.png', radius: 25 },
+    { id: 6, name: 'SQL Server', type: 'Transactionnel', openSource: false, hasAnimal: false, logo: '/databases/microsoft-sql-server.png', radius: 25 },
+    { id: 7, name: 'Mongo', type: 'Transactionnel', openSource: true, hasAnimal: false, logo: '/databases/mongo.png', radius: 25 },
+    { id: 8, name: 'SQLite', type: 'Transactionnel', openSource: true, hasAnimal: false, logo: '/databases/sqlite.png', radius: 25 },
+    { id: 9, name: 'Oracle', type: 'Transactionnel', openSource: false, hasAnimal: false, logo: '/databases/oracle.png', radius: 25 },
+    { id: 10, name: 'MariaDB', type: 'Transactionnel', openSource: true, hasAnimal: true, logo: '/databases/mariadb.png', radius: 25 },
+    { id: 11, name: 'Elasticsearch', type: 'Analytique', openSource: true, hasAnimal: false, logo: '/databases/elasticsearch.png', radius: 25 },
+    { id: 12, name: 'DynamoDB', type: 'Transactionnel', openSource: false, hasAnimal: false, logo: '/databases/dynamodb.png', radius: 25 },
+    { id: 13, name: 'Cassandra', type: 'Transactionnel', openSource: true, hasAnimal: false, logo: '/databases/cassandra.png', radius: 25 },
+    { id: 14, name: 'Db2', type: 'Transactionnel', openSource: false, hasAnimal: false, logo: '/databases/db2.png', radius: 25 },
+    { id: 15, name: 'BigQuery', type: 'Analytique', openSource: false, hasAnimal: false, logo: '/databases/bigquery.png', radius: 25 },
+    { id: 16, name: 'InfluxDB', type: 'Analytique', openSource: true, hasAnimal: false, logo: '/databases/influxdb.png', radius: 25 },
+    { id: 17, name: 'Access', type: 'Transactionnel', openSource: false, hasAnimal: false, logo: '/databases/access.png', radius: 25 },
+    { id: 18, name: 'Memcached', type: 'Transactionnel', openSource: true, hasAnimal: false, logo: '/databases/memcached.png', radius: 25 },
+    { id: 19, name: 'DuckDB', type: 'Analytique', openSource: true, hasAnimal: true, logo: '/databases/duckdb.png', radius: 25 },
+    { id: 20, name: 'ClickHouse', type: 'Analytique', openSource: true, hasAnimal: false, logo: '/databases/clickhouse.png', radius: 25 },
+    { id: 21, name: 'Druid', type: 'Analytique', openSource: true, hasAnimal: false, logo: '/databases/druid.png', radius: 25 },
+    { id: 22, name: 'Pinecone', type: 'Analytique', openSource: false, hasAnimal: false, logo: '/databases/pinecone.png', radius: 25 },
+    { id: 23, name: 'CockroachDB', type: 'Transactionnel', openSource: true, hasAnimal: true, logo: '/databases/cockroach.png', radius: 25 },
+    { id: 24, name: 'Neo4j', type: 'Analytique', openSource: false, hasAnimal: false, logo: '/databases/neo4j.png', radius: 25 },
+    { id: 25, name: 'SurrealDB', type: 'Analytique', openSource: true, hasAnimal: false, logo: '/databases/surreal.png', radius: 25 },
+    { id: 26, name: 'TypeDB', type: 'Analytique', openSource: true, hasAnimal: false, logo: '/databases/typedb.png', radius: 25 },
+    { id: 27, name: 'Teradata', type: 'Analytique', openSource: false, hasAnimal: false, logo: '/databases/teradata.png', radius: 25 },
+    { id: 28, name: 'ArangoDB', type: 'Analytique', openSource: true, hasAnimal: false, logo: '/databases/arangodb.png', radius: 25 },
+    { id: 29, name: 'Redshift', type: 'Analytique', openSource: false, hasAnimal: false, logo: '/databases/redshift.png', radius: 25 },
+    { id: 30, name: 'SAP HANA', type: 'Analytique', openSource: false, hasAnimal: false, logo: '/databases/sap-hana.png', radius: 25 },
 ].map(d => ({
     ...d,
     x: width / 2 + (Math.random() - 0.5) * 100, // Start near center
@@ -68,7 +70,7 @@ const groupCenters = computed(() => {
     const yPos = height / 2 + 50;
 
     if (groupingMode.value === 'type') {
-        const types = Array.from(new Set(data.value.map(d => d.type)));
+        const types = Array.from(new Set(data.value.map(d => d.type))); // Will be ['Transactionnel', 'Analytique']
         const numGroups = types.length;
         const spacing = width / (numGroups + 1);
         return types.reduce((acc, type, i) => {
@@ -83,15 +85,17 @@ const groupCenters = computed(() => {
     } else if (groupingMode.value === 'animal') {
         return {
             'Animal dans le logo': { x: width / 3, y: yPos }, // Use new yPos
-            'Pas cool': { x: (2 * width) / 3, y: yPos } // Use new yPos
+            'Pas d\'animal': { x: (2 * width) / 3, y: yPos } // Use new yPos
         };
     }
     return {};
 });
 
+// --- MODIFIED COLOR SCALE ---
+// Updated domain to match new types
 const typeColorScale = d3.scaleOrdinal()
-    .domain(['Relational', 'In Memory', 'Hybrid', 'Time Series', 'Vector'])
-    .range(['#4c78a8aa', '#f58518aa', '#e45756aa', '#23a403aa', '#76b7b2aa']);
+    .domain(['Transactionnel', 'Analytique'])
+    .range(['#4c78a8aa', '#e45756aa']); // Blue for transactional, Red for analytical
 
 const openSourceColorScale = d3.scaleOrdinal()
     .domain([true, false])
@@ -125,7 +129,7 @@ const getTargetPosition = (d) => {
     } else if (groupingMode.value === 'openSource') {
         return groupCenters.value[d.openSource ? 'Open Source' : 'Propriétaire'];
     } else if (groupingMode.value === 'animal') {
-        return groupCenters.value[d.hasAnimal ? 'Animal dans le logo' : 'Pas cool'];
+        return groupCenters.value[d.hasAnimal ? 'Animal dans le logo' : 'Pas d\'animal'];
     }
     return { x: width / 2, y: height / 2 };
 };
@@ -219,7 +223,7 @@ const updateNodes = () => {
     let groupLabels = [];
     if (groupingMode.value === 'type') groupLabels = Array.from(new Set(data.value.map(d => d.type)));
     else if (groupingMode.value === 'openSource') groupLabels = ['Open Source', 'Propriétaire'];
-    else if (groupingMode.value === 'animal') groupLabels = ['Animal dans le logo', 'Pas cool'];
+    else if (groupingMode.value === 'animal') groupLabels = ['Animal dans le logo', 'Pas d\'animal'];
 
     svg.selectAll('.group-label')
         .data(groupLabels, d => d)

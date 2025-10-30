@@ -1,0 +1,26 @@
+columns:
+  - name: player_id
+    provider: Increment.integer
+    start: 0
+
+  - name: first_name
+    provider: Person.fname
+
+  - name: last_name
+    provider: Person.lname
+
+  - name: country_code
+    provider: Constant.string
+    data: ["US", "FR", "DE", "IT", "ES"]
+
+  - name: created_at
+    provider: Random.Date.date
+    format: "%Y-%m-%d"
+    after: 2002-02-15
+    before: 2025-10-30
+
+info:
+  output_name: players
+  output_format: csv
+  rows: 1_000_000
+  seed: 42

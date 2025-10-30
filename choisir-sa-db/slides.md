@@ -582,6 +582,7 @@ layout: center
 - [developpez.com: La généalogie des SGBD](https://fadace.developpez.com/sgbdcmp/story/)
 - [wikipedia.org: CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem)
 - [tpc.org: Specifications](https://www.tpc.org/tpc_documents_current_versions/current_specifications5.asp)
+- [github.com: Fakelake](https://github.com/soma-smart/Fakelake)
 
 ---
 layout: center
