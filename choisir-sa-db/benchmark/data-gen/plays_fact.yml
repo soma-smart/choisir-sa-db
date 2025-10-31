@@ -5,18 +5,18 @@ columns:
 
   - name: player_id
     provider: Random.Number.i32
-    min: 0
-    max: 999999
+    min: 1
+    max: 1000000
 
   - name: game_id
     provider: Random.Number.i32
-    min: 0
-    max: 99999
+    min: 3
+    max: 100002
 
   - name: arcade_id
     provider: Random.Number.i32
-    min: 0
-    max: 9999
+    min: 1
+    max: 10_000
 
   - name: played_at
     provider: Random.Date.date

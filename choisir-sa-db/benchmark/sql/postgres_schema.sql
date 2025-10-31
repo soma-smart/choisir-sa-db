@@ -35,11 +35,24 @@ CREATE INDEX ON plays_fact (player_id, game_id, played_at DESC);
 CREATE INDEX ON plays_fact (game_id, played_at);
 CREATE INDEX ON plays_fact (played_at);
 --- INSERT FROM GENERATED FILES ---
-COPY players
-FROM 'output/players.csv' DELIMITER ',' CSV HEADER;
-COPY games
-FROM 'output/games.csv' DELIMITER ',' CSV HEADER;
-COPY arcades
-FROM 'output/arcades.csv' DELIMITER ',' CSV HEADER;
-COPY plays_fact
-FROM 'output/plays_fact.csv' DELIMITER ',' CSV HEADER;
+COPY players(
+    first_name,
+    last_name,
+    country_code,
+    created_at
+)
+FROM '/output/players.csv' DELIMITER ',' CSV HEADER;
+COPY games(title, genre, release_year)
+FROM '/output/games.csv' DELIMITER ',' CSV HEADER;
+COPY arcades(name, city, country_code)
+FROM '/output/arcades.csv' DELIMITER ',' CSV HEADER;
+COPY plays_fact(
+    play_id,
+    player_id,
+    game_id,
+    arcade_id,
+    played_at,
+    score,
+    duration_seconds
+)
+FROM '/output/plays_fact.csv' DELIMITER ',' CSV HEADER;

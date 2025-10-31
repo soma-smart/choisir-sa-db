@@ -136,7 +136,7 @@ layout: center
     <div class="w-6 h-6 rounded-full bg-white border-4 border-[var(--soma-blue)] dark:border-gray-800 shadow-lg -mt-3"></div>
     <div class="mt-4 font-bold text-lg">1964</div>
     <div class="mt-2 text-sm text-gray-700 dark:text-gray-300 text-center px-2">Apparition du terme "data base" dans l'US Navy/DARPA</div>
-    <div class="mt-3 w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+      <img src="/darpa.png" alt="DARPA" class="mt-10" />
   </div>
 
   <!-- 1970: Edgar Frank Cobb, il publie un article décrivant le modèle relationnel. Naissance du SQL chez IBM avec le projet System R. Il recevra le prix Turing, plus haute distinction en informatique, en 1981 -->
@@ -144,7 +144,7 @@ layout: center
     <div class="w-6 h-6 rounded-full bg-white border-4 border-[var(--soma-blue)] dark:border-gray-800 shadow-lg -mt-3"></div>
     <div class="mt-4 font-bold text-lg">1970</div>
     <div class="mt-2 text-sm text-gray-700 dark:text-gray-300 text-center px-2">Modèle relationnel d'E. F. Codd (IBM), naissance du SQL</div>
-    <div class="mt-3 w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+      <img src="/edgar-f-codd.jpg" alt="Edgar F. Codd" class="mt-10 w-20 h-20 object-cover" />
   </div>
 
   <!-- 1972: Rudolf Bayer, Edward M. McCreight qui inventent chez Boing l'arbre B qui est encore aujourd'hui utilisé dans énormément de moteurs de bases de données.  -->
@@ -152,7 +152,7 @@ layout: center
     <div class="w-6 h-6 rounded-full bg-white border-4 border-[var(--soma-blue)] dark:border-gray-800 shadow-lg -mt-3"></div>
     <div class="mt-4 font-bold text-lg">1972</div>
     <div class="mt-2 text-sm text-gray-700 dark:text-gray-300 text-center px-2">B-tree (Rudolf Bayer) chez Boeing</div>
-    <div class="mt-3 w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+      <img src="/btree.webp" alt="Larry Ellison" class="mt-10" />
   </div>
 
   <!-- Event 4 -->
@@ -160,7 +160,7 @@ layout: center
     <div class="w-6 h-6 rounded-full bg-white border-4 border-[var(--soma-blue)] dark:border-gray-800 shadow-lg -mt-3"></div>
     <div class="mt-4 font-bold text-lg">1977</div>
     <div class="mt-2 text-sm text-gray-700 dark:text-gray-300 text-center px-2">Naissance d'Oracle</div>
-    <div class="mt-3 w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+      <img src="/larry_ellison.webp" alt="Larry Ellison" class="mt-10 w-20 h-20 object-cover" />
   </div>
 
   <!-- Event 5 -->
@@ -168,7 +168,7 @@ layout: center
     <div class="w-6 h-6 rounded-full bg-white border-4 border-[var(--soma-blue)] dark:border-gray-800 shadow-lg -mt-3"></div>
     <div class="mt-4 font-bold text-lg">1998</div>
     <div class="mt-2 text-sm text-gray-700 dark:text-gray-300 text-center px-2">Apparition du terme NoSQL</div>
-    <div class="mt-3 w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+      <img src="/databases/bigtable.png" alt="Bigtable Logo" class="mt-10 w-20 h-20 object-contain" />
   </div>
 
   <!-- Event 6 -->
@@ -176,7 +176,7 @@ layout: center
     <div class="w-6 h-6 rounded-full bg-white border-4 border-[var(--soma-blue)] dark:border-gray-800 shadow-lg -mt-3"></div>
     <div class="mt-4 font-bold text-lg">2012</div>
     <div class="mt-2 text-sm text-gray-700 dark:text-gray-300 text-center px-2">Création de Snowflake</div>
-    <div class="mt-3 w-24 h-24 bg-gray-200 dark:bg-gray-800 rounded"></div>
+      <img src="/databases/snowflake.png" alt="Snowflake Logo" class="mt-10 w-20 h-20 object-contain" />
   </div>
 </div>
 
@@ -480,6 +480,15 @@ Les NoSQL:
 </div>
 
 ---
+
+# Les grandes familles de bases de données
+
+- SQL
+- NoSQL
+- NewSQL
+
+
+---
 layout: center
 ---
 
@@ -488,8 +497,7 @@ layout: center
 
 ---
 
-# La scalabilité
-## Théorème CAP
+# La scalabilité et le théorème CAP
 
 <CAPTheorem />
 <span v-click></span>
@@ -530,8 +538,287 @@ layout: center
 - Comprendre les limites de son approche <!-- Peut etre que scenario avec 1 seule instance fonctionne pour A mais scalabilité mal implémentée donc scale moins bien... -->
 
 ---
-# Etude de cas :
 
+# Rappels de statistiques
+
+- Moyenne (mean) : somme des valeurs divisée par le nombre de valeurs
+- Médiane (median) : valeur centrale lorsque les données sont triées
+- Percentile (p95, p99) : valeur en dessous de laquelle se trouve un certain pourcentage des données
+- Écart-type (standard deviation) : mesure de la dispersion des données autour de la moyenne
+
+Combien d'exécutions pour un benchmark fiable ?
+$$
+\begin{aligned}
+n=\left(\frac{Z \cdot \sigma}{E}\right)^2
+\end{aligned}
+$$
+avec $Z$ la valeur associée au niveau de confiance souhaité, $σ$ l'écart-type estimé des temps de réponse, et $E$ la marge d'erreur acceptable.
+
+Exemple, si Z=1.96 (95% de confiance), σ=10ms, E=5ms, alors, on aura :
+$$
+\begin{aligned}
+n=\left(\frac{1.96 \cdot 10}{5}\right)^2=15
+\end{aligned}
+
+---
+
+# Hyperfine
+
+Pour simplifier le processus de benchmark, on peut utiliser des outils comme Hyperfine qui permettent d'automatiser les tests de performance.
+
+Installation:
+
+```sh
+apt install hyperfine
+```
+
+Utilisation de base:
+```sh
+hyperfine "commande_a_tester" "autre_commande"
+```
+
+---
+
+# Cas pratique : SOMA'rcade
+<div class="flex flex-row items-center justify-between gap-12">
+  <div class="w-2/3 text-lg leading-relaxed">
+    <p v-click>
+      <span class="font-black">
+        <span style="color: var(--soma-pink);">SOMA</span><span style="color: var(--soma-blue);">rcade</span>
+      </span>
+      est une entreprise qui gère un réseau de salles d’arcade réparties dans plusieurs villes et pays.
+    </p>
+    <p v-click><span>Elle enregistre les parties jouées par chaque joueur sur différents jeux, en suivant le <span class="font-semibold">score</span>, la <span class="font-semibold">durée</span> et la <span class="font-semibold">date</span> de chaque session.</span></p>
+    <p v-click>Le système permet ainsi d’analyser la <span class="italic">fréquentation</span>, les <span class="italic">performances des joueurs</span> et la <span class="italic">popularité des jeux</span>.</p>
+    <br />
+    <p v-click>
+      <span class="inline-block align-middle" style="font-size: 1.5em; color: var(--soma-blue);">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="vertical-align: middle;">
+          <path d="M4 16h20M18 10l6 6-6 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      Nous allons benchmarker Postgres vs Clickhouse pour mettre en lumière les différences de performance. Dans la pratique, cela n'a pas d'intérêt (OLAP vs OLTP).
+    </p>
+  </div>
+  <div class="w-1/3 flex justify-center items-center h-full">
+    <img v-click="1" src="/arcade.png" alt="SOM'Arcade Logo" class="w-64" />
+  </div>
+</div>
+
+---
+layout: two-cols
+---
+# Cas pratique : Modélisation des données
+
+Premier objectif : identifier les entités principales et leurs relations:
+- **Joueur** (players) : nom, pays, etc.
+- **Jeu** (games) : titre, genre, etc.
+- **Borne d'arcade** (arcades) : nom de la borne, pays, etc.
+- **Session de jeu** (plays_fact) : joueur, jeu, score, durée, date
+
+::right::
+
+Exemple de modélisation 3NF (normalisation) :
+
+```sql
+CREATE TABLE players (
+    player_id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    first_name text NOT NULL,
+    last_name text NOT NULL,
+    country_code char(2) NOT NULL,
+    created_at timestamptz NOT NULL DEFAULT now()
+);
+```
+
+Clé primaire : player_id
+
+Chaque attribut dépend directement de player_id (pas de dépendance transitive ni partielle).
+
+country_code n’est pas dérivable des autres colonnes → pas de redondance.
+
+La table ne présente ni de dépendance partielle, ni de dépendance transitive.
+
+🧠 Le schéma est donc en 3e forme normale (3NF)
+
+---
+
+# Cas pratique : Schéma complet
+
+<div class="flex items-center justify-center h-full">
+  <div class="flex flex-col items-center justify-center w-full">
+```mermaid { scale: 0.6 }
+erDiagram
+  PLAYERS {
+    bigint player_id PK
+    string first_name
+    string last_name
+    string country_code
+    timestamp created_at
+  }
+
+  GAMES {
+    bigint game_id PK
+    string title
+    string genre
+    int release_year
+  }
+
+  ARCADES {
+    bigint arcade_id PK
+    string name
+    string city
+    string country_code
+  }
+
+  PLAYS_FACT {
+    bigint play_id PK
+    bigint player_id FK
+    bigint game_id FK
+    bigint arcade_id FK
+    timestamp played_at
+    int score
+    int duration_seconds
+  }
+
+  PLAYERS  ||--o{ PLAYS_FACT : plays
+  GAMES    ||--o{ PLAYS_FACT : includes
+  ARCADES  ||--o{ PLAYS_FACT : hosts
+```
+  </div>
+</div>
+
+---
+
+# Cas pratique : Générons des données fictives
+
+<div class="flex flex-row items-center justify-between gap-12">
+  <div class="flex flex-col items-center justify-center w-1/2" style="min-height: 420px;">
+  <div v-click>
+    <div class="text-lg mb-4">
+      Nous allons utiliser <strong>Fakelake</strong>, un outil <strong style="color: var(--soma-blue)">SOMA</strong> open-source de génération de données massives :
+    </div>
+    <img src="/fakelake.svg" alt="Fakelake Logo" class="w-64 my-4" />
+    </div>
+    <span v-click>Le process est simple :</span>
+    <ol class="list-decimal list-inside text-left mt-4">
+      <li v-click>Définir le schéma des données à générer (colonnes, types, contraintes)</li>
+      <li v-click>Spécifier le format de sortie (CSV, Parquet, etc.) et le nombre de lignes</li>
+      <li v-click>Lancer la génération et récupérer les fichiers</li>
+    </ol>
+  </div>
+  <div v-click="3" class="w-1/2">
+
+````md magic-move {lines:true}
+```yaml
+columns:
+  - name: first_name
+    provider: Person.fname
+
+  - name: last_name
+    provider: Person.lname
+
+  - name: country_code
+    provider: Constant.string
+    data: ["US", "FR", "DE", "IT", "ES"]
+
+  - name: created_at
+    provider: Random.Date.date
+    format: "%Y-%m-%d"
+    after: 2002-02-15
+    before: 2025-10-30
+```
+```yaml
+columns:
+  - name: first_name
+    provider: Person.fname
+
+  - name: last_name
+    provider: Person.lname
+
+  - name: country_code
+    provider: Constant.string
+    data: ["US", "FR", "DE", "IT", "ES"]
+
+  - name: created_at
+    provider: Random.Date.date
+    format: "%Y-%m-%d"
+    after: 2002-02-15
+    before: 2025-10-30
+
+info:
+  output_name: players
+  output_format: csv
+  rows: 1_000_000
+  seed: 42
+```
+````
+  </div>
+</div>
+
+---
+
+# Cas pratique : Configurons PostgreSQL
+
+
+::code-group
+
+```sh [Postgres]
+docker run -d --name postgres \
+  -e POSTGRES_PASSWORD=secretpw \
+  -p 5432:5432 \
+  -v /data/pgdata:/var/lib/postgresql \
+  -v ./output:/output \
+  postgres:18.0
+```
+
+```sql [players.sql]
+COPY players(
+    first_name,
+    last_name,
+    country_code,
+    created_at
+)
+FROM '/output/players.csv' DELIMITER ',' CSV HEADER;
+```
+::
+
+---
+
+# Cas pratique : Configurons ClickHouse
+
+```sh [ClickHouse]
+docker run -d --name clickhouse \
+  --ulimit nofile=262144:262144 \
+  -e CLICKHOUSE_PASSWORD=secretpw \
+  -p 8123:8123 -p 9000:9000 \
+  -v /data/ch_data:/var/lib/clickhouse \
+  -v /data/ch_logs:/var/log/clickhouse-server \
+  clickhouse/clickhouse-server:25.9
+```
+
+---
+
+# Cas pratique : Requête type transactionnelle (OLTP)
+
+```sql
+SELECT COUNT(*)
+FROM plays_fact
+WHERE player_id = 12345
+  AND played_at >= '2023-01-01'
+  AND played_at < '2024-01-01';
+```
+
+---
+
+# Cas pratique : Requête type analytique (OLAP)
+
+```sql
+SELECT COUNT(*)
+FROM plays_fact
+GROUP BY game_id
+ORDER BY COUNT(*) DESC
+LIMIT 10;
+```
 
 ---
 
@@ -556,9 +843,9 @@ OLAP + OLTP. Exemple : PostgreSQL pour le transactionnel, Snowflake pour l'analy
 # Le mot de la fin
 
 Nous avons vu un framework simple mais efficace pour choisir une base de données adaptée à vos besoins:
-1. Comprendre la **workload** (OLTP vs OLAP)
-2. Quel **modèle** vont suivre les données
-3. Comprendre les **contraintes** de performance, de scalabilité et d'écosystème (interne & externe)
+1. Comprendre la **charge de travail** (OLTP vs OLAP)
+2. Quel **schéma** ou **structure** auront les données
+3. Identifier les **contraintes** de performance, de scalabilité et d'écosystème (interne & externe)
 4. **Valider**: benchmarker dans des scénarios réels
 
 Ne choisissez pas une base de données sur un coup de tête ou pour suivre une mode.
