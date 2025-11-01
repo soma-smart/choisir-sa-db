@@ -221,6 +221,8 @@ layout: quote
 </p>
 <p v-click>
 </p>
+<p v-click>
+</p>
 
 <!--
 You can have `style` tag in markdown to override the style for the current page.
@@ -329,7 +331,15 @@ Pour répondre aux besoins analytiques et éviter de surcharger les bases OLTP, 
 
 # Vers l'unification des technos transactionnelles et analytiques
 
-On le voit avec les rachats de Neon (par Databricks) et Crunchy Data (par Snowflake), les 2 solutions permettent de déployer facilement des bases PostgreSQL. Donc on pourra faire du transactionnel en plus de l’analytique avec Databricks et Snowflake.
+**Gartner Inc.** propose en 2014 le concept de **HTAP (Hybrid Transactional/Analytical Processing)**, qui vise à combiner les capacités transactionnelles et analytiques au sein d'une même architecture logicielle.
+
+<div class="flex flex-row gap-8 items-center justify-center">
+  <img src="/neon_databricks.jpg" alt="Neon by Databricks" class="w-64" />
+  <img src="/crunchy_data_snowflake.png" alt="Crunchy Data by Snowflake" class="w-100" />
+</div>
+
+Les derniers rachats (Neon par Databricks, Crunchy Data par Snowflake) montrent que les acteurs OLAP intègrent de plus en plus des fonctionnalités transactionnelles.
+
 
 ---
 layout: center
@@ -516,6 +526,24 @@ layout: center
 ---
 
 # L'écosystème & l'expertise
+
+---
+
+# Composer avec plusieurs bases de données
+
+Architecture polyglotte : Utiliser la bonne base pour le bon usage
+OLAP + OLTP. Exemple : PostgreSQL pour le transactionnel, Snowflake pour l'analytique
+
+---
+
+# Dette technique liée aux bases de données
+
+Comme pour n'importe quel autre composant logiciel, l'utilisation de bases de données va entraîner une dette technique.
+
+- Définition : Coût de la maintenance et de l'évolution d'un système
+- Origine : Choix technologiques, dettes accumulées, manque de documentation
+- Impact : Ralentissement des développements, augmentation des coûts
+- Vendor lock-in : Difficulté à migrer vers d'autres solutions
 
 
 ---
@@ -1145,24 +1173,6 @@ LIMIT 10;
 </style>
 
 
-
----
-
-# Composer avec plusieurs bases de données
-
-Architecture polyglotte : Utiliser la bonne base pour le bon usage
-OLAP + OLTP. Exemple : PostgreSQL pour le transactionnel, Snowflake pour l'analytique
-
----
-
-# Dette technique liée aux bases de données
-
-- Définition : Coût de la maintenance et de l'évolution d'un système
-- Origine : Choix technologiques, dettes accumulées, manque de documentation
-- Impact : Ralentissement des développements, augmentation des coûts
-- Vendor lock-in : Difficulté à migrer vers d'autres solutions
-
-
 ---
 
 
@@ -1196,6 +1206,7 @@ layout: center
 - [wikipedia.org: CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem)
 - [tpc.org: Specifications](https://www.tpc.org/tpc_documents_current_versions/current_specifications5.asp)
 - [github.com: Fakelake](https://github.com/soma-smart/Fakelake)
+- [youtube.com: Postgres for everything - Fireship](https://www.youtube.com/watch?v=3JW732GrMdg)
 
 ---
 layout: center

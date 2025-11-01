@@ -14,38 +14,38 @@ const width = 800;
 const height = 400;
 
 // --- MODIFIED DATA ---
-// Replaced the 'type' field with 'Transactionnel' or 'Analytique'
+// Added 'modeDeploiement' field
 const initialData = [
-    { id: 1, name: 'PostgreSQL', type: 'Transactionnel', openSource: true, hasAnimal: true, logo: 'databases/postgres.png', radius: 25 },
-    { id: 2, name: 'Redis', type: 'Transactionnel', openSource: true, hasAnimal: false, logo: 'databases/redis.png', radius: 25 },
-    { id: 3, name: 'MySQL', type: 'Transactionnel', openSource: true, hasAnimal: true, logo: 'databases/mysql.png', radius: 25 },
-    { id: 4, name: 'Snowflake', type: 'Analytique', openSource: false, hasAnimal: false, logo: 'databases/snowflake.png', radius: 25 },
-    { id: 5, name: 'Databend', type: 'Analytique', openSource: true, hasAnimal: true, logo: 'databases/databend.png', radius: 25 },
-    { id: 6, name: 'SQL Server', type: 'Transactionnel', openSource: false, hasAnimal: false, logo: 'databases/microsoft-sql-server.png', radius: 25 },
-    { id: 7, name: 'Mongo', type: 'Transactionnel', openSource: true, hasAnimal: false, logo: 'databases/mongo.png', radius: 25 },
-    { id: 8, name: 'SQLite', type: 'Transactionnel', openSource: true, hasAnimal: false, logo: 'databases/sqlite.png', radius: 25 },
-    { id: 9, name: 'Oracle', type: 'Transactionnel', openSource: false, hasAnimal: false, logo: 'databases/oracle.png', radius: 25 },
-    { id: 10, name: 'MariaDB', type: 'Transactionnel', openSource: true, hasAnimal: true, logo: 'databases/mariadb.png', radius: 25 },
-    { id: 11, name: 'Elasticsearch', type: 'Analytique', openSource: true, hasAnimal: false, logo: 'databases/elasticsearch.png', radius: 25 },
-    { id: 12, name: 'DynamoDB', type: 'Transactionnel', openSource: false, hasAnimal: false, logo: 'databases/dynamodb.png', radius: 25 },
-    { id: 13, name: 'Cassandra', type: 'Transactionnel', openSource: true, hasAnimal: false, logo: 'databases/cassandra.png', radius: 25 },
-    { id: 14, name: 'Db2', type: 'Transactionnel', openSource: false, hasAnimal: false, logo: 'databases/db2.png', radius: 25 },
-    { id: 15, name: 'BigQuery', type: 'Analytique', openSource: false, hasAnimal: false, logo: 'databases/bigquery.png', radius: 25 },
-    { id: 16, name: 'InfluxDB', type: 'Analytique', openSource: true, hasAnimal: false, logo: 'databases/influxdb.png', radius: 25 },
-    { id: 17, name: 'Access', type: 'Transactionnel', openSource: false, hasAnimal: false, logo: 'databases/access.png', radius: 25 },
-    { id: 18, name: 'Memcached', type: 'Transactionnel', openSource: true, hasAnimal: false, logo: 'databases/memcached.png', radius: 25 },
-    { id: 19, name: 'DuckDB', type: 'Analytique', openSource: true, hasAnimal: true, logo: 'databases/duckdb.png', radius: 25 },
-    { id: 20, name: 'ClickHouse', type: 'Analytique', openSource: true, hasAnimal: false, logo: 'databases/clickhouse.png', radius: 25 },
-    { id: 21, name: 'Druid', type: 'Analytique', openSource: true, hasAnimal: false, logo: 'databases/druid.png', radius: 25 },
-    { id: 22, name: 'Pinecone', type: 'Analytique', openSource: false, hasAnimal: false, logo: 'databases/pinecone.png', radius: 25 },
-    { id: 23, name: 'CockroachDB', type: 'Transactionnel', openSource: true, hasAnimal: true, logo: 'databases/cockroach.png', radius: 25 },
-    { id: 24, name: 'Neo4j', type: 'Analytique', openSource: false, hasAnimal: false, logo: 'databases/neo4j.png', radius: 25 },
-    { id: 25, name: 'SurrealDB', type: 'Analytique', openSource: true, hasAnimal: false, logo: 'databases/surreal.png', radius: 25 },
-    { id: 26, name: 'TypeDB', type: 'Analytique', openSource: true, hasAnimal: false, logo: 'databases/typedb.png', radius: 25 },
-    { id: 27, name: 'Teradata', type: 'Analytique', openSource: false, hasAnimal: false, logo: 'databases/teradata.png', radius: 25 },
-    { id: 28, name: 'ArangoDB', type: 'Analytique', openSource: true, hasAnimal: false, logo: 'databases/arangodb.png', radius: 25 },
-    { id: 29, name: 'Redshift', type: 'Analytique', openSource: false, hasAnimal: false, logo: 'databases/redshift.png', radius: 25 },
-    { id: 30, name: 'SAP HANA', type: 'Analytique', openSource: false, hasAnimal: false, logo: 'databases/sap-hana.png', radius: 25 },
+    { id: 1, name: 'PostgreSQL', type: 'Transactionnel', openSource: true, hasAnimal: true, logo: 'databases/postgres.png', radius: 25, modeDeploiement: 'Client-Server' },
+    { id: 2, name: 'Redis', type: 'Transactionnel', openSource: true, hasAnimal: false, logo: 'databases/redis.png', radius: 25, modeDeploiement: 'Client-Server' },
+    { id: 3, name: 'MySQL', type: 'Transactionnel', openSource: true, hasAnimal: true, logo: 'databases/mysql.png', radius: 25, modeDeploiement: 'Client-Server' },
+    { id: 4, name: 'Snowflake', type: 'Analytique', openSource: false, hasAnimal: false, logo: 'databases/snowflake.png', radius: 25, modeDeploiement: 'Cloud Native' },
+    { id: 5, name: 'Databend', type: 'Analytique', openSource: true, hasAnimal: true, logo: 'databases/databend.png', radius: 25, modeDeploiement: 'Cloud Native' },
+    { id: 6, name: 'SQL Server', type: 'Transactionnel', openSource: false, hasAnimal: false, logo: 'databases/microsoft-sql-server.png', radius: 25, modeDeploiement: 'Client-Server' },
+    { id: 7, name: 'Mongo', type: 'Transactionnel', openSource: true, hasAnimal: false, logo: 'databases/mongo.png', radius: 25, modeDeploiement: 'Distribué' },
+    { id: 8, name: 'SQLite', type: 'Transactionnel', openSource: true, hasAnimal: false, logo: 'databases/sqlite.png', radius: 25, modeDeploiement: 'Autonome' },
+    { id: 9, name: 'Oracle', type: 'Transactionnel', openSource: false, hasAnimal: false, logo: 'databases/oracle.png', radius: 25, modeDeploiement: 'Client-Server' },
+    { id: 10, name: 'MariaDB', type: 'Transactionnel', openSource: true, hasAnimal: true, logo: 'databases/mariadb.png', radius: 25, modeDeploiement: 'Client-Server' },
+    { id: 11, name: 'Elasticsearch', type: 'Analytique', openSource: true, hasAnimal: false, logo: 'databases/elasticsearch.png', radius: 25, modeDeploiement: 'Distribué' },
+    { id: 12, name: 'DynamoDB', type: 'Transactionnel', openSource: false, hasAnimal: false, logo: 'databases/dynamodb.png', radius: 25, modeDeploiement: 'Distribué' },
+    { id: 13, name: 'Cassandra', type: 'Transactionnel', openSource: true, hasAnimal: false, logo: 'databases/cassandra.png', radius: 25, modeDeploiement: 'Distribué' },
+    { id: 14, name: 'Db2', type: 'Transactionnel', openSource: false, hasAnimal: false, logo: 'databases/db2.png', radius: 25, modeDeploiement: 'Client-Server' },
+    { id: 15, name: 'BigQuery', type: 'Analytique', openSource: false, hasAnimal: false, logo: 'databases/bigquery.png', radius: 25, modeDeploiement: 'Cloud Native' },
+    { id: 16, name: 'InfluxDB', type: 'Analytique', openSource: true, hasAnimal: false, logo: 'databases/influxdb.png', radius: 25, modeDeploiement: 'Client-Server' },
+    { id: 17, name: 'Access', type: 'Transactionnel', openSource: false, hasAnimal: false, logo: 'databases/access.png', radius: 25, modeDeploiement: 'Autonome' },
+    { id: 18, name: 'Memcached', type: 'Transactionnel', openSource: true, hasAnimal: false, logo: 'databases/memcached.png', radius: 25, modeDeploiement: 'Client-Server' },
+    { id: 19, name: 'DuckDB', type: 'Analytique', openSource: true, hasAnimal: true, logo: 'databases/duckdb.png', radius: 25, modeDeploiement: 'Autonome' },
+    { id: 20, name: 'ClickHouse', type: 'Analytique', openSource: true, hasAnimal: false, logo: 'databases/clickhouse.png', radius: 25, modeDeploiement: 'Distribué' },
+    { id: 21, name: 'Druid', type: 'Analytique', openSource: true, hasAnimal: false, logo: 'databases/druid.png', radius: 25, modeDeploiement: 'Distribué' },
+    { id: 22, name: 'Pinecone', type: 'Analytique', openSource: false, hasAnimal: false, logo: 'databases/pinecone.png', radius: 25, modeDeploiement: 'Cloud Native' },
+    { id: 23, name: 'CockroachDB', type: 'Transactionnel', openSource: true, hasAnimal: true, logo: 'databases/cockroach.png', radius: 25, modeDeploiement: 'Distribué' },
+    { id: 24, name: 'Neo4j', type: 'Analytique', openSource: false, hasAnimal: false, logo: 'databases/neo4j.png', radius: 25, modeDeploiement: 'Distribué' },
+    { id: 25, name: 'SurrealDB', type: 'Analytique', openSource: true, hasAnimal: false, logo: 'databases/surreal.png', radius: 25, modeDeploiement: 'Distribué' },
+    { id: 26, name: 'TypeDB', type: 'Analytique', openSource: true, hasAnimal: false, logo: 'databases/typedb.png', radius: 25, modeDeploiement: 'Distribué' },
+    { id: 27, name: 'Teradata', type: 'Analytique', openSource: false, hasAnimal: false, logo: 'databases/teradata.png', radius: 25, modeDeploiement: 'Cloud Native' },
+    { id: 28, name: 'ArangoDB', type: 'Analytique', openSource: true, hasAnimal: false, logo: 'databases/arangodb.png', radius: 25, modeDeploiement: 'Distribué' },
+    { id: 29, name: 'Redshift', type: 'Analytique', openSource: false, hasAnimal: false, logo: 'databases/redshift.png', radius: 25, modeDeploiement: 'Cloud Native' },
+    { id: 30, name: 'SAP HANA', type: 'Analytique', openSource: false, hasAnimal: false, logo: 'databases/sap-hana.png', radius: 25, modeDeploiement: 'Cloud Native' },
 ].map(d => ({
     ...d,
     x: width / 2 + (Math.random() - 0.5) * 100, // Start near center
@@ -59,13 +59,12 @@ const chartContainer = ref(null);
 const svgElement = ref(null);
 
 // State for layout toggle
-const groupingMode = ref('none'); // 'none', 'type', 'openSource', 'animal'
+const groupingMode = ref('none'); // 'none', 'type', 'openSource', 'modeDeploiement', 'animal'
 const showLabels = ref(false);
 const isInitialized = ref(false);
 
 // Configuration for groups
 const groupCenters = computed(() => {
-    // --- CHANGED ---
     // Move the center of the bubble clusters down to give labels more space
     const yPos = height / 2 + 50;
 
@@ -82,6 +81,14 @@ const groupCenters = computed(() => {
             'Open Source': { x: width / 3, y: yPos }, // Use new yPos
             'Propriétaire': { x: (2 * width) / 3, y: yPos } // Use new yPos
         };
+    } else if (groupingMode.value === 'modeDeploiement') {
+        const groups = ['Autonome', 'Client-Server', 'Distribué', 'Cloud Native'];
+        const numGroups = groups.length;
+        const spacing = width / (numGroups + 1);
+        return groups.reduce((acc, group, i) => {
+            acc[group] = { x: spacing * (i + 1), y: yPos };
+            return acc;
+        }, {});
     } else if (groupingMode.value === 'animal') {
         return {
             'Animal dans le logo': { x: width / 3, y: yPos }, // Use new yPos
@@ -91,8 +98,7 @@ const groupCenters = computed(() => {
     return {};
 });
 
-// --- MODIFIED COLOR SCALE ---
-// Updated domain to match new types
+// --- Color Scales ---
 const typeColorScale = d3.scaleOrdinal()
     .domain(['Transactionnel', 'Analytique'])
     .range(['#4c78a8aa', '#e45756aa']); // Blue for transactional, Red for analytical
@@ -104,6 +110,11 @@ const openSourceColorScale = d3.scaleOrdinal()
 const animalColorScale = d3.scaleOrdinal()
     .domain([true, false])
     .range(['#ffc107aa', '#9e9e9eaa']); // Yellow for animal, Grey for no
+
+// --- NEW COLOR SCALE ---
+const modeDeploiementColorScale = d3.scaleOrdinal()
+    .domain(['Autonome', 'Client-Server', 'Distribué', 'Cloud Native'])
+    .range(['#1f77b4aa', '#ff7f0eaa', '#2ca02caa', '#9467bdaa']); // Blue, Orange, Green, Purple
 
 let svg, simulation;
 
@@ -128,6 +139,8 @@ const getTargetPosition = (d) => {
         return groupCenters.value[d.type];
     } else if (groupingMode.value === 'openSource') {
         return groupCenters.value[d.openSource ? 'Open Source' : 'Propriétaire'];
+    } else if (groupingMode.value === 'modeDeploiement') {
+        return groupCenters.value[d.modeDeploiement];
     } else if (groupingMode.value === 'animal') {
         return groupCenters.value[d.hasAnimal ? 'Animal dans le logo' : 'Pas d\'animal'];
     }
@@ -151,6 +164,8 @@ const getFillColor = (d) => {
     switch (groupingMode.value) {
         case 'openSource':
             return openSourceColorScale(d.openSource);
+        case 'modeDeploiement':
+            return modeDeploiementColorScale(d.modeDeploiement);
         case 'animal':
             return animalColorScale(d.hasAnimal);
         case 'type':
@@ -167,8 +182,6 @@ const ticked = () => {
 
     svg.selectAll('.group-label:not(.exiting)')
         .attr('x', d => groupCenters.value[d]?.x || 0)
-        // --- CHANGED ---
-        // Set a fixed Y position near the top
         .attr('y', 40);
 };
 
@@ -223,6 +236,7 @@ const updateNodes = () => {
     let groupLabels = [];
     if (groupingMode.value === 'type') groupLabels = Array.from(new Set(data.value.map(d => d.type)));
     else if (groupingMode.value === 'openSource') groupLabels = ['Open Source', 'Propriétaire'];
+    else if (groupingMode.value === 'modeDeploiement') groupLabels = ['Autonome', 'Client-Server', 'Distribué', 'Cloud Native'];
     else if (groupingMode.value === 'animal') groupLabels = ['Animal dans le logo', 'Pas d\'animal'];
 
     svg.selectAll('.group-label')
@@ -238,8 +252,6 @@ const updateNodes = () => {
                 .attr('opacity', 0)
                 .text(d => d)
                 .attr('x', d => groupCenters.value[d]?.x || width / 2)
-                // --- CHANGED ---
-                // Set a fixed Y position near the top
                 .attr('y', 40),
             update => update
                 .attr('fill', textColor.value)
@@ -262,6 +274,7 @@ const textColor = computed(() => isDark.value ? '#eee' : '#333');
 const textShadowColor = computed(() => isDark.value ? '#333' : '#eee');
 const circleBorderColor = computed(() => isDark.value ? '#eee' : '#333');
 
+// --- UPDATED CLICK LOGIC ---
 function updateStateForClicks(clicks) {
     showLabels.value = clicks === 1;
 
@@ -271,7 +284,9 @@ function updateStateForClicks(clicks) {
         groupingMode.value = 'type';
     } else if (clicks === 3) {
         groupingMode.value = 'openSource';
-    } else { // for clicks >= 4
+    } else if (clicks === 4) { // New 4th click
+        groupingMode.value = 'modeDeploiement';
+    } else { // for clicks >= 5
         groupingMode.value = 'animal';
     }
 }
