@@ -16,6 +16,8 @@ transition: fade
 # enable MDC Syntax: https://sli.dev/features/mdc
 mdc: true
 hideInToc: true
+addons:
+  - slidev-addon-asciinema
 ---
 
 <div class="flex items-center justify-center">
@@ -819,6 +821,37 @@ GROUP BY game_id
 ORDER BY COUNT(*) DESC
 LIMIT 10;
 ```
+
+---
+
+# Cas pratique : Benchmark OLAP avec Hyperfine
+
+<div class="flex items-center justify-center mt-4">
+  <div class="frame">
+    <img class="media" src="/hyperfine.gif" alt="Asciinema Logo" />
+  </div>
+</div>
+
+<style>
+.frame {
+  /* visible area after cropping bottom by ~200px */
+  height: 420px; /* 520 - 200 */
+  width: auto;
+  display: inline-block;
+  overflow: hidden;            /* crop content */
+  border-radius: 12px;         /* rounded corners */
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.62);
+}
+.media {
+  height: 720px;               /* original intended height */
+  width: auto;
+  object-fit: cover;
+  object-position: top;        /* crop from bottom */
+  display: block;
+}
+</style>
+
+
 
 ---
 
