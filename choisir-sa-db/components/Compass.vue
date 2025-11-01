@@ -23,27 +23,27 @@ import { ref, computed, onMounted, onUnmounted } from 'vue';
 const iconsData = ref([
     {
         name: 'Neo4j',
-        src: '/databases/neo4j.png',
+        src: 'databases/neo4j.png',
     },
     {
         name: 'Snowflake',
-        src: '/databases/snowflake.png',
+        src: 'databases/snowflake.png',
     },
     {
         name: 'MongoDB',
-        src: '/databases/mongo.png',
+        src: 'databases/mongo.png',
     },
     {
         name: 'PostgreSQL',
-        src: '/databases/postgres.png',
+        src: 'databases/postgres.png',
     },
     {
         name: 'Redis',
-        src: '/databases/redis.png',
+        src: 'databases/redis.png',
     },
     {
         name: 'ClickHouse',
-        src: '/databases/clickhouse.png',
+        src: 'databases/clickhouse.png',
     }
 ]);
 
