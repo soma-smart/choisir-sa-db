@@ -16,8 +16,6 @@ transition: fade
 # enable MDC Syntax: https://sli.dev/features/mdc
 mdc: true
 hideInToc: true
-addons:
-  - slidev-addon-asciinema
 ---
 
 <div class="flex items-center justify-center">
@@ -691,6 +689,42 @@ erDiagram
 
 ---
 
+# Cas pratique : Démarrer Postgres & ClickHouse
+
+::code-group
+
+```sh [Commande Docker pour démarrer Postgres]
+docker run -d --name postgres \
+  -e POSTGRES_PASSWORD=secretpw \
+  -p 5432:5432 \
+  -v /data/pgdata:/var/lib/postgresql \
+  -v ./output:/output \
+  postgres:18.0
+```
+
+```sh [Commande Docker pour démarrer ClickHouse]
+docker run -d --name clickhouse \
+  --ulimit nofile=262144:262144 \
+  -e CLICKHOUSE_PASSWORD=secretpw \
+  -p 8123:8123 -p 9000:9000 \
+  -v /data/ch_data:/var/lib/clickhouse \
+  -v /data/ch_logs:/var/log/clickhouse-server \
+  clickhouse/clickhouse-server:25.9
+```
+::
+
+<Callout v-click type="warning">
+  <strong>Attention&nbsp;:</strong> utilisez des <code>bind mounts</code> (option <code>-v</code>) ou des <code>named volumes</code> mais surtout pas l'OverlayFS de Docker (<em>writable layer</em>), qui dégrade fortement les performances d'I/O.
+</Callout>
+
+<Callout v-click type="info">
+  <strong>Info&nbsp;:</strong> Ne pas oublier qu'il est possible d'ajouter des limites CPU ou RAM facilement avec Docker !<br>
+  <span class="font-mono text-blue-700">Exemples : <code>--cpus="1.5"</code> ou <code>--memory="4g"</code></span>
+</Callout>
+
+
+---
+
 # Cas pratique : Générons des données fictives
 
 <div class="flex flex-row items-center justify-between gap-12">
@@ -759,21 +793,71 @@ info:
 
 ---
 
-# Cas pratique : Configurons PostgreSQL
+# Cas pratique : Générons des données fictives
 
+<div class="flex flex-row gap-8 items-start justify-center">
+  <div class="w-2/5">
+```yaml
+columns:
+  - name: first_name
+    provider: Person.fname
+
+  - name: last_name
+    provider: Person.lname
+
+  - name: country_code
+    provider: Constant.string
+    data: ["US", "FR", "DE", "IT", "ES"]
+
+  - name: created_at
+    provider: Random.Date.date
+    format: "%Y-%m-%d"
+    after: 2002-02-15
+    before: 2025-10-30
+
+info:
+  output_name: players
+  output_format: csv
+  rows: 1_000_000
+  seed: 42
+```
+  </div>
+  <div class="w-3/5">
+Génération:
+```sh
+time fakelake generate 'players.yml'
+[INFO  fakelake::generate] File from path "/players.yml" generated.
+fakelake generate   0,72s user 0,03s system 96% cpu 0,777 total
+```
+
+
+  Exemple de sortie CSV :
+```csv
+first_name,last_name,country_code,created_at
+CAROL-ANNE,VIEILLY,ES,2002-04-11
+WINSTON,BERTOLO,FR,2021-04-06
+MENOUAR,IMOUZA,ES,2020-02-09
+CLÉLYA,LALAISON,FR,2005-06-04
+LYESS,THARSIS,DE,2010-06-18
+EMMA-LOU,GIORDANO,ES,2008-01-08
+MATTHIEU,DUCOLOMBIER,US,2016-09-27
+LAURY-ANNE,DEJONCKHEERE,IT,2023-05-27
+BRUNO,ROE,ES,2012-07-02
+MARIE-NADINE,BLANCHARDIE,US,2023-12-04
+ZUZANNA,JARNOUX,DE,2010-08-11
+DOAN,BOHLER,US,2020-02-08
+```
+  </div>
+</div>
+
+---
+
+# Cas pratique : Importer les données dans Postgres
 
 ::code-group
 
-```sh [Postgres]
-docker run -d --name postgres \
-  -e POSTGRES_PASSWORD=secretpw \
-  -p 5432:5432 \
-  -v /data/pgdata:/var/lib/postgresql \
-  -v ./output:/output \
-  postgres:18.0
-```
-
 ```sql [players.sql]
+-- Insertion des données dans la table players
 COPY players(
     first_name,
     last_name,
@@ -782,45 +866,254 @@ COPY players(
 )
 FROM '/output/players.csv' DELIMITER ',' CSV HEADER;
 ```
+```sql [games.sql]
+-- Insertion des données dans la table games
+COPY games(title, genre, release_year)
+FROM '/output/games.csv' DELIMITER ',' CSV HEADER;
+```
+```sql [arcades.sql]
+-- Insertion des données dans la table arcades
+COPY arcades(name, city, country_code)
+FROM '/output/arcades.csv' DELIMITER ',' CSV HEADER;
+```
+```sql [plays_fact.sql]
+-- Insertion des données dans la table plays_fact
+COPY plays_fact(
+    play_id,
+    player_id,
+    game_id,
+    arcade_id,
+    played_at,
+    score,
+    duration_seconds
+)
+FROM '/output/plays_fact.csv' DELIMITER ',' CSV HEADER;
+```
 ::
+
+<Callout v-click type="info">
+  <strong>Info&nbsp;:</strong> Je vous conseille de <code>DROP</code> les contraintes de clés étrangères avant d'importer les données, puis de les recréer après l'import.
+</Callout>
 
 ---
 
-# Cas pratique : Configurons ClickHouse
+# Cas pratique : Modéliser pour ClickHouse
 
-```sh [ClickHouse]
-docker run -d --name clickhouse \
-  --ulimit nofile=262144:262144 \
-  -e CLICKHOUSE_PASSWORD=secretpw \
-  -p 8123:8123 -p 9000:9000 \
-  -v /data/ch_data:/var/lib/clickhouse \
-  -v /data/ch_logs:/var/log/clickhouse-server \
-  clickhouse/clickhouse-server:25.9
+
+<div class="flex flex-row gap-8 items-start justify-center">
+  <div class="w-1/2">
+````md magic-move
+```sql [Create table ClickHouse]
+-- Denormalized plays table
+CREATE TABLE plays_wide ()
 ```
+```sql [Create table ClickHouse]
+-- Denormalized plays table
+CREATE TABLE plays_wide (
+    played_at DateTime64(3) NOT NULL,
+    player_id UInt64,
+    player_first_name LowCardinality(String),
+    player_last_name LowCardinality(String),
+    player_country FixedString(2),
+    game_id UInt64,
+    game_title LowCardinality(String),
+    genre LowCardinality(String),
+    arcade_id UInt64,
+    arcade_name LowCardinality(String),
+    arcade_city LowCardinality(String),
+    arcade_country FixedString(2),
+    score UInt32,
+    duration_seconds UInt16
+);
+```
+```sql [Create table ClickHouse]
+-- Denormalized plays table
+CREATE TABLE plays_wide (
+    played_at DateTime64(3) NOT NULL,
+    player_id UInt64,
+    player_first_name LowCardinality(String),
+    player_last_name LowCardinality(String),
+    player_country FixedString(2),
+    game_id UInt64,
+    game_title LowCardinality(String),
+    genre LowCardinality(String),
+    arcade_id UInt64,
+    arcade_name LowCardinality(String),
+    arcade_city LowCardinality(String),
+    arcade_country FixedString(2),
+    score UInt32,
+    duration_seconds UInt16
+) ENGINE = MergeTree() PARTITION BY toYYYYMM(played_at)
+ORDER BY (game_id, played_at, player_id);
+```
+````
+</div>
+  <div class="w-1/2">
 
+````md magic-move
+```sql
+INSERT INTO plays_wide ()
+```
+```sql
+INSERT INTO plays_wide
+SELECT f.played_at,
+    toUInt64(f.player_id) AS player_id,
+    p.first_name AS player_first_name,
+    p.last_name AS player_last_name,
+    p.country_code AS player_country,
+    toUInt64(f.game_id) AS game_id,
+    g.title AS game_title,
+    g.genre AS genre,
+    toUInt64(f.arcade_id) AS arcade_id,
+    a.name AS arcade_name,
+    a.city AS arcade_city,
+    a.country_code AS arcade_country,
+    toUInt32(f.score) AS score,
+    toUInt16(f.duration_seconds) AS duration_seconds;
+```
+```sql
+INSERT INTO plays_wide
+SELECT ...
+FROM postgresql(
+        'postgres:5432',
+        'postgres',
+        'plays_fact',
+        'postgres',
+        'secretpw'
+    ) AS f
+    INNER JOIN postgresql(
+        'postgres:5432',
+        'postgres',
+        'players',
+        'postgres',
+        'secretpw'
+    ) AS p ON p.player_id = f.player_id
+    INNER JOIN postgresql(
+        'postgres:5432',
+        'postgres',
+        'games',
+        'postgres',
+        'secretpw'
+    ) AS g ON g.game_id = f.game_id
+    INNER JOIN postgresql(
+        'postgres:5432',
+        'postgres',
+        'arcades',
+        'postgres',
+        'secretpw'
+    ) AS a ON a.arcade_id = f.arcade_id;
+```
+```sql
+INSERT INTO plays_wide
+SELECT f.played_at,
+    toUInt64(f.player_id) AS player_id,
+    p.first_name AS player_first_name,
+    p.last_name AS player_last_name,
+    p.country_code AS player_country,
+    toUInt64(f.game_id) AS game_id,
+    g.title AS game_title,
+    g.genre AS genre,
+    toUInt64(f.arcade_id) AS arcade_id,
+    a.name AS arcade_name,
+    a.city AS arcade_city,
+    a.country_code AS arcade_country,
+    toUInt32(f.score) AS score,
+    toUInt16(f.duration_seconds) AS duration_seconds
+FROM postgresql(
+        'postgres:5432',
+        'postgres',
+        'plays_fact',
+        'postgres',
+        'secretpw'
+    ) AS f
+    INNER JOIN postgresql(
+        'postgres:5432',
+        'postgres',
+        'players',
+        'postgres',
+        'secretpw'
+    ) AS p ON p.player_id = f.player_id
+    INNER JOIN postgresql(
+        'postgres:5432',
+        'postgres',
+        'games',
+        'postgres',
+        'secretpw'
+    ) AS g ON g.game_id = f.game_id
+    INNER JOIN postgresql(
+        'postgres:5432',
+        'postgres',
+        'arcades',
+        'postgres',
+        'secretpw'
+    ) AS a ON a.arcade_id = f.arcade_id;
+```
+````
+
+  </div>
+</div>
 ---
 
 # Cas pratique : Requête type transactionnelle (OLTP)
 
-```sql
-SELECT COUNT(*)
-FROM plays_fact
-WHERE player_id = 12345
-  AND played_at >= '2023-01-01'
-  AND played_at < '2024-01-01';
+Nous voulons trouver le dernier score d'un joueur spécifique pour un jeu donné. Sollicitation de lectures rapides et ciblées (index seek, B-Tree).
+<div class="flex flex-row gap-8 items-start justify-center">
+  <div class="w-1/2">
+```sql [Postgres]
+SELECT f.score,
+    f.played_at
+FROM plays_fact AS f
+WHERE f.player_id = $1
+    AND f.game_id = $2
+ORDER BY f.played_at DESC
+LIMIT 1;
 ```
+  </div>
+  <div class="w-1/2">
+```sql [ClickHouse]
+SELECT score,
+    played_at
+FROM plays_wide
+WHERE player_id = { player_id :UInt64 }
+    AND game_id = { game_id :UInt64 }
+ORDER BY played_at DESC
+LIMIT 1;
+```
+  </div>
+</div>
 
 ---
 
 # Cas pratique : Requête type analytique (OLAP)
 
-```sql
-SELECT COUNT(*)
-FROM plays_fact
-GROUP BY game_id
-ORDER BY COUNT(*) DESC
+Nous voulons obtenir le top 10 des jeux les plus joués au cours des 30 derniers jours. Sollicitation de fortes agrégations sur de larges volumes de données (wide table scan).
+
+<div class="flex flex-row gap-8 items-start justify-center">
+  <div class="w-1/2">
+```sql [Postgres]
+SELECT g.title AS game_title,
+    SUM(pf.duration_seconds) AS total_playtime_seconds
+FROM plays_fact pf
+    JOIN games g ON pf.game_id = g.game_id
+WHERE pf.played_at >= NOW() - INTERVAL '30 days'
+GROUP BY g.game_id,
+    g.title
+ORDER BY total_playtime_seconds DESC
 LIMIT 10;
 ```
+  </div>
+  <div class="w-1/2">
+```sql [ClickHouse]
+SELECT game_title,
+    sum(duration_seconds) AS total_seconds
+FROM plays_wide
+WHERE played_at >= now() - INTERVAL 30 DAY
+GROUP BY game_title
+ORDER BY total_seconds DESC
+LIMIT 10;
+```
+  </div>
+</div>
 
 ---
 
@@ -877,7 +1170,7 @@ OLAP + OLTP. Exemple : PostgreSQL pour le transactionnel, Snowflake pour l'analy
 
 Nous avons vu un framework simple mais efficace pour choisir une base de données adaptée à vos besoins:
 1. Comprendre la **charge de travail** (OLTP vs OLAP)
-2. Quel **schéma** ou **structure** auront les données
+2. Définir le **schéma** qu'auront les données
 3. Identifier les **contraintes** de performance, de scalabilité et d'écosystème (interne & externe)
 4. **Valider**: benchmarker dans des scénarios réels
 
