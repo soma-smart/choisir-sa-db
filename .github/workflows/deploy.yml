@@ -23,6 +23,10 @@ jobs:
         with:
           node-version: "24"
 
+      - name: Install Theme Dependencies (for theme resolution)
+        run: npm install
+        working-directory: ./slidev-theme-soma/
+
       - name: Install dependencies (in subfolder)
         run: npm install
         working-directory: ./choisir-sa-db/
