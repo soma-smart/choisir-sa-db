@@ -32,7 +32,7 @@ jobs:
         working-directory: ./choisir-sa-db/
 
       - name: Build Slidev presentation (in subfolder)
-        run: npm run build -- --base /
+        run: npm run build -- --base /choisir-sa-db/
         working-directory: ./choisir-sa-db/
 
       - name: Setup Pages
