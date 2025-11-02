@@ -385,13 +385,18 @@ De quel type de garanties ai-je besoin pour mes données ?
 # Les grandes familles de bases de données
 
 <style scoped>
+.db-models-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  width: 100%;
+  padding: 16px;
+}
+
 .sparkly-svg-container {
   position: relative;
   width: 56px;
   height: 56px;
-
-  /* The gradient now fills the logo */
-  background-image: linear-gradient(45deg, #6babff 0%, #4ECDC4 50%, #45B7D1 100%);
 
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
@@ -401,47 +406,62 @@ De quel type de garanties ai-je besoin pour mes données ?
   mask-size: contain;
 }
 
+/* Unique gradients for each database type */
 .sparkly-svg-container.relational {
   -webkit-mask-image: url('/db-family/relational.svg');
   mask-image: url('/db-family/relational.svg');
+  background-image: linear-gradient(45deg, #4169E1 0%, #1E90FF 50%, #00BFFF 100%);
 }
 
 .sparkly-svg-container.graph {
   -webkit-mask-image: url('/db-family/graph.svg');
   mask-image: url('/db-family/graph.svg');
+  background-image: linear-gradient(45deg, #9B59B6 0%, #E91E63 50%, #FF1744 100%);
 }
 
 .sparkly-svg-container.document {
   -webkit-mask-image: url('/db-family/document.svg');
   mask-image: url('/db-family/document.svg');
+  background-image: linear-gradient(45deg, #FF6B35 0%, #FF9E44 50%, #FFC93C 100%);
 }
 
 .sparkly-svg-container.key-value {
   -webkit-mask-image: url('/db-family/key-value.svg');
   mask-image: url('/db-family/key-value.svg');
+  background-image: linear-gradient(45deg, #2ECC71 0%, #27AE60 50%, #1ABC9C 100%);
 }
 
 .sparkly-svg-container.time-series {
   -webkit-mask-image: url('/db-family/time-series.svg');
   mask-image: url('/db-family/time-series.svg');
+  background-image: linear-gradient(45deg, #00BCD4 0%, #00ACC1 50%, #0097A7 100%);
 }
 
 .sparkly-svg-container.full-text-search {
   -webkit-mask-image: url('/db-family/full-text-search.svg');
   mask-image: url('/db-family/full-text-search.svg');
+  background-image: linear-gradient(45deg, #5100ffff 0%, #ff0073ff 50%, #ffa84cff 100%);
 }
 
 .sparkly-svg-container.geospatial {
   -webkit-mask-image: url('/db-family/geospatial.svg');
   mask-image: url('/db-family/geospatial.svg');
+  background-image: linear-gradient(45deg, #26A69A 0%, #00897B 50%, #00695C 100%);
 }
 
 .sparkly-svg-container.vectorial {
   -webkit-mask-image: url('/db-family/vector.svg');
   mask-image: url('/db-family/vector.svg');
+  background-image: linear-gradient(45deg, #f06392ff 0%, #bb2444ff 50%, #ea4b8fff 100%);
 }
 
-/* Shimmer stays clipped to the masked logo */
+.sparkly-svg-container.hybrid {
+  -webkit-mask-image: url('/db-family/hybrid.svg');
+  mask-image: url('/db-family/hybrid.svg');
+  background-image: linear-gradient(45deg, #0099ffff 0%, #e6199eff 50%, #15d853ff 100%);
+}
+
+/* Shimmer with offset timing for each type */
 .sparkly-svg-container::after {
   content: '';
   position: absolute;
@@ -453,17 +473,54 @@ De quel type de garanties ai-je besoin pour mes données ?
   height: 100%;
   background: rgba(255, 255, 255, 0.4);
   transform: skewX(-20deg);
-  animation: spark-shimmer 10s infinite linear;
+  animation: spark-shimmer 20s infinite linear;
+}
+
+/* Offset animation delays for each database type */
+.sparkly-svg-container.relational::after {
+  animation-delay: -8.75s;
+}
+
+.sparkly-svg-container.graph::after {
+  animation-delay: -7.5s;
+}
+
+.sparkly-svg-container.document::after {
+  animation-delay: -6.25s;
+}
+
+.sparkly-svg-container.key-value::after {
+  animation-delay: -5s;
+}
+
+.sparkly-svg-container.time-series::after {
+  animation-delay: -3.75s;
+}
+
+.sparkly-svg-container.full-text-search::after {
+  animation-delay: -2.5s;
+}
+
+.sparkly-svg-container.geospatial::after {
+  animation-delay: -1.25s;
+}
+
+.sparkly-svg-container.vectorial::after {
+  animation-delay: 0s;
+}
+
+.sparkly-svg-container.hybrid::after {
+  animation-delay: -10s;
 }
 
 @keyframes spark-shimmer {
   0% { left: -200%; }
-  20% { left: 200%; }
+  5% { left: 200%; }
   100% { left: 200%; }
 }
 
 .db-model {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -472,50 +529,62 @@ De quel type de garanties ai-je besoin pour mes données ?
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   background-color: var(--elevated-bg);
   border-radius: 12px;
-  margin: 16px;
+  height: 100%;
+}
+
+.db-model:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 </style>
 
+<div class="db-models-grid">
+  <div class="db-model" v-click>
+    Relationnel
+    <div class="sparkly-svg-container relational" role="img" aria-label="Relational"></div>
+  </div>
 
-<div class="db-model" v-click>
-  Relationnel
-  <div class="sparkly-svg-container relational" role="img" aria-label="Graph"></div>
+  <div class="db-model" v-click>
+    Graph
+    <div class="sparkly-svg-container graph" role="img" aria-label="Graph"></div>
+  </div>
+
+  <div class="db-model" v-click>
+    Document
+    <div class="sparkly-svg-container document" role="img" aria-label="Document"></div>
+  </div>
+
+  <div class="db-model" v-click>
+    Clé-Valeur
+    <div class="sparkly-svg-container key-value" role="img" aria-label="Clé-Valeur"></div>
+  </div>
+
+  <div class="db-model" v-click>
+    Séries Temporelles
+    <div class="sparkly-svg-container time-series" role="img" aria-label="Séries Temporelles"></div>
+  </div>
+
+  <div class="db-model" v-click>
+    Recherche plein texte
+    <div class="sparkly-svg-container full-text-search" role="img" aria-label="Recherche plein texte"></div>
+  </div>
+
+  <div class="db-model" v-click>
+    Vectoriel
+    <div class="sparkly-svg-container vectorial" role="img" aria-label="Vectoriel"></div>
+  </div>
+
+  <div class="db-model" v-click>
+    Géospatial
+    <div class="sparkly-svg-container geospatial" role="img" aria-label="Géospatial"></div>
+  </div>
+
+  <div class="db-model" v-click>
+    Hybride
+    <div class="sparkly-svg-container hybrid" role="img" aria-label="Hybride"></div>
+  </div>
 </div>
 
-<div class="db-model" v-click>
-  Graph
-  <div class="sparkly-svg-container graph" role="img" aria-label="Graph"></div>
-</div>
-
-<div class="db-model" v-click>
-  Document
-  <div class="sparkly-svg-container document" role="img" aria-label="Document"></div>
-</div>
-
-<div class="db-model" v-click>
-  Clé-Valeur
-  <div class="sparkly-svg-container key-value" role="img" aria-label="Clé-Valeur"></div>
-</div>
-
-<div class="db-model" v-click>
-  Séries Temporelles
-  <div class="sparkly-svg-container time-series" role="img" aria-label="Séries Temporelles"></div>
-</div>
-
-<div class="db-model" v-click>
-  Recherche plein texte
-  <div class="sparkly-svg-container full-text-search" role="img" aria-label="Recherche plein texte"></div>
-</div>
-
-<div class="db-model" v-click>
-  Géospatial
-  <div class="sparkly-svg-container geospatial" role="img" aria-label="Géospatial"></div>
-</div>
-
-<div class="db-model" v-click>
-  Vectoriel
-  <div class="sparkly-svg-container vectorial" role="img" aria-label="Vectoriel"></div>
-</div>
 
 ---
 hideInToc: true
@@ -1259,15 +1328,17 @@ hideInToc: true
 
 # Le mot de la fin
 
-Nous avons vu un framework simple mais efficace pour choisir une base de données adaptée à vos besoins:
-1. Comprendre la **charge de travail** (OLTP vs OLAP)
-2. Définir le **schéma** qu'auront les données
-3. Identifier les **contraintes** de performance, de scalabilité et d'écosystème (interne & externe)
+Nous avons vu un framework simple mais efficace pour choisir une base de données :
+1. Comprendre le besoin grâce à la **charge de travail** : OLTP vs OLAP (le "pourquoi ?")
+2. Définir la nature et le **schéma** qu'auront les données (le "quoi ?")
+3. Identifier les **contraintes** : de performance, de scalabilité, d'écosystème (le "comment ?")
 4. **Valider**: benchmarker dans des scénarios réels
 
-Ne choisissez pas une base de données sur un coup de tête ou pour suivre une mode.
+Ne choisissez pas une base de données sur un coup de tête ou pour suivre une mode (*boring technology*).
 
 Analysez, testez, et choisissez l'outil qui résout votre problème, pas celui qui en crée de nouveaux.
+
+<!-- Ne choisissez pas la BDD "parfaite" (car elle n'existe pas), mais celle que votre équipe amitrise et peut opérer et maintenir en production à 3h du matin. -->
 
 ---
 
