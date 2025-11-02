@@ -1220,15 +1220,6 @@ Ne choisissez pas une base de données sur un coup de tête ou pour suivre une m
 
 Analysez, testez, et choisissez l'outil qui résout votre problème, pas celui qui en crée de nouveaux.
 
-
----
-layout: center
----
-
-# Q & A
-
-
-
 ---
 
 # Ressources
@@ -1241,6 +1232,14 @@ layout: center
 - [youtube.com: Postgres for everything - Fireship](https://www.youtube.com/watch?v=3JW732GrMdg)
 - [figoblog.org: Modélisons un peu le choix d'un type de bases de données](https://figoblog.org/2023/12/13/modelisons-un-peu-le-choix-dun-type-de-bases-de-donnees/)
 
+
+---
+layout: center
+---
+
+# Q & A
+
+
 ---
 layout: center
 ---
@@ -1252,11 +1251,6 @@ layout: center
 ---
 
 # Plan
-
-Partie 1 : Les Fondations : OLTP vs. OLAP, le clivage fondamental (10 minutes)
-Slide 4 : Le premier filtre : Pour quoi faire ? Opérationnel vs. Analytique
-
-Introduction du concept : la nature de la charge de travail (workload) est le critère N°1.
 
 Slide 5 : L'OLTP (Online Transaction Processing)
 
@@ -1343,8 +1337,6 @@ Concept : Le meilleur des deux mondes ? Interface SQL, transactions ACID, mais a
 
 Idéal pour : Applications globales critiques nécessitant à la fois cohérence et scalabilité massive.
 
-Partie 3 : La Boussole : Les 5 critères pour ne plus se tromper (10 minutes)
-Slide 13 : Le framework "CAP-EV"
 
 Une grille d'analyse simple pour guider le choix.
 
@@ -1378,16 +1370,6 @@ Quelle quantité de données aujourd'hui ? Et dans 5 ans ? (Go, To, Po...).
 
 À quelle vitesse les données arrivent-elles ? (Batch vs. Streaming).
 
-Partie 4 : Le Crash Test : 3 bases, 3 usages (15 minutes)
-Slide 19 : Scénario 1 : Le cœur d'une application SaaS (OLTP)
-
-Besoin : Gérer les utilisateurs, les abonnements, la facturation. Forte cohérence requise.
-
-Benchmark : PostgreSQL
-
-Pourquoi ?
-
-Consistance : ACID est non-négociable.
 
 Access Pattern : Requêtes relationnelles complexes (jointures entre clients, factures, plans).
 
