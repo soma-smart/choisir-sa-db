@@ -272,6 +272,15 @@ layout: center
 
 # La nature de la charge de travail
 
+<!-- C'est le "pourquoi ?" On va faire l'analyse des Besoins.
+On fait pas de la technique pour de la technique mais pour répondre à un besoin métier.
+Et donc on doit se demander quel est l'objectif Business : Quel est le but final du projet ? (Ex: augmenter les ventes grâce à une meilleure connaissance de mes clients, analyser des logs, gérer des utilisateurs).
+
+Et y'a une question primordiale à se poser dès le début :
+C'est le profil des Requêtes : Quel type d'opérations sera le plus fréquent ?
+C'est dans le jargon les access patterns. -->
+
+
 ---
 hideInToc: true
 ---
@@ -279,10 +288,11 @@ hideInToc: true
 # OLTP
 
 
-**OLTP (Online Transaction Processing)** est conçu pour gérer des transactions en temps réel: exécution rapide de requêtes courtes et fréquentes, typiquement utilisées dans les applications opérationnelles
-- forte concurrence d'utilisateurs effectuant des opérations de lecture et d'écriture simultanément
-- faible latence pour assurer une expérience utilisateur fluide
-- données très normalisées pour minimiser la redondance et assurer l'intégrité des données
+**OLTP (Online Transaction Processing)** est conçu pour gérer des transactions en temps réel: exécution rapide de requêtes courtes et fréquentes, typiquement utilisées dans les applications opérationnelles.
+
+- **forte concurrence** d'utilisateurs effectuant des opérations de lecture et d'écriture simultanément
+- **faible latence** pour assurer une expérience utilisateur fluide
+- données **très normalisées** pour minimiser la redondance et assurer l'intégrité des données
 
 
 **Exemple :** Un système de réservation de billets d'avion où les utilisateurs effectuent des recherches, réservent des sièges et effectuent des paiements. Chaque action génère une transaction qui doit être traitée rapidement et de manière fiable.
@@ -310,9 +320,10 @@ hideInToc: true
 
 # OLAP
 
-**OLAP (Online Analytical Processing)** est conçu pour effectuer des analyses complexes sur de grandes quantités de données. Contrairement à OLTP, qui se concentre sur les transactions en temps réel, OLAP permet des requêtes analytiques approfondies.
-
-Pour répondre aux besoins analytiques et éviter de surcharger les bases OLTP, on utilise des bases OLAP dédiées, telles que les data warehouses ou data lakehouses, qui permettent d’effectuer des analyses complexes sur de grands volumes de données.
+**OLAP (Online Analytical Processing)** est conçu pour l’analyse de grandes quantités de données. Les bases OLAP permettent d’exécuter des requêtes complexes sans impacter les bases transactionnelles, avec :
+- **requêtes longues et complexes** impliquant des agrégations et des jointures sur de grandes tables
+- **lectures massives** de données historiques pour identifier des tendances et des modèles
+- données **dénormalisées** (schéma en étoile) pour optimiser les performances des requêtes analytiques
 
 **Exemple :** Un système qui analyse les ventes trimestrielles, les tendances du marché et les performances des produits. Les utilisateurs peuvent exécuter des requêtes complexes pour générer des rapports et des tableaux de bord.
 
@@ -1290,24 +1301,6 @@ hideInToc: true
 ---
 ---
 
-
-Slide 5 : L'OLTP (Online Transaction Processing)
-
-Analogie : Le caissier de supermarché.
-
-Objectif : Faire tourner l'application au quotidien.
-
-Caractéristiques : Requêtes courtes et rapides, écritures fréquentes, forte concurrence, faible latence, données très normalisées.
-
-Exemples de requêtes : INSERT INTO users..., UPDATE products SET stock = stock - 1...
-
-Cas d'usage : Panier d'un site e-commerce, inscription utilisateur, transaction bancaire.
-
-Slide 6 : L'OLAP (Online Analytical Processing)
-
-Analogie : Le contrôleur de gestion qui analyse les ventes du trimestre.
-
-Objectif : Aider à la prise de décision (Business Intelligence).
 
 Caractéristiques : Requêtes longues et complexes, lectures massives, agrégations, données historiques dénormalisées (schéma en étoile).
 
