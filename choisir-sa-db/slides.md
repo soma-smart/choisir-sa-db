@@ -323,7 +323,7 @@ hideInToc: true
 **OLAP (Online Analytical Processing)** est conçu pour l’analyse de grandes quantités de données. Les bases OLAP permettent d’exécuter des requêtes complexes sans impacter les bases transactionnelles, avec :
 - **requêtes longues et complexes** impliquant des agrégations et des jointures sur de grandes tables
 - **lectures massives** de données historiques pour identifier des tendances et des modèles
-- données **dénormalisées** (schéma en étoile) pour optimiser les performances des requêtes analytiques
+- données **dénormalisées** (schéma en étoile/flocon) pour optimiser les performances des requêtes analytiques
 
 **Exemple :** Un système qui analyse les ventes trimestrielles, les tendances du marché et les performances des produits. Les utilisateurs peuvent exécuter des requêtes complexes pour générer des rapports et des tableaux de bord.
 
@@ -682,14 +682,17 @@ layout: center
 hideInToc: true
 ---
 
-# Comment benchmarker une base de données ?
+# Définir ses critères de performance
 
-- Définir des objectifs clairs : quoi mesurer et sous quel scénario <!-- ex: latence sous charge, scalabilité horizontale... On ne pourra PAS faire un benchmark exhaustif, c'est impossible. -->
-- Les access pattern
-- Scénarios d'usage concrets
+- Définir des objectifs clairs : quoi mesurer et sous quel scénario
+- Scénarios d'usage concrets en imitant les access patterns et la volumétrie
 - Latence (p95, p99), Débit (TPS, QPS)
 - Coût (infrastructure, licences, maintenance)
-- Comprendre les limites de son approche <!-- Peut etre que scenario avec 1 seule instance fonctionne pour A mais scalabilité mal implémentée donc scale moins bien... -->
+- Garder en tête les limites de son approche
+
+<!--
+ex: latence sous charge, scalabilité horizontale... On ne pourra PAS faire un benchmark exhaustif, c'est impossible.
+Peut etre que scenario avec 1 seule instance fonctionne pour A mais scalabilité mal implémentée donc scale moins bien... -->
 
 ---
 hideInToc: true
@@ -1378,21 +1381,7 @@ hideInToc: true
 
 
 ---
----
 
-
-Caractéristiques : Requêtes longues et complexes, lectures massives, agrégations, données historiques dénormalisées (schéma en étoile).
-
-Exemples de requêtes : SELECT SUM(sales), category FROM facts_sales GROUP BY category...
-
-Cas d'usage : Dashboard de ventes, prévision de la demande, analyse de logs.
-
-Slide 7 : Tableau récapitulatif OLTP vs. OLAP
-
-Un tableau simple comparant les deux sur des axes clés : Type de requête, Volume par requête, Fréquence, Orientation (Ligne vs. Colonne), Objectif.
-
-Partie 2 : Le Panorama : Les grandes familles de bases de données (15 minutes)
-Slide 8 : Introduction aux familles
 
 
 
