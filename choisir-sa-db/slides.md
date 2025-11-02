@@ -42,7 +42,7 @@ hideInToc: true
 </div> -->
 
 <!--
-The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
+Bon alors déjà, on ne choisit pas vraiment une base de données mais plutot un système de gestion de base de données (SGBD) qui implémente un certain modèle de données (relationnel, document, graphe, clé-valeur, etc).
 -->
 
 ---
@@ -306,7 +306,7 @@ Notes can also sync with clicks
 
 Pour répondre aux besoins analytiques et éviter de surcharger les bases OLTP, on utilise des bases OLAP dédiées, telles que les data warehouses ou data lakehouses, qui permettent d’effectuer des analyses complexes sur de grands volumes de données.
 
-**Exemple :** Un système de Business Intelligence qui analyse les ventes trimestrielles, les tendances du marché et les performances des produits. Les utilisateurs peuvent exécuter des requêtes complexes pour générer des rapports et des tableaux de bord.
+**Exemple :** Un système qui analyse les ventes trimestrielles, les tendances du marché et les performances des produits. Les utilisateurs peuvent exécuter des requêtes complexes pour générer des rapports et des tableaux de bord.
 
 <div class="flex flex-row justify-center items-center gap-8">
   <img v-click src="/databases/snowflake.png" alt="Snowflake Logo" class="w-32 my-4" />
@@ -333,13 +333,14 @@ Pour répondre aux besoins analytiques et éviter de surcharger les bases OLTP, 
 
 **Gartner Inc.** propose en 2014 le concept de **HTAP (Hybrid Transactional/Analytical Processing)**, qui vise à combiner les capacités transactionnelles et analytiques au sein d'une même architecture logicielle.
 
+<div v-click class="mt-18">
 <div class="flex flex-row gap-8 items-center justify-center">
   <img src="/neon_databricks.jpg" alt="Neon by Databricks" class="w-64" />
   <img src="/crunchy_data_snowflake.png" alt="Crunchy Data by Snowflake" class="w-100" />
 </div>
 
-Les derniers rachats (Neon par Databricks, Crunchy Data par Snowflake) montrent que les acteurs OLAP intègrent de plus en plus des fonctionnalités transactionnelles.
-
+Les derniers rachats de 2025 (Neon par Databricks, Crunchy Data par Snowflake) montrent que les acteurs OLAP intègrent de plus en plus des fonctionnalités transactionnelles.
+</div>
 
 ---
 layout: center
@@ -347,7 +348,18 @@ layout: center
 <span class="sub-title-bar">Étape 2</span>
 # Le modèle de données
 
+---
 
+# ACID vs BASE
+
+De quel type de garanties ai-je besoin pour mes données ?
+
+- **ACID** (Atomicité, Cohérence, Isolation, Durabilité) : Garantit que les transactions sont traitées de manière fiable.
+
+- **BASE** (Basically Available, Soft state, Eventually consistent) : Favorise la disponibilité et la partition des données, souvent au détriment de la cohérence immédiate.
+
+
+<!-- Un théorème est à l'œuvre ici : le théorème CAP (Consistence, Availability, Partition tolerance). Il stipule qu'un système distribué ne peut garantir que deux des trois propriétés suivantes simultanément : cohérence, disponibilité et tolérance aux partitions. -->
 
 ---
 
@@ -445,9 +457,6 @@ layout: center
 }
 </style>
 
-Les NoSQL:
-- Document, Clé-Valeur, orienté Colonne, Graphe
-- Vectoriel, Hybride / NewSQL
 
 <div class="db-model" v-click>
   Relationnel
@@ -493,9 +502,9 @@ Les NoSQL:
 
 # Les grandes familles de bases de données
 
-- SQL
-- NoSQL
-- NewSQL
+- SQL: relationnel classique (PostgreSQL, MySQL, Oracle, SQL Server...) avec ACID.
+- NoSQL: tout ce qui n'est pas relationnel (clé-valeur, document, graphe, séries temporelles...) avec souvent BASE.
+- NewSQL: bases relationnelles qui apportent des améliorations en termes de scalabilité et de performance (CockroachDB, YugabyteDB, Google Spanner...) avec ACID.
 
 
 ---
@@ -509,15 +518,38 @@ layout: center
 
 # La scalabilité et le théorème CAP
 
+
 <CAPTheorem />
 <span v-click></span>
 <span v-click></span>
 <span v-click></span>
+<div v-click>
+<span style="position: absolute; top: 295px; left: 40px;">
+  Système banquaire
+</span>
+<Arrow x1="200" y1="310" x2="430" y2="310" />
+</div>
 
+<div v-click>
+<span style="position: absolute; top: 295px; left: 710px;">
+  Serveur DNS
+</span>
+<Arrow x1="700" y1="310" x2="550" y2="310" />
+</div>
+
+<div v-click>
+<span style="position: absolute; top: 235px; left: 710px;">
+  PostgreSQL
+</span>
+<Arrow x1="700" y1="250" x2="510" y2="250" />
+</div>
 
 ---
 
 # Scalabilité verticale vs horizontale
+
+<Scalability />
+
 
 ---
 
@@ -1207,6 +1239,7 @@ layout: center
 - [tpc.org: Specifications](https://www.tpc.org/tpc_documents_current_versions/current_specifications5.asp)
 - [github.com: Fakelake](https://github.com/soma-smart/Fakelake)
 - [youtube.com: Postgres for everything - Fireship](https://www.youtube.com/watch?v=3JW732GrMdg)
+- [figoblog.org: Modélisons un peu le choix d'un type de bases de données](https://figoblog.org/2023/12/13/modelisons-un-peu-le-choix-dun-type-de-bases-de-donnees/)
 
 ---
 layout: center
