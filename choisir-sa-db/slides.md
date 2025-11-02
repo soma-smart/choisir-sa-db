@@ -697,24 +697,32 @@ hideInToc: true
 
 # Rappels de statistiques
 
-- Moyenne (mean) : somme des valeurs divisée par le nombre de valeurs
-- Médiane (median) : valeur centrale lorsque les données sont triées
-- Percentile (p95, p99) : valeur en dessous de laquelle se trouve un certain pourcentage des données
-- Écart-type (standard deviation) : mesure de la dispersion des données autour de la moyenne
+<ol v-click>
+  <li>Moyenne (mean) : somme des valeurs divisée par le nombre de valeurs</li>
+  <li>Médiane (median) : valeur centrale lorsque les données sont triées</li>
+  <li>Percentile (p95, p99) : valeur en dessous de laquelle se trouve un certain pourcentage des données</li>
+  <li>Écart-type (standard deviation) : mesure de la dispersion des données autour de la moyenne</li>
+</ol>
 
-Combien d'exécutions pour un benchmark fiable ?
+<span v-click>Combien d'exécutions pour un benchmark fiable ?</span>
+<div v-click>
 $$
 \begin{aligned}
 n=\left(\frac{Z \cdot \sigma}{E}\right)^2
 \end{aligned}
 $$
 avec $Z$ la valeur associée au niveau de confiance souhaité, $σ$ l'écart-type estimé des temps de réponse, et $E$ la marge d'erreur acceptable.
-
+</div>
+<div v-click>
 Exemple, si Z=1.96 (95% de confiance), σ=10ms, E=5ms, alors, on aura :
 $$
 \begin{aligned}
 n=\left(\frac{1.96 \cdot 10}{5}\right)^2=15
 \end{aligned}
+$$
+</div>
+
+<!-- Disgression : note des restaurants sur Google Maps -->
 
 ---
 hideInToc: true
