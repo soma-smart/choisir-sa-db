@@ -72,7 +72,9 @@ layout: center
 # Tour d'horizon
 
 ---
+hideInToc: true
 ---
+
 # Un peu d'histoire
 
 <style scoped>
@@ -182,7 +184,9 @@ layout: center
 
 ---
 layout: quote
+hideInToc: true
 ---
+
 # Law of the instrument
 
 <div class="flex items-center justify-between gap-8 h-[400px]">
@@ -269,6 +273,8 @@ layout: center
 # La nature de la charge de travail
 
 ---
+hideInToc: true
+---
 
 # OLTP
 
@@ -298,6 +304,8 @@ Notes can also sync with clicks
 [click:3] Last click (skip two clicks)
 -->
 
+---
+hideInToc: true
 ---
 
 # OLAP
@@ -499,6 +507,8 @@ De quel type de garanties ai-je besoin pour mes données ?
 </div>
 
 ---
+hideInToc: true
+---
 
 # Les grandes familles de bases de données
 
@@ -545,6 +555,8 @@ layout: center
 </div>
 
 ---
+hideInToc: true
+---
 
 # Scalabilité verticale vs horizontale
 
@@ -587,6 +599,8 @@ layout: center
 
 
 ---
+hideInToc: true
+---
 
 # Comment benchmarker une base de données ?
 
@@ -597,6 +611,8 @@ layout: center
 - Coût (infrastructure, licences, maintenance)
 - Comprendre les limites de son approche <!-- Peut etre que scenario avec 1 seule instance fonctionne pour A mais scalabilité mal implémentée donc scale moins bien... -->
 
+---
+hideInToc: true
 ---
 
 # Rappels de statistiques
@@ -620,6 +636,8 @@ $$
 n=\left(\frac{1.96 \cdot 10}{5}\right)^2=15
 \end{aligned}
 
+---
+hideInToc: true
 ---
 
 # Hyperfine
@@ -667,7 +685,9 @@ hyperfine "commande_a_tester" "autre_commande"
 
 ---
 layout: two-cols
+hideInToc: true
 ---
+
 # Cas pratique : Modélisation des données
 
 Premier objectif : identifier les entités principales et leurs relations:
@@ -700,6 +720,8 @@ La table ne présente ni de dépendance partielle, ni de dépendance transitive.
 
 🧠 Le schéma est donc en 3e forme normale (3NF)
 
+---
+hideInToc: true
 ---
 
 # Cas pratique : Schéma complet
@@ -748,6 +770,8 @@ erDiagram
 </div>
 
 ---
+hideInToc: true
+---
 
 # Cas pratique : Démarrer Postgres & ClickHouse
 
@@ -783,6 +807,8 @@ docker run -d --name clickhouse \
 </Callout>
 
 
+---
+hideInToc: true
 ---
 
 # Cas pratique : Générons des données fictives
@@ -852,6 +878,8 @@ info:
 </div>
 
 ---
+hideInToc: true
+---
 
 # Cas pratique : Générons des données fictives
 
@@ -911,6 +939,8 @@ DOAN,BOHLER,US,2020-02-08
 </div>
 
 ---
+hideInToc: true
+---
 
 # Cas pratique : Importer les données dans Postgres
 
@@ -955,6 +985,8 @@ FROM '/output/plays_fact.csv' DELIMITER ',' CSV HEADER;
   <strong>Info&nbsp;:</strong> Je vous conseille de <code>DROP</code> les contraintes de clés étrangères avant d'importer les données, puis de les recréer après l'import.
 </Callout>
 
+---
+hideInToc: true
 ---
 
 # Cas pratique : Modéliser pour ClickHouse
@@ -1113,6 +1145,8 @@ FROM postgresql(
   </div>
 </div>
 ---
+hideInToc: true
+---
 
 # Cas pratique : Requête type transactionnelle (OLTP)
 
@@ -1142,6 +1176,8 @@ LIMIT 1;
   </div>
 </div>
 
+---
+hideInToc: true
 ---
 
 # Cas pratique : Requête type analytique (OLAP)
@@ -1175,6 +1211,8 @@ LIMIT 10;
   </div>
 </div>
 
+---
+hideInToc: true
 ---
 
 # Cas pratique : Benchmark OLAP avec Hyperfine
@@ -1235,6 +1273,7 @@ Analysez, testez, et choisissez l'outil qui résout votre problème, pas celui q
 
 ---
 layout: center
+hideInToc: true
 ---
 
 # Q & A
@@ -1242,6 +1281,7 @@ layout: center
 
 ---
 layout: center
+hideInToc: true
 ---
 
 # Merci pour votre attention !
@@ -1250,7 +1290,6 @@ layout: center
 ---
 ---
 
-# Plan
 
 Slide 5 : L'OLTP (Online Transaction Processing)
 
