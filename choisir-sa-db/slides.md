@@ -478,39 +478,39 @@ De quel type de garanties ai-je besoin pour mes données ?
 
 /* Offset animation delays for each database type */
 .sparkly-svg-container.relational::after {
-  animation-delay: -8.75s;
+  animation-delay: -9s;
 }
 
 .sparkly-svg-container.graph::after {
-  animation-delay: -7.5s;
+  animation-delay: -8s;
 }
 
 .sparkly-svg-container.document::after {
-  animation-delay: -6.25s;
+  animation-delay: -7s;
 }
 
 .sparkly-svg-container.key-value::after {
-  animation-delay: -5s;
+  animation-delay: -6s;
 }
 
 .sparkly-svg-container.time-series::after {
-  animation-delay: -3.75s;
+  animation-delay: -5s;
 }
 
 .sparkly-svg-container.full-text-search::after {
-  animation-delay: -2.5s;
-}
-
-.sparkly-svg-container.geospatial::after {
-  animation-delay: -1.25s;
+  animation-delay: -4s;
 }
 
 .sparkly-svg-container.vectorial::after {
-  animation-delay: 0s;
+  animation-delay: -3s;
+}
+
+.sparkly-svg-container.geospatial::after {
+  animation-delay: -2s;
 }
 
 .sparkly-svg-container.hybrid::after {
-  animation-delay: -10s;
+  animation-delay: -1s;
 }
 
 @keyframes spark-shimmer {
@@ -586,6 +586,70 @@ De quel type de garanties ai-je besoin pour mes données ?
 </div>
 
 
+<!-- 💾 Relationnel (SQL)
+Le modèle relationnel est le pilier des bases de données traditionnelles, utilisant des tables structurées avec des lignes et des colonnes pour organiser les données. Il excelle grâce à sa cohérence (ACID compliance), garantissant que les transactions sont traitées de manière fiable. Il est particulièrement adapté aux applications nécessitant une intégrité transactionnelle forte et des relations complexes mais prédéfinies entre les entités.
+
+SGBD Populaires : PostgreSQL, MySQL, Oracle, Microsoft SQL Server.
+
+Use Cases Typiques : Systèmes de gestion de la relation client (CRM), systèmes de planification des ressources d'entreprise (ERP), applications bancaires et financières.
+
+🌐 Graph
+Les bases de données Graph modélisent les données sous forme de nœuds (entités), d'arêtes (relations) et de propriétés. Elles sont optimisées pour les requêtes explorant les relations et les chemins entre les données, ce qui est extrêmement difficile à réaliser efficacement avec le modèle relationnel. Le temps de requête reste constant même si le volume total de données augmente, car l'accent est mis sur les connexions locales.
+
+SGBD Populaires : Neo4j, Amazon Neptune, TigerGraph.
+
+Use Cases Typiques : Réseaux sociaux (trouver des amis de ses amis), moteurs de recommandation, détection de fraudes, gestion de connaissances.
+
+📄 Document
+Les bases de données Document stockent les données dans des formats flexibles, semi-structurés comme JSON, BSON, ou XML. Elles offrent une grande flexibilité de schéma (schema-less), ce qui les rend idéales pour les données qui évoluent rapidement ou qui ont des structures très variées. Elles permettent souvent des requêtes riches et complexes sur le contenu des documents.
+
+SGBD Populaires : MongoDB, Couchbase, Amazon DynamoDB (peut être utilisé comme base de données de documents).
+
+Use Cases Typiques : Gestion de contenu (catalogues de produits, blogs), profils utilisateurs mobiles, Internet des Objets (IoT).
+
+🔑 Clé Valeur
+Les bases de données Clé Valeur sont les plus simples, stockant chaque élément de données comme une paire clé-valeur où la clé est unique. Elles excellent en termes de vitesse et d'évolutivité (scalability), car la récupération des données est un simple lookup direct. Elles sont souvent utilisées pour la mise en cache et le stockage de sessions utilisateur.
+
+SGBD Populaires : Redis, Memcached, Amazon DynamoDB (principalement Clé-Valeur), Riak.
+
+Use Cases Typiques : Caching de données fréquentes, gestion de sessions utilisateur, tableaux de classement en temps réel.
+
+⏱️ Séries Temporelles
+Conçues spécifiquement pour gérer des données horodatées qui arrivent dans un ordre chronologique (une série temporelle). Elles sont optimisées pour les opérations d'écriture à haut débit et les requêtes qui analysent des plages de temps (agrégations, moyennes) et permettent une rétention efficace des données. Elles sont cruciales pour l'analyse des tendances et la surveillance.
+
+SGBD Populaires : InfluxDB, Prometheus, TimescaleDB (extension PostgreSQL).
+
+Use Cases Typiques : Surveillance de l'infrastructure et des applications, données de capteurs IoT, suivi des marchés financiers.
+
+🔍 Recherche Plein Texte
+Ces bases de données sont spécialisées dans l'indexation et la recherche rapide dans de grandes quantités de texte non structuré. Elles utilisent des techniques d'inversion d'index pour permettre des recherches par mots-clés, des recherches floues, et des classements de pertinence sophistiqués. Elles vont bien au-delà de la simple clause LIKE des bases de données relationnelles.
+
+SGBD Populaires : Elasticsearch, Apache Solr, OpenSearch.
+
+Use Cases Typiques : Moteurs de recherche de sites web et d'applications, agrégation et analyse de logs, catalogues de produits avec facettes.
+
+📏 Vectoriel
+Les bases de données Vectoriel stockent des données sous forme de vecteurs numériques (embeddings) qui représentent le sens sémantique de l'objet (texte, image, son). Elles permettent la recherche par similarité (Nearest Neighbor Search) en comparant la "distance" entre les vecteurs. Elles sont au cœur des applications d'Intelligence Artificielle générative.
+
+SGBD Populaires : Pinecone, Milvus, Weaviate, PostgreSQL avec l'extension pgvector.
+
+Use Cases Typiques : Recherche sémantique, systèmes de recommandation basés sur la pertinence du contenu, applications de Retrieval-Augmented Generation (RAG) pour les LLM.
+
+🗺️ Géospatial
+Spécialisées dans la gestion et l'interrogation de données géographiques (points, lignes, polygones). Elles offrent des fonctions optimisées pour calculer les distances, déterminer si un point est dans une région (requêtes de proximité), ou effectuer des opérations géométriques complexes. Elles reposent sur des index spatiaux pour des performances optimales.
+
+SGBD Populaires : PostGIS (extension PostgreSQL, très puissant), Esri ArcGIS, MongoDB (avec index 2dsphere).
+
+Use Cases Typiques : Systèmes d'information géographique (SIG), applications de cartographie, services de localisation pour le covoiturage.
+
+🤝 Hybride (Multi-Modèle)
+Les bases de données Hybrides ou Multi-Modèles sont conçues pour prendre en charge plusieurs types de modèles de données (document, graph, clé-valeur, etc.) dans une seule base de données intégrée. Cela permet aux développeurs de choisir le meilleur modèle pour chaque besoin sans avoir à gérer plusieurs systèmes de bases de données séparés. Elles simplifient l'architecture en fournissant une plateforme unifiée.
+
+SGBD Populaires : ArangoDB, Amazon DynamoDB, MarkLogic, et PostgreSQL qui, avec ses extensions, est souvent considéré comme multi-modèle.
+
+Use Cases Typiques : Applications nécessitant à la fois des relations complexes (graph) et une flexibilité de schéma (document) comme des catalogues de produits riches ou des applications d'entreprise intégrées. -->
+
+
 ---
 hideInToc: true
 ---
@@ -615,7 +679,7 @@ layout: center
 <span v-click></span>
 <div v-click>
 <span style="position: absolute; top: 295px; left: 40px;">
-  Système banquaire
+  Système bancaire
 </span>
 <Arrow x1="200" y1="310" x2="430" y2="310" />
 </div>
