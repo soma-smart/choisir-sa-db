@@ -834,19 +834,55 @@ Avant de choisir une base de données, il est crucial d'évaluer son écosystèm
 
 # Composer avec plusieurs bases de données
 
-Architecture polyglotte : Utiliser la bonne base pour le bon usage
-OLAP + OLTP. Exemple : PostgreSQL pour le transactionnel, Snowflake pour l'analytique
+<table class="text-base">
+  <thead>
+    <tr>
+      <th>Stratégie</th>
+      <th>Description</th>
+      <th>Scénario d'Usage</th>
+      <th>Nom d'outils</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-click>
+      <td><strong>ETL (Extract, Transform, Load)</strong></td>
+      <td>Données extraites de la source, transformées (nettoyage, agrégation) puis chargées dans la cible (Data Warehouse/Snowflake).</td>
+      <td>Chargement par lots (batch) : une fois par jour par exemple, pour des analyses qui ne nécessitent pas une fraîcheur en temps réel.</td>
+      <td>Talend, Informatica, Pentaho</td>
+    </tr>
+    <tr v-click>
+      <td><strong>ELT (Extract, Load, Transform)</strong></td>
+      <td>Données chargées brutes dans la cible (souvent un Data Lake ou Data Warehouse moderne) et la transformation a lieu après le chargement, exploitant la puissance de calcul du Data Warehouse.</td>
+      <td>Préférence Cloud/Big Data : flexible, tire parti du stockage/puissance de calcul du cloud.</td>
+      <td>dbt, Fivetran, Matillion, Airbyte</td>
+    </tr>
+    <tr v-click>
+      <td><strong>CDC (Change Data Capture)</strong></td>
+      <td>Seules les modifications sont capturées depuis la base source et appliquées à la base cible en quasi-temps réel.</td>
+      <td>Faible Latence : Nécessaire lorsque les données analytiques doivent être très à jour, minimisant l'impact sur la source.</td>
+      <td>Debezium, StreamSets, Kafka Connect</td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
 # Dette technique liée aux bases de données
 
-Comme pour n'importe quel autre composant logiciel, l'utilisation de bases de données va entraîner une dette technique.
+La dette technique commence dès le choix de la base de données.
 
-- Définition : Coût de la maintenance et de l'évolution d'un système
-- Origine : Choix technologiques, dettes accumulées, manque de documentation
-- Impact : Ralentissement des développements, augmentation des coûts
-- Vendor lock-in : Difficulté à migrer vers d'autres solutions
+Le piège le plus redoutable : le **Vendor lock-in** et les **spécificités** techniques (SQL non ANSI, etc.).
+
+Privilégier des formats **ouverts** et **standards** (SQL ANSI, ODBC/JDBC, Parquet) pour minimiser les risques.
+
+Bien concevoir le **modèle de données** pour éviter des migrations coûteuses.
+
+Concevoir des abstractions logicielles pour isoler la logique métier des spécificités de la base de données (un ORM peut aider).
+
+<div class="flex flex-row gap-8 items-center justify-center">
+  <img src="/dbt.png" alt="Dbt Logo" class="w-50" />
+  <img src="/sqlglot.png" alt="SQL Glot Logo" class="w-64" />
+</div>
 
 
 ---
@@ -863,11 +899,20 @@ hideInToc: true
 
 # Définir ses critères de performance
 
-- Définir des objectifs clairs : quoi mesurer et sous quel scénario
-- Scénarios d'usage concrets en imitant les access patterns et la volumétrie
-- Latence (p95, p99), Débit (TPS, QPS)
-- Coût (infrastructure, licences, maintenance)
-- Garder en tête les limites de son approche
+<div class="flex flex-row items-start justify-between gap-8 mt-16">
+  <div class="flex-1">
+    <ul>
+      <li>Définir des objectifs clairs : quoi mesurer et sous quel scénario</li>
+      <li>Scénarios d'usage concrets en imitant les access patterns et la volumétrie</li>
+      <li>Latence (p95, p99), Débit (TPS, QPS)</li>
+      <li>Coût (infrastructure, licences, maintenance)</li>
+      <li>Garder en tête les limites de son approche</li>
+    </ul>
+  </div>
+  <div class="flex-1 flex justify-end items-center">
+    <img src="/renard-benchmark.png" alt="Renard Benchmark" />
+  </div>
+</div>
 
 <!--
 ex: latence sous charge, scalabilité horizontale... On ne pourra PAS faire un benchmark exhaustif, c'est impossible.
