@@ -645,7 +645,7 @@ De quel type de garanties ai-je besoin pour mes données ?
 
 <div v-click class="flex flex-row items-center justify-between gap-8">
   <div class="flex-1 text-left text-lg">
-    <span class="font-bold text-blue-700">ACID</span><br>
+    <span class="font-bold text-green-400" >ACID</span><br>
     <ul class="list-disc list-inside mt-2">
       <li><strong>A</strong>tomicité</li>
       <li><strong>C</strong>ohérence</li>
@@ -677,7 +677,7 @@ De quel type de garanties ai-je besoin pour mes données ?
   </style>
   </div>
   <div class="flex-1 text-left text-lg">
-    <span class="font-bold text-orange-700">BASE</span><br>
+    <span class="font-bold text-blue-400">BASE</span><br>
     <ul class="list-disc list-inside mt-2">
       <li><strong>B</strong>asically <strong>A</strong>vailable</li>
       <li><strong>S</strong>oft state</li>
@@ -801,9 +801,34 @@ hideInToc: true
 
 # Partitionnement (sharding) vs Réplication
 
+<img src="/sharding-replication.svg" alt="Partitionnement vs Réplication" class="my-8 mx-auto w-3/4" />
 ---
 
 # L'écosystème & l'expertise
+
+Avant de choisir une base de données, il est crucial d'évaluer son écosystème de travail (interne) et son écosystème externe.
+<div class="flex flex-row gap-12 items-start justify-between">
+  <div v-click class="flex-1">
+    <span class="font-bold text-lg mb-2 block">Écosystème Interne :</span>
+    <ul class="list-disc list-inside text-left">
+      <li>Quels systèmes de bases de données sont déjà en place ?</li>
+      <li>Compétences de l'équipe (et évaluer si formation nécessaire)</li>
+      <li>Compatibilité avec les outils existants</li>
+      <li>Coût de migration si applicable</li>
+      <li>...</li>
+    </ul>
+  </div>
+  <div v-click class="flex-1">
+    <span class="font-bold text-lg mb-2 block">Écosystème Externe :</span>
+    <ul class="list-disc list-inside text-left">
+      <li>Quel niveau de support attendre ? (qu'il soit commercial ou open-source)</li>
+      <li>Quel est l'état de la documentation et des ressources <strong>aujourd'hui</strong> ?</li>
+      <li>Éviter l'adoption de technologies trop récentes / exotiques / niches</li>
+      <li>...</li>
+    </ul>
+  </div>
+</div>
+
 
 ---
 

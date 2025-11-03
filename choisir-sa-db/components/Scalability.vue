@@ -16,7 +16,7 @@
                     {{ verticalScale }}
                 </span>
                 <input type="range" v-model.number="verticalScale" min="1" max="10" orient="vertical"
-                    class="flex-1 appearance-none cursor-pointer bg-gradient-to-b from-blue-400 to-red-500 dark:from-blue-600 dark:to-red-700 rounded-lg"
+                    class="flex-1 appearance-none cursor-pointer bg-gradient-to-b from-red-500 to-red-400 dark:from-red-700 dark:to-red-500 rounded-lg"
                     style="writing-mode: vertical-lr; direction: rtl; width: 8px;" />
                 <p class="text-[10px] text-white/90 dark:text-gray-300 italic text-center mt-1">
                     Scale Down
@@ -78,16 +78,16 @@
         <div class="flex gap-3">
             <div class="w-16"></div> <!-- Spacer to align with vertical slider -->
             <div class="flex-1 bg-white/10 dark:bg-white/5 backdrop-blur-sm rounded-lg p-2">
-                <div class="flex justify-between items-center mb-1">
+                <div class="flex justify-between items-center">
                     <span class="text-white dark:text-gray-200 font-semibold text-xs">↔️ Horizontal</span>
                     <span
-                        class="px-2 py-0.5 rounded-full bg-white/20 dark:bg-white/10 text-white dark:text-gray-200 text-xs font-semibold">
+                        class="px-2 rounded-full bg-white/20 dark:bg-white/10 text-white dark:text-gray-200 text-xs font-semibold">
                         {{ horizontalScale }}
                     </span>
                 </div>
                 <input type="range" v-model.number="horizontalScale" min="1" max="10"
-                    class="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-green-400 to-green-600 dark:from-green-600 dark:to-green-800" />
-                <div class="flex justify-between mt-0.5">
+                    class="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-gradient-to-r from-green-600 to-green-400 dark:from-green-800 dark:to-green-600" />
+                <div class="flex justify-between">
                     <p class="text-[10px] text-white/90 dark:text-gray-300 italic text-left w-1/2">
                         Scale In: Moins d'instances
                     </p>
@@ -106,7 +106,7 @@ import { ref, computed } from 'vue'
 
 const verticalScale = ref(1)
 const horizontalScale = ref(1)
-const baseWidth = 100
+const baseWidth = 120
 
 const serverHeight = computed(() => {
     return 60 + (verticalScale.value - 1) * 6.67
