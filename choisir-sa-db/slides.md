@@ -657,7 +657,24 @@ De quel type de garanties ai-je besoin pour mes données ?
     </div>
   </div>
   <div class="flex-1 flex justify-center items-center">
-    <img src="/acid-vs-base.png" alt="ACID vs BASE" class="my-4 mx-auto w-64" />
+    <img src="/acid-vs-base.png" alt="ACID vs BASE" class="my-4 mx-auto w-64 acid-base-wiggle" />
+
+  <style scoped>
+  @keyframes acidBaseWiggle {
+    0% { transform: rotate(0deg); }
+    2% { transform: rotate(-8deg); }
+    4% { transform: rotate(8deg); }
+    7% { transform: rotate(-6deg); }
+    9% { transform: rotate(6deg); }
+    12% { transform: rotate(-4deg); }
+    14% { transform: rotate(4deg); }
+    16% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+  }
+  .acid-base-wiggle {
+    animation: acidBaseWiggle 15s infinite;
+  }
+  </style>
   </div>
   <div class="flex-1 text-left text-lg">
     <span class="font-bold text-orange-700">BASE</span><br>
@@ -672,18 +689,66 @@ De quel type de garanties ai-je besoin pour mes données ?
   </div>
 </div>
 
-<!-- Un théorème est à l'œuvre ici : le théorème CAP (Consistence, Availability, Partition tolerance). Il stipule qu'un système distribué ne peut garantir que deux des trois propriétés suivantes simultanément : cohérence, disponibilité et tolérance aux partitions. -->
+<!--
+A	Atomicité	Tout ou rien : Une transaction est traitée comme une seule unité. Soit toutes les étapes réussissent, soit aucune ne s'applique.	Transfert d'argent : Si vous transférez 100€ du Compte A au Compte B, il faut à la fois débiter A et créditer B. Si le débit réussit mais que le crédit échoue (panne), l'atomicité annule le débit, laissant A et B dans leur état initial.
+C	Cohérence	Règles respectées : La transaction fait passer la base de données d'un état valide à un autre. Toutes les règles (contraintes d'intégrité) sont maintenues.	Solde minimal : La règle est que le solde d'un compte ne peut être négatif. Si une tentative de retrait de 500€ sur un compte n'ayant que 300€ est faite, la cohérence rejette la transaction pour maintenir la règle.
+I	Isolation	Transactions séparées : Plusieurs transactions simultanées ne s'interfèrent pas. C'est comme si elles s'exécutaient l'une après l'autre.	Achat du dernier article : Deux clients tentent d'acheter le dernier article en même temps. L'isolation garantit qu'une seule transaction sera validée en premier, laissant un stock de 0 pour l'autre, empêchant ainsi une double vente.
+D	Durabilité	Modifications permanentes : Une fois qu'une transaction est validée (réussie), les modifications sont permanentes et survivent à toute panne du système (arrêt, redémarrage, etc.).	Sauvegarde de commande : Vous validez une commande en ligne. La durabilité assure que même si le serveur tombe en panne immédiatement après avoir affiché la confirmation, votre commande et votre paiement resteront enregistrés dans la base de données.
+
+B	Basically Available (Essentiellement Disponible)	Toujours accessible : Le système garantit une réponse à chaque requête, même en cas de défaillance d'un nœud (serveur). La disponibilité est la priorité, même si la réponse n'est pas la plus récente.	Réseaux sociaux : Un réseau social doit rester fonctionnel à tout moment. Si un serveur qui stocke la dernière version d'un post est en panne, le système peut servir une version légèrement plus ancienne à certains utilisateurs plutôt que de ne rien afficher.
+A	Soft State (État Mou)	Pas d'état fixe immédiat : L'état d'un système peut changer même sans nouvelle entrée (transaction validée), souvent en raison du temps nécessaire à la propagation des données entre les nœuds.	Mise à jour distribuée : Une information mise à jour sur un serveur ne sera pas immédiatement répercutée sur tous les autres serveurs. Le système est dans un état intermédiaire "mou" pendant la synchronisation.
+E	Eventually Consistent (Cohérence Éventuelle)	Finira par être cohérent : Si le système reçoit des mises à jour, il atteindra un état cohérent (où toutes les copies de la donnée sont identiques) après un certain temps, s'il n'y a plus de nouvelles mises à jour.	Compteur de "J'aime" : Lorsque vous cliquez sur "J'aime" sur une publication, le compteur augmente immédiatement sur votre serveur local (Haute Disponibilité). Cependant, le compteur peut mettre quelques secondes ou minutes à se mettre à jour sur les serveurs des autres utilisateurs. Finalement, le nombre sera le même pour tout le monde.
+
+Un théorème est à l'œuvre ici : le théorème CAP (Consistence, Availability, Partition tolerance). Il stipule qu'un système distribué ne peut garantir que deux des trois propriétés suivantes simultanément : cohérence, disponibilité et tolérance aux partitions. -->
 
 
 ---
 hideInToc: true
 ---
 
-# Les grandes familles de bases de données
+# SQL, NoSQL et NewSQL
 
-- SQL : relationnel classique (PostgreSQL, MySQL, Oracle, SQL Server...) avec ACID.
-- NoSQL : tout ce qui n'est pas relationnel (clé-valeur, document, graphe, séries temporelles...) avec souvent BASE.
-- NewSQL : bases relationnelles qui apportent des améliorations en termes de scalabilité et de performance (CockroachDB, YugabyteDB, Google Spanner...) avec ACID.
+<div class="flex flex-col gap-6 text-lg">
+
+<div class="flex items-center gap-4">
+  <img src="/databases/postgres.png" alt="PostgreSQL Logo" class="w-12 h-12" />
+  <span>
+    <span class="font-bold text-blue-700">SQL</span> &mdash; <span class="italic">Relationnel classique</span><br>
+    <span class="text-gray-700 dark:text-gray-300">
+      <strong>Exemples :</strong> PostgreSQL, MySQL, Oracle, SQL Server<br>
+      <strong>Garanties :</strong> <span class="font-mono">ACID</span> (Atomicité, Cohérence, Isolation, Durabilité)<br>
+      <strong>Scalabilité :</strong> <span class="font-mono">Verticale</span> (scale-up)<br>
+      <strong>Langage :</strong> SQL standardisé
+    </span>
+  </span>
+</div>
+
+<div class="flex items-center gap-4">
+  <img src="/databases/mongo.png" alt="MongoDB Logo" class="w-12 h-12" />
+  <span>
+    <span class="font-bold text-orange-700">NoSQL</span> &mdash; <span class="italic">Non relationnel</span><br>
+    <span class="text-gray-700 dark:text-gray-300">
+      <strong>Exemples :</strong> MongoDB, Redis, Cassandra, Neo4j<br>
+      <strong>Garanties :</strong> <span class="font-mono">BASE</span> (Basically Available, Soft state, Eventually consistent)<br>
+      <strong>Scalabilité :</strong> <span class="font-mono">Horizontale</span> (scale-out)<br>
+      <strong>Langage :</strong> Pas de standard universel
+    </span>
+  </span>
+</div>
+
+<div class="flex items-center gap-4">
+  <img src="/databases/cockroach.png" alt="CockroachDB Logo" class="w-12 h-12" />
+  <span>
+    <span class="font-bold text-green-700">NewSQL</span> &mdash; <span class="italic">Relationnel scalable</span><br>
+    <span class="text-gray-700 dark:text-gray-300">
+      <strong>Exemples :</strong> CockroachDB, YugabyteDB, Google Spanner<br>
+      <strong>Garanties :</strong> <span class="font-mono">ACID</span> + <span class="font-mono">Scalabilité horizontale</span><br>
+      <strong>Langage :</strong> SQL standardisé
+    </span>
+  </span>
+</div>
+
+</div>
 
 
 ---
