@@ -290,9 +290,9 @@ hideInToc: true
 
 **OLTP (Online Transaction Processing)** est conçu pour gérer des transactions en temps réel: exécution rapide de requêtes courtes et fréquentes, typiquement utilisées dans les applications opérationnelles.
 
-- **forte concurrence** d'utilisateurs effectuant des opérations de lecture et d'écriture simultanément
-- **faible latence** pour assurer une expérience utilisateur fluide
-- données **très normalisées** pour minimiser la redondance et assurer l'intégrité des données
+- **Forte concurrence** d'utilisateurs effectuant des opérations de lecture et d'écriture simultanément
+- **Faible latence** pour assurer une expérience utilisateur fluide
+- Données **très normalisées** pour minimiser la redondance et assurer l'intégrité des données
 
 
 **Exemple :** Un système de réservation de billets d'avion où les utilisateurs effectuent des recherches, réservent des sièges et effectuent des paiements. Chaque action génère une transaction qui doit être traitée rapidement et de manière fiable.
@@ -321,16 +321,16 @@ hideInToc: true
 # OLAP
 
 **OLAP (Online Analytical Processing)** est conçu pour l’analyse de grandes quantités de données. Les bases OLAP permettent d’exécuter des requêtes complexes sans impacter les bases transactionnelles, avec :
-- **requêtes longues et complexes** impliquant des agrégations et des jointures sur de grandes tables
-- **lectures massives** de données historiques pour identifier des tendances et des modèles
-- données **dénormalisées** (schéma en étoile/flocon) pour optimiser les performances des requêtes analytiques
+- **Requêtes longues et complexes** impliquant des agrégations et des jointures sur de grandes tables
+- **Lectures massives** de données historiques pour identifier des tendances et des modèles
+- Données **dénormalisées** (schéma en étoile/flocon) pour optimiser les performances des requêtes analytiques
 
 **Exemple :** Un système qui analyse les ventes trimestrielles, les tendances du marché et les performances des produits. Les utilisateurs peuvent exécuter des requêtes complexes pour générer des rapports et des tableaux de bord.
 
 <div class="flex flex-row justify-center items-center gap-8">
-  <img v-click src="/databases/snowflake.png" alt="Snowflake Logo" class="w-32 my-4" />
-  <img v-click src="/databases/clickhouse.png" alt="ClickHouse Logo" class="w-32 my-4" />
-  <img v-click src="/databases/bigquery.png" alt="BigQuery Logo" class="w-32 my-4" />
+  <img v-click src="/databases/snowflake.png" alt="Snowflake Logo" class="w-32" />
+  <img v-click src="/databases/clickhouse.png" alt="ClickHouse Logo" class="w-32" />
+  <img v-click src="/databases/bigquery.png" alt="BigQuery Logo" class="w-32" />
 </div>
 
 ---
@@ -367,18 +367,6 @@ layout: center
 <span class="sub-title-bar">Étape 2</span>
 # Le modèle de données
 
----
-
-# ACID vs BASE
-
-De quel type de garanties ai-je besoin pour mes données ?
-
-- **ACID** (Atomicité, Cohérence, Isolation, Durabilité) : Garantit que les transactions sont traitées de manière fiable.
-
-- **BASE** (Basically Available, Soft state, Eventually consistent) : Favorise la disponibilité et la partition des données, souvent au détriment de la cohérence immédiate.
-
-
-<!-- Un théorème est à l'œuvre ici : le théorème CAP (Consistence, Availability, Partition tolerance). Il stipule qu'un système distribué ne peut garantir que deux des trois propriétés suivantes simultanément : cohérence, disponibilité et tolérance aux partitions. -->
 
 ---
 
@@ -649,6 +637,43 @@ SGBD Populaires : ArangoDB, Amazon DynamoDB, MarkLogic, et PostgreSQL qui, avec 
 
 Use Cases Typiques : Applications nécessitant à la fois des relations complexes (graph) et une flexibilité de schéma (document) comme des catalogues de produits riches ou des applications d'entreprise intégrées. -->
 
+---
+
+# ACID vs BASE
+
+De quel type de garanties ai-je besoin pour mes données ?
+
+<div v-click class="flex flex-row items-center justify-between gap-8">
+  <div class="flex-1 text-left text-lg">
+    <span class="font-bold text-blue-700">ACID</span><br>
+    <ul class="list-disc list-inside mt-2">
+      <li><strong>A</strong>tomicité</li>
+      <li><strong>C</strong>ohérence</li>
+      <li><strong>I</strong>solation</li>
+      <li><strong>D</strong>urabilité</li>
+    </ul>
+    <div class="mt-4">
+      <span class="text-gray-700 dark:text-gray-300">Garantit que les transactions sont traitées de manière fiable.</span>
+    </div>
+  </div>
+  <div class="flex-1 flex justify-center items-center">
+    <img src="/acid-vs-base.png" alt="ACID vs BASE" class="my-4 mx-auto w-64" />
+  </div>
+  <div class="flex-1 text-left text-lg">
+    <span class="font-bold text-orange-700">BASE</span><br>
+    <ul class="list-disc list-inside mt-2">
+      <li><strong>B</strong>asically <strong>A</strong>vailable</li>
+      <li><strong>S</strong>oft state</li>
+      <li><strong>E</strong>ventually consistent</li>
+    </ul>
+    <div class="mt-4">
+      <span class="text-gray-700 dark:text-gray-300">Favorise la disponibilité et la partition des données, souvent au détriment de la cohérence immédiate.</span>
+    </div>
+  </div>
+</div>
+
+<!-- Un théorème est à l'œuvre ici : le théorème CAP (Consistence, Availability, Partition tolerance). Il stipule qu'un système distribué ne peut garantir que deux des trois propriétés suivantes simultanément : cohérence, disponibilité et tolérance aux partitions. -->
+
 
 ---
 hideInToc: true
@@ -656,9 +681,9 @@ hideInToc: true
 
 # Les grandes familles de bases de données
 
-- SQL: relationnel classique (PostgreSQL, MySQL, Oracle, SQL Server...) avec ACID.
-- NoSQL: tout ce qui n'est pas relationnel (clé-valeur, document, graphe, séries temporelles...) avec souvent BASE.
-- NewSQL: bases relationnelles qui apportent des améliorations en termes de scalabilité et de performance (CockroachDB, YugabyteDB, Google Spanner...) avec ACID.
+- SQL : relationnel classique (PostgreSQL, MySQL, Oracle, SQL Server...) avec ACID.
+- NoSQL : tout ce qui n'est pas relationnel (clé-valeur, document, graphe, séries temporelles...) avec souvent BASE.
+- NewSQL : bases relationnelles qui apportent des améliorations en termes de scalabilité et de performance (CockroachDB, YugabyteDB, Google Spanner...) avec ACID.
 
 
 ---

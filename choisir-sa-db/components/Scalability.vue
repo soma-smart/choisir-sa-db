@@ -150,11 +150,6 @@ const totalRAM = computed(() => {
 </script>
 
 <style scoped>
-/* Vertical slider styling */
-input[type="range"][orient="vertical"] {
-    -webkit-appearance: slider-vertical;
-}
-
 /* Slider thumb */
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;

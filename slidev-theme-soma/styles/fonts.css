@@ -82,3 +82,28 @@ h1 {
         background-position: 0% 50%;
     }
 }
+
+.slidev-layout ul {
+    list-style: none;
+    padding-left: 1.5em;
+}
+
+.slidev-layout ul li {
+    position: relative;
+    margin-bottom: 0.5em;
+    padding-left: 1.2em;
+    margin-left: -1.5em;
+}
+
+.slidev-layout ul li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1rem;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: radial-gradient(circle at top left, var(--soma-pink), var(--soma-blue));
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
