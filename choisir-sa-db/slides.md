@@ -1006,13 +1006,16 @@ hideInToc: true
 # Cas pratique : Modélisation des données
 
 Premier objectif : identifier les entités principales et leurs relations:
-- **Joueur** (players) : nom, pays, etc.
-- **Jeu** (games) : titre, genre, etc.
-- **Borne d'arcade** (arcades) : nom de la borne, pays, etc.
-- **Session de jeu** (plays_fact) : joueur, jeu, score, durée, date
+<ul>
+  <li v-click>Joueur (<code>players</code>) : nom, pays, etc.</li>
+  <li v-click>Jeu (<code>games</code>) : titre, genre, etc.</li>
+  <li v-click>Borne d'arcade (<code>arcades</code>) : nom de la borne, ville et pays, ...</li>
+  <li v-click>Session de jeu (<code>plays_fact</code>) : joueur, jeu, score, durée, date, ...</li>
+</ul>
 
 ::right::
 
+<div v-click>
 Exemple de modélisation 3NF (normalisation) :
 
 ```sql
@@ -1024,16 +1027,19 @@ CREATE TABLE players (
     created_at timestamptz NOT NULL DEFAULT now()
 );
 ```
+</div>
 
+<div v-click>
 Clé primaire : player_id
 
 Chaque attribut dépend directement de player_id (pas de dépendance transitive ni partielle).
 
-country_code n’est pas dérivable des autres colonnes → pas de redondance.
+`country_code` n’est pas dérivable des autres colonnes → pas de redondance.
 
 La table ne présente ni de dépendance partielle, ni de dépendance transitive.
 
 🧠 Le schéma est donc en 3e forme normale (3NF)
+</div>
 
 ---
 hideInToc: true
@@ -1586,6 +1592,8 @@ Analysez, testez, et choisissez l'outil qui résout votre problème, pas celui q
 - [github.com: Fakelake](https://github.com/soma-smart/Fakelake)
 - [youtube.com: Postgres for everything - Fireship](https://www.youtube.com/watch?v=3JW732GrMdg)
 - [figoblog.org: Modélisons un peu le choix d'un type de bases de données](https://figoblog.org/2023/12/13/modelisons-un-peu-le-choix-dun-type-de-bases-de-donnees/)
+- [bytebytego.com: Database and Storage](https://bytebytego.com/guides/database-and-storage/)
+- [cstack.github.io: Let's Build a Simple Database](https://cstack.github.io/db_tutorial/)
 
 
 ---
@@ -1603,155 +1611,4 @@ hideInToc: true
 
 # Merci pour votre attention !
 
-
----
-
-
-
-
-Slide 9 : 1. Le Relationnel (SQL)
-
-Concept : Le standard historique. Schéma strict, tables, jointures, transactions ACID.
-
-Idéal pour : Les données structurées avec des relations complexes et un besoin de forte cohérence.
-
-Exemples : PostgreSQL, MySQL, SQL Server.
-
-Slide 10 : 2. Le NoSQL : Un monde de possibilités
-
-Introduction au mouvement NoSQL : flexibilité, scalabilité horizontale.
-
-a) Document : (MongoDB)
-
-Concept : Stocke des "documents" (JSON, BSON). Schéma flexible.
-
-Idéal pour : Contenu web, catalogues produits, applications aux exigences évolutives.
-
-b) Clé-Valeur : (Redis)
-
-Concept : Le plus simple. Un dictionnaire géant. GET(key) -> value.
-
-Idéal pour : Cache, gestion de sessions, files d'attente. Performance brute.
-
-Slide 11 : Le NoSQL (suite)
-
-c) Orienté Colonne : (Cassandra, Bigtable)
-
-Concept : Stocke les données par colonne, pas par ligne. Très efficace pour les agrégations sur un sous-ensemble de colonnes. (Lien direct avec l'OLAP).
-
-Idéal pour : Séries temporelles, IoT, analytique à grande échelle.
-
-d) Graphe : (Neo4j)
-
-Concept : Optimisé pour stocker et requêter les relations entre les données (nœuds et arêtes).
-
-Idéal pour : Réseaux sociaux, détection de fraude, moteurs de recommandation.
-
-Slide 12 : 3. Les nouvelles frontières
-
-a) Vectoriel : (Pinecone, Weaviate, pg_vector)
-
-Concept : Spécialisé dans le stockage et la recherche de vecteurs (embeddings). Le cerveau des IA modernes.
-
-Idéal pour : Recherche sémantique, recherche par image, systèmes de recommandation basés sur l'IA.
-
-b) Hybride / NewSQL : (CockroachDB, TiDB)
-
-Concept : Le meilleur des deux mondes ? Interface SQL, transactions ACID, mais avec la scalabilité horizontale du NoSQL.
-
-Idéal pour : Applications globales critiques nécessitant à la fois cohérence et scalabilité massive.
-
-
-Une grille d'analyse simple pour guider le choix.
-
-Slide 14 : C - Consistance (Modèle de données et garanties)
-
-ACID vs. BASE. Avez-vous besoin d'une cohérence transactionnelle forte (banque) ou d'une cohérence à terme (like sur un post) ?
-
-Quelle est la structure de vos données ? Fixe ou évolutive ?
-
-Slide 15 : A - "Access Patterns" (Modèle de requêtage)
-
-Comment allez-vous lire et écrire la donnée ? Requêtes simples par ID ? Jointures complexes ? Agrégations ? Traversée de graphe ? Recherche full-text ?
-
-C'est le critère le plus souvent sous-estimé.
-
-Slide 16 : P - Performance & Scalabilité
-
-Besoins en latence et débit (reads/sec, writes/sec).
-
-Scalabilité verticale ("scale-up" : une plus grosse machine) ou horizontale ("scale-out" : plus de machines) ?
-
-Slide 17 : E - Ecosystème & Expertise
-
-Le facteur humain : Quelles sont les compétences de votre équipe ?
-
-Maturité de la technologie, support de la communauté, bibliothèques disponibles, outillage (monitoring, backup...).
-
-Slide 18 : V - Volume & Vélocité
-
-Quelle quantité de données aujourd'hui ? Et dans 5 ans ? (Go, To, Po...).
-
-À quelle vitesse les données arrivent-elles ? (Batch vs. Streaming).
-
-
-Access Pattern : Requêtes relationnelles complexes (jointures entre clients, factures, plans).
-
-Ecosystème : Le plus riche de tous les SGBD open source. Fiable, robuste, des extensions pour tout (PostGIS, pg_vector, TimescaleDB...). C'est le "couteau suisse" par défaut.
-
-Slide 20 : Scénario 2 : Un dashboard analytique interactif (OLAP)
-
-Besoin : Analyser des millions de logs de vente pour un dashboard interne. Vitesse d'analyse primordiale.
-
-Benchmark : DuckDB vs. Snowflake
-
-DuckDB :
-
-Le "SQLite de l'analytique". Base de données en "in-process".
-
-Force : Zéro administration, incroyablement rapide pour des analyses sur un seul nœud (PC, petit serveur). Parfait pour l'exploration de données en local, l'analytique embarquée.
-
-Snowflake :
-
-Le Data Warehouse Cloud natif.
-
-Force : Séparation du stockage et du calcul, scalabilité quasi infinie, modèle de paiement à l'usage. Idéal pour les entrepôts de données d'entreprise, les équipes multiples.
-
-Verdict : DuckDB pour le prototypage et l'analytique "embarquée". Snowflake pour la plateforme BI d'entreprise.
-
-Slide 21 : Scénario 3 : Moteur de recherche sémantique pour une IA
-
-Besoin : Permettre aux utilisateurs de rechercher des produits par des descriptions en langage naturel ("une robe rouge pour l'été").
-
-Benchmark : PostgreSQL + pg_vector
-
-Pourquoi ?
-
-Access Pattern : C'est un cas d'usage de recherche vectorielle (ANN - Approximate Nearest Neighbor).
-
-Le choix pragmatique : pg_vector est une extension qui transforme PostgreSQL en une base vectorielle "suffisamment bonne".
-
-Avantages : Pas besoin de gérer une nouvelle infrastructure. On combine les données transactionnelles (prix, stock) et les vecteurs dans la même base. Idéal pour démarrer.
-
-Alternative (mention) : Une base spécialisée (Pinecone, Weaviate) devient pertinente à très grande échelle, quand la recherche vectorielle est LE cœur du produit.
-
-Conclusion (5 minutes)
-Slide 22 : Synthèse des points clés
-
-OLTP vs. OLAP : C'est toujours la première question à se poser.
-
-Connaissez vos requêtes : L' "Access Pattern" dicte la famille de BDD.
-
-Soyez pragmatique : Commencez simple. Un outil polyvalent comme PostgreSQL couvre 80% des besoins. N'ajoutez de la complexité (et une nouvelle BDD) que lorsque c'est absolument nécessaire et justifié.
-
-
-
-
-
-
-
-
-Theoreme CAP
-ACID vs BASE
-B-Tree/B+ Tree Indexing
-Query Optimizer
+<span class="text-5xl">🍕</span>
