@@ -710,7 +710,7 @@ hideInToc: true
 
 <div class="flex flex-col gap-6 text-lg">
 
-<div class="flex items-center gap-4">
+<div v-click class="flex items-center gap-4">
   <img src="/databases/postgres.png" alt="PostgreSQL Logo" class="w-12 h-12" />
   <span>
     <span class="font-bold text-blue-700">SQL</span> &mdash; <span class="italic">Relationnel classique</span><br>
@@ -723,7 +723,7 @@ hideInToc: true
   </span>
 </div>
 
-<div class="flex items-center gap-4">
+<div v-click class="flex items-center gap-4">
   <img src="/databases/mongo.png" alt="MongoDB Logo" class="w-12 h-12" />
   <span>
     <span class="font-bold text-orange-700">NoSQL</span> &mdash; <span class="italic">Non relationnel</span><br>
@@ -736,7 +736,7 @@ hideInToc: true
   </span>
 </div>
 
-<div class="flex items-center gap-4">
+<div v-click class="flex items-center gap-4">
   <img src="/databases/cockroach.png" alt="CockroachDB Logo" class="w-12 h-12" />
   <span>
     <span class="font-bold text-green-700">NewSQL</span> &mdash; <span class="italic">Relationnel scalable</span><br>
@@ -1472,7 +1472,7 @@ hideInToc: true
 # Cas pratique : Requête type transactionnelle (OLTP)
 
 Nous voulons trouver le dernier score d'un joueur spécifique pour un jeu donné. Sollicitation de lectures rapides et ciblées (index seek, B-Tree).
-<div class="flex flex-row gap-8 items-start justify-center">
+<div v-click class="flex flex-row gap-8 items-start justify-center">
   <div class="w-1/2">
 ```sql [Postgres]
 SELECT f.score,
@@ -1505,7 +1505,7 @@ hideInToc: true
 
 Nous voulons obtenir le top 10 des jeux les plus joués au cours des 30 derniers jours. Sollicitation de fortes agrégations sur de larges volumes de données (wide table scan).
 
-<div class="flex flex-row gap-8 items-start justify-center">
+<div v-click class="flex flex-row gap-8 items-start justify-center">
   <div class="w-1/2">
 ```sql [Postgres]
 SELECT g.title AS game_title,
@@ -1570,15 +1570,18 @@ hideInToc: true
 # Le mot de la fin
 
 Nous avons vu un framework simple mais efficace pour choisir une base de données :
-1. Comprendre le besoin grâce à la **charge de travail** : OLTP vs OLAP (le "pourquoi ?")
-2. Définir la nature et le **schéma** qu'auront les données (le "quoi ?")
-3. Identifier les **contraintes** : de performance, de scalabilité, d'écosystème (le "comment ?")
-4. **Valider**: benchmarker dans des scénarios réels
+<ol>
+  <li v-click>Comprendre le besoin grâce à la <strong>charge de travail</strong> : OLTP vs OLAP (le "pourquoi ?")</li>
+  <li v-click>Définir la nature et le <strong>schéma</strong> qu'auront les données (le "quoi ?")</li>
+  <li v-click>Identifier les <strong>contraintes</strong> : de performance, de scalabilité, d'écosystème (le "comment ?")</li>
+  <li v-click><strong>Valider</strong> : benchmarker dans des scénarios réels</li>
+</ol>
 
-Ne choisissez pas une base de données sur un coup de tête ou pour suivre une mode (*boring technology*).
+<div v-click class="mt-8 p-6 border-l-4 border-blue-400 text-blue-700" style="background: linear-gradient(90deg, #e3f0ff 0%, #f0f6ff 100%);">
+Ne choisissez pas une base de données sur un coup de tête ou pour suivre une mode (<em>boring technology</em>).
 
 Analysez, testez, et choisissez l'outil qui résout votre problème, pas celui qui en crée de nouveaux.
-
+</div>
 <!-- Ne choisissez pas la BDD "parfaite" (car elle n'existe pas), mais celle que votre équipe amitrise et peut opérer et maintenir en production à 3h du matin. -->
 
 ---
