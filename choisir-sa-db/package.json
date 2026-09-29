@@ -8,9 +8,9 @@
     "export": "slidev export"
   },
   "dependencies": {
-    "@slidev/cli": "^52.2.5",
+    "@slidev/cli": "^53.0.0",
     "@slidev/theme-default": "latest",
     "asciinema-player": "^3.12.1",
-    "vue": "^3.5.22"
+    "vue": "^3.5.43"
   }
 }

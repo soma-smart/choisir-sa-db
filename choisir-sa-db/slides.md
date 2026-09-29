@@ -933,20 +933,24 @@ hideInToc: true
 
 <span v-click>Combien d'exécutions pour un benchmark fiable ?</span>
 <div v-click>
+
 $$
 \begin{aligned}
 n=\left(\frac{Z \cdot \sigma}{E}\right)^2
 \end{aligned}
 $$
+
 avec $Z$ la valeur associée au niveau de confiance souhaité, $σ$ l'écart-type estimé des temps de réponse, et $E$ la marge d'erreur acceptable.
 </div>
 <div v-click>
 Exemple, si Z=1.96 (95% de confiance), σ=10ms, E=5ms, alors, on aura :
+
 $$
 \begin{aligned}
 n=\left(\frac{1.96 \cdot 10}{5}\right)^2=15
 \end{aligned}
 $$
+
 </div>
 
 <!-- Disgression : note des restaurants sur Google Maps -->
@@ -1049,6 +1053,7 @@ hideInToc: true
 
 <div class="flex items-center justify-center h-full">
   <div class="flex flex-col items-center justify-center w-full">
+
 ```mermaid { scale: 0.6 }
 erDiagram
   PLAYERS {
@@ -1087,6 +1092,7 @@ erDiagram
   GAMES    ||--o{ PLAYS_FACT : includes
   ARCADES  ||--o{ PLAYS_FACT : hosts
 ```
+
   </div>
 </div>
 
@@ -1206,6 +1212,7 @@ hideInToc: true
 
 <div class="flex flex-row gap-8 items-start justify-center">
   <div class="w-2/5">
+
 ```yaml
 columns:
   - name: first_name
@@ -1230,9 +1237,11 @@ info:
   rows: 1_000_000
   seed: 42
 ```
+
   </div>
   <div class="w-3/5">
 Génération:
+
 ```sh
 time fakelake generate 'players.yml'
 [INFO  fakelake::generate] File from path "/players.yml" generated.
@@ -1315,6 +1324,7 @@ hideInToc: true
 
 <div class="flex flex-row gap-8 items-start justify-center">
   <div class="w-1/2">
+
 ````md magic-move
 ```sql [Create table ClickHouse]
 -- Denormalized plays table
@@ -1360,6 +1370,7 @@ CREATE TABLE plays_wide (
 ORDER BY (game_id, played_at, player_id);
 ```
 ````
+
 </div>
   <div class="w-1/2">
 
@@ -1474,6 +1485,7 @@ hideInToc: true
 Nous voulons trouver le dernier score d'un joueur spécifique pour un jeu donné. Sollicitation de lectures rapides et ciblées (index seek, B-Tree).
 <div v-click class="flex flex-row gap-8 items-start justify-center">
   <div class="w-1/2">
+
 ```sql [Postgres]
 SELECT f.score,
     f.played_at
@@ -1483,8 +1495,10 @@ WHERE f.player_id = $1
 ORDER BY f.played_at DESC
 LIMIT 1;
 ```
+
   </div>
   <div class="w-1/2">
+
 ```sql [ClickHouse]
 SELECT score,
     played_at
@@ -1494,6 +1508,7 @@ WHERE player_id = { player_id :UInt64 }
 ORDER BY played_at DESC
 LIMIT 1;
 ```
+
   </div>
 </div>
 
@@ -1507,6 +1522,7 @@ Nous voulons obtenir le top 10 des jeux les plus joués au cours des 30 derniers
 
 <div v-click class="flex flex-row gap-8 items-start justify-center">
   <div class="w-1/2">
+
 ```sql [Postgres]
 SELECT g.title AS game_title,
     SUM(pf.duration_seconds) AS total_playtime_seconds
@@ -1518,8 +1534,10 @@ GROUP BY g.game_id,
 ORDER BY total_playtime_seconds DESC
 LIMIT 10;
 ```
+
   </div>
   <div class="w-1/2">
+
 ```sql [ClickHouse]
 SELECT game_title,
     sum(duration_seconds) AS total_seconds
@@ -1529,6 +1547,7 @@ GROUP BY game_title
 ORDER BY total_seconds DESC
 LIMIT 10;
 ```
+
   </div>
 </div>
 
